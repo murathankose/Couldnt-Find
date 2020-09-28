@@ -20,32 +20,60 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15eec509-ce13-4d38-97ff-147057e475b6" name="Default Changelist" comment="Added frontend folder">
+      <change afterPath="$PROJECT_DIR$/apps/react/src/app/Routes.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/react/src/app/components/Navbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/react/src/app/history.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/react/src/app/pages/About.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/react/src/app/pages/Contact.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/react/src/app/pages/register.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/react/src/app/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/react/src/app/app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/react/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/react/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/react/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/react/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectId" id="1i83OAill2Nz9S1qpD3ApWq2sxX" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="ToolWindowSVN Repositories.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
-    <property name="ts.external.directory.path" value="C:\Users\mukose\WebstormProjects\Couldnt-Find\frontend\node_modules\typescript\lib" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Users\mukose\WebstormProjects\Couldnt-Find\node_modules\prettier" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
+    <property name="ts.external.directory.path" value="C:\Users\mukose\WebstormProjects\Couldnt-Find\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mukose\WebstormProjects\Couldnt-Find\apps\react\src\app" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -60,7 +88,8 @@
       <updated>1601275358842</updated>
       <workItem from="1601275360754" duration="2719000" />
       <workItem from="1601278313625" duration="895000" />
-      <workItem from="1601279327927" duration="29000" />
+      <workItem from="1601279327927" duration="9500000" />
+      <workItem from="1601297671478" duration="4221000" />
     </task>
     <task id="LOCAL-00001" summary="Added frontend folder">
       <created>1601278640553</created>
@@ -69,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601278640553</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added frontend folder">
+      <created>1601279609628</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1601279609628</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,6 +124,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/frontend" />
     </ignored-roots>
@@ -107,13 +144,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="838" y="418" key="Github.ShareDialog/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601277505690" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1601279364301">
+    <state x="461" y="155" key="SettingsEditor" timestamp="1601298726481">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" key="SettingsEditor/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601279364301" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1601278662628">
+    <state x="461" y="155" key="SettingsEditor/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601298726481" />
+    <state x="2273" y="186" key="SettingsEditor/1920.186.1600.860/0.0.1920.1040@1920.186.1600.860" timestamp="1601289744516" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1601279617528">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601278662628" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601279617528" />
+    <state x="2299" y="185" width="840" height="1034" key="search.everywhere.popup" timestamp="1601295185155">
+      <screen x="1920" y="186" width="1600" height="860" />
+    </state>
+    <state x="2299" y="185" width="840" height="1034" key="search.everywhere.popup/1920.186.1600.860/0.0.1920.1040@1920.186.1600.860" timestamp="1601295185155" />
   </component>
 </project>
