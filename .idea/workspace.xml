@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="15eec509-ce13-4d38-97ff-147057e475b6" name="Default Changelist" comment="Added frontend folder">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/apps/react/src/app/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/apps/react/src/app/app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +28,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/frontend" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectId" id="1i83OAill2Nz9S1qpD3ApWq2sxX" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -27,7 +43,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="ts.external.directory.path" value="C:\Users\mukose\WebstormProjects\Couldnt-Find\frontend\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -43,12 +59,40 @@
       <option name="presentableId" value="Default" />
       <updated>1601275358842</updated>
       <workItem from="1601275360754" duration="2719000" />
-      <workItem from="1601278313625" duration="255000" />
+      <workItem from="1601278313625" duration="895000" />
+      <workItem from="1601279327927" duration="29000" />
     </task>
+    <task id="LOCAL-00001" summary="Added frontend folder">
+      <created>1601278640553</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1601278640553</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/frontend" />
+    </ignored-roots>
+    <MESSAGE value="Added frontend folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added frontend folder" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601276422894">
@@ -63,9 +107,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="838" y="418" key="Github.ShareDialog/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601277505690" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1601277646779">
+    <state x="461" y="165" key="SettingsEditor" timestamp="1601279364301">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" key="SettingsEditor/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601277646779" />
+    <state x="461" y="165" key="SettingsEditor/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601279364301" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1601278662628">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.186.1600.860/0.0.1920.1040@0.0.1920.1040" timestamp="1601278662628" />
   </component>
 </project>
