@@ -24,14 +24,23 @@ const Button = styled.button`
   background-color: #008CBA;
 `;
 export const register = () => {
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState(
+    {
+      username: "", 
+      email: "", 
+      password: ""
+    });
+
   const updateState = e => {
     setFormValues({...formValues, [e.target.name]: e.target.value});
+    console.log(formValues)
   }
+
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/user/",formValues);
+    axios.post("http://localhost:8080/user/" , formValues);
   }
+  
   return (
     <StyledApp>
         <form onSubmit = {e => onSubmit(e)}>
@@ -57,7 +66,7 @@ export const register = () => {
           <label >Password:</label>
           <input type="password" name="password" value={formValues['password']} onChange={e => updateState(e)}/>
         </Row>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" onClick={(event) => onSubmit(event)}>Submit</Button>
         </form>
       </StyledApp>
   );
