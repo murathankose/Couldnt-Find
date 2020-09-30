@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class About extends Component {
-  render() {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', padding: 30 }}>
-        <div><h2>About Page</h2></div>
-      </div>
-    );
-  }
-}
+export const About = () => {
+  return (
+    <div>
+      <h2>About Page</h2>
+    </div>
+  );
+};
 
 export default About;

@@ -30,22 +30,28 @@ const Container = styled.div`
   border: ridge;
   padding: 4.5rem;
 `;
-export const register = () => {
+export const Login = () => {
   const [formValues, setFormValues] = useState({});
 
   const updateState = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
+
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/api/auth/sign-up/', formValues);
+    axios.post('http://localhost:8080/api/auth/signin/', formValues).then(response => {
+      if (response.data.accessToken) {
+        localStorage.setItem("cloud_users", JSON.stringify(response.data));
+      }
+      return response.data;
+    });
   };
 
   return (
     <StyledApp>
       <form onSubmit={(e) => onSubmit(e)}>
-        <H4>Enter your information to create an account.</H4>
+        <H4>Enter your information to log into your account.</H4>
         <Container>
           <Row className="row">
             <div className="col-4">
@@ -56,19 +62,6 @@ export const register = () => {
                 type="text"
                 name="username"
                 value={formValues['username']}
-                onChange={(e) => updateState(e)}
-              />
-            </div>
-          </Row>
-          <Row className="row">
-            <div className="col-4">
-              <label>E-mail:</label>
-            </div>
-            <div className="col-8">
-              <input
-                type="email"
-                name="email"
-                value={formValues['email']}
                 onChange={(e) => updateState(e)}
               />
             </div>
@@ -95,4 +88,4 @@ export const register = () => {
   );
 };
 
-export default register;
+export default Login;

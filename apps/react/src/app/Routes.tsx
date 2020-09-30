@@ -4,18 +4,19 @@ import { Router, Switch, Route } from 'react-router-dom';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import history from './history';
-import register from './pages/register';
+import Register from './pages/register';
+import Login from './pages/Login';
+import MainPage from "./pages/MainPage";
 
 export default class Routes extends Component {
   render() {
     return (
       <Router history={history}>
-        <Switch>
           <Route path="/" />
           <Route path="/About" component={About} />
           <Route path="/Contact" component={Contact} />
-        </Switch>
-        <Route path="/Register" component={register} />
+          <Route path="/Sign_in" component={Login} />
+        <Route path="/Register" component={Register} />
       </Router>
     );
   }
