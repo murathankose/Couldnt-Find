@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import axios from 'axios';
-import { useForm } from '@internship/shared/hooks';
+import { useForm } from 'react-hook-form';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -32,7 +32,7 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Login = () => {
-  const { setByEvent, handleSubmit } = useForm();
+  const { handleSubmit, register, reset } = useForm();
 
   const onSubmit = (values) => {
     axios
@@ -42,6 +42,11 @@ export const Login = () => {
           localStorage.setItem('cloud_users', JSON.stringify(response.data));
         }
         return response.data;
+      })
+      .catch(() => {
+        // resetting by keeping username
+        const { username } = values;
+        reset({ username });
       });
   };
 
@@ -55,7 +60,11 @@ export const Login = () => {
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input type="text" name="username" onChange={setByEvent} />
+              <input
+                type="text"
+                name="username"
+                ref={register({ required: true })}
+              />
             </div>
           </Row>
           <Row className="row">
@@ -63,7 +72,11 @@ export const Login = () => {
               <label>Password:</label>
             </div>
             <div className="col-8">
-              <input type="password" name="password" onChange={setByEvent} />
+              <input
+                type="password"
+                name="password"
+                ref={register({ required: true })}
+              />
             </div>
           </Row>
           <Button type="submit">Submit</Button>

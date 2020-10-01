@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import axios from 'axios';
-import { useForm } from '@internship/shared/hooks';
+import { useForm } from 'react-hook-form';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -32,10 +32,12 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Register = () => {
-  const { setByEvent, handleSubmit } = useForm();
+  const { handleSubmit, register, reset } = useForm();
 
   const onSubmit = (values) => {
-    axios.post('http://localhost:8080/api/auth/sign-up/', values);
+    axios.post('http://localhost:8080/api/auth/sign-up/', values).then(() => {
+      reset();
+    });
   };
 
   return (
@@ -48,7 +50,11 @@ export const Register = () => {
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input type="text" name="username" onChange={setByEvent} />
+              <input
+                type="text"
+                name="username"
+                ref={register({ required: true })}
+              />
             </div>
           </Row>
           <Row className="row">
@@ -56,7 +62,11 @@ export const Register = () => {
               <label>E-mail:</label>
             </div>
             <div className="col-8">
-              <input type="email" name="email" onChange={setByEvent} />
+              <input
+                type="email"
+                name="email"
+                ref={register({ required: true })}
+              />
             </div>
           </Row>
           <Row className="row">
@@ -64,7 +74,11 @@ export const Register = () => {
               <label>Password:</label>
             </div>
             <div className="col-8">
-              <input type="password" name="password" onChange={setByEvent} />
+              <input
+                type="password"
+                name="password"
+                ref={register({ required: true })}
+              />
             </div>
           </Row>
           <Button type="submit">Submit</Button>
