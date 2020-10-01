@@ -28,6 +28,9 @@
     "react-e2e": {
       "tags": [],
       "implicitDependencies": ["react"]
+    },
+    "shared-hooks": {
+      "tags": []
     }
   }
 }

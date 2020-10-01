@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
+import { useForm } from '@internship/shared/hooks';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -31,26 +32,22 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Login = () => {
-  const [formValues, setFormValues] = useState({});
+  const { setByEvent, handleSubmit } = useForm();
 
-  const updateState = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  };
-
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    axios.post('http://localhost:8080/api/auth/signin/', formValues).then(response => {
-      if (response.data.accessToken) {
-        localStorage.setItem("cloud_users", JSON.stringify(response.data));
-      }
-      return response.data;
-    });
+  const onSubmit = (values) => {
+    axios
+      .post('http://localhost:8080/api/auth/signin/', values)
+      .then((response) => {
+        if (response.data.accessToken) {
+          localStorage.setItem('cloud_users', JSON.stringify(response.data));
+        }
+        return response.data;
+      });
   };
 
   return (
     <StyledApp>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to log into your account.</H4>
         <Container>
           <Row className="row">
@@ -58,12 +55,7 @@ export const Login = () => {
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input
-                type="text"
-                name="username"
-                value={formValues['username']}
-                onChange={(e) => updateState(e)}
-              />
+              <input type="text" name="username" onChange={setByEvent} />
             </div>
           </Row>
           <Row className="row">
@@ -71,17 +63,10 @@ export const Login = () => {
               <label>Password:</label>
             </div>
             <div className="col-8">
-              <input
-                type="password"
-                name="password"
-                value={formValues['password']}
-                onChange={(e) => updateState(e)}
-              />
+              <input type="password" name="password" onChange={setByEvent} />
             </div>
           </Row>
-          <Button type="submit" onClick={(event) => onSubmit(event)}>
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </Container>
       </form>
     </StyledApp>

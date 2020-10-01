@@ -103,6 +103,32 @@
           }
         }
       }
+    },
+    "shared-hooks": {
+      "root": "libs/shared/hooks",
+      "sourceRoot": "libs/shared/hooks/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/shared/hooks/tsconfig.lib.json",
+              "libs/shared/hooks/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/hooks/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/hooks/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
