@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@internship/shared/hooks": ["libs/shared/hooks/src/index.ts"]
+      "@internship/shared/hooks": ["libs/shared/hooks/src/index.ts"],
+      "@internship/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -31,6 +31,9 @@
     },
     "shared-hooks": {
       "tags": []
+    },
+    "ui": {
+      "tags": []
     }
   }
 }
