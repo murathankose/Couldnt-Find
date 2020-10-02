@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -31,26 +32,27 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Login = () => {
-  const [formValues, setFormValues] = useState({});
+  const { handleSubmit, register, reset } = useForm();
 
-  const updateState = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  };
-
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    axios.post('http://localhost:8080/api/auth/signin/', formValues).then(response => {
-      if (response.data.accessToken) {
-        localStorage.setItem("cloud_users", JSON.stringify(response.data));
-      }
-      return response.data;
-    });
+  const onSubmit = (values) => {
+    axios
+      .post('http://localhost:8080/api/auth/signin/', values)
+      .then((response) => {
+        if (response.data.accessToken) {
+          localStorage.setItem('cloud_users', JSON.stringify(response.data));
+        }
+        return response.data;
+      })
+      .catch(() => {
+        // resetting by keeping username
+        const { username } = values;
+        reset({ username });
+      });
   };
 
   return (
     <StyledApp>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to log into your account.</H4>
         <Container>
           <Row className="row">
@@ -61,8 +63,7 @@ export const Login = () => {
               <input
                 type="text"
                 name="username"
-                value={formValues['username']}
-                onChange={(e) => updateState(e)}
+                ref={register({ required: true })}
               />
             </div>
           </Row>
@@ -74,14 +75,11 @@ export const Login = () => {
               <input
                 type="password"
                 name="password"
-                value={formValues['password']}
-                onChange={(e) => updateState(e)}
+                ref={register({ required: true })}
               />
             </div>
           </Row>
-          <Button type="submit" onClick={(event) => onSubmit(event)}>
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </Container>
       </form>
     </StyledApp>

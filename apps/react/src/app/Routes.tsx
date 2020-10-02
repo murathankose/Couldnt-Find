@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
-import { Router, Switch, Route } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 
 import About from './pages/About';
 import Contact from './pages/Contact';
 import history from './history';
-import Register from './pages/register';
+import Register from './pages/Register';
 import Login from './pages/Login';
-import MainPage from "./pages/MainPage";
 
 export default class Routes extends Component {
   render() {
     return (
       <Router history={history}>
-          <Route path="/" />
-          <Route path="/About" component={About} />
-          <Route path="/Contact" component={Contact} />
-          <Route path="/Sign_in" component={Login} />
-        <Route path="/Register" component={Register} />
+        <Route path="/" />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
       </Router>
     );
   }

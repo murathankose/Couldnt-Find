@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -30,21 +31,18 @@ const Container = styled.div`
   border: ridge;
   padding: 4.5rem;
 `;
-export const register = () => {
-  const [formValues, setFormValues] = useState({});
+export const Register = () => {
+  const { handleSubmit, register, reset } = useForm();
 
-  const updateState = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    axios.post('http://localhost:8080/api/auth/sign-up/', formValues);
+  const onSubmit = (values) => {
+    axios.post('http://localhost:8080/api/auth/sign-up/', values).then(() => {
+      reset();
+    });
   };
 
   return (
     <StyledApp>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to create an account.</H4>
         <Container>
           <Row className="row">
@@ -55,8 +53,7 @@ export const register = () => {
               <input
                 type="text"
                 name="username"
-                value={formValues['username']}
-                onChange={(e) => updateState(e)}
+                ref={register({ required: true })}
               />
             </div>
           </Row>
@@ -68,8 +65,7 @@ export const register = () => {
               <input
                 type="email"
                 name="email"
-                value={formValues['email']}
-                onChange={(e) => updateState(e)}
+                ref={register({ required: true })}
               />
             </div>
           </Row>
@@ -81,18 +77,15 @@ export const register = () => {
               <input
                 type="password"
                 name="password"
-                value={formValues['password']}
-                onChange={(e) => updateState(e)}
+                ref={register({ required: true })}
               />
             </div>
           </Row>
-          <Button type="submit" onClick={(event) => onSubmit(event)}>
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </Container>
       </form>
     </StyledApp>
   );
 };
 
-export default register;
+export default Register;
