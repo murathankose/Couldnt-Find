@@ -1,17 +1,13 @@
 import styled from 'styled-components';
 import React from 'react';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { registerStart } from '@internship/store';
-
-
 
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
 `;
-const StyledRow = styled(Row)`
+const Row = styled.div`
   margin-bottom: 1rem;
 `;
 const Button = styled.button`
@@ -38,10 +34,10 @@ const Container = styled.div`
 export const Register = () => {
   const { handleSubmit, register, reset } = useForm();
 
-  const dispatch = useDispatch();
-
   const onSubmit = (values) => {
-    dispatch(registerStart(values));
+    axios.post('http://localhost:8080/api/auth/sign-up/', values).then(() => {
+      reset();
+    });
   };
 
   return (
@@ -49,7 +45,7 @@ export const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to create an account.</H4>
         <Container>
-          <StyledRow>
+          <Row className="row">
             <div className="col-4">
               <label>User Name:</label>
             </div>
@@ -60,8 +56,8 @@ export const Register = () => {
                 ref={register({ required: true })}
               />
             </div>
-          </StyledRow>
-          <StyledRow>
+          </Row>
+          <Row className="row">
             <div className="col-4">
               <label>E-mail:</label>
             </div>
@@ -72,8 +68,8 @@ export const Register = () => {
                 ref={register({ required: true })}
               />
             </div>
-          </StyledRow>
-          <StyledRow>
+          </Row>
+          <Row className="row">
             <div className="col-4">
               <label>Password:</label>
             </div>
@@ -84,7 +80,7 @@ export const Register = () => {
                 ref={register({ required: true })}
               />
             </div>
-          </StyledRow>
+          </Row>
           <Button type="submit">Submit</Button>
         </Container>
       </form>

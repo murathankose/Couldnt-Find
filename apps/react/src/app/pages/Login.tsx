@@ -1,17 +1,13 @@
 import styled from 'styled-components';
 import React from 'react';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
-
-import { Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { logInStart } from '@internship/store';
-
 
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
 `;
-const StyledRow = styled(Row)`
+const Row = styled.div`
   margin-bottom: 1rem;
 `;
 const Button = styled.button`
@@ -38,17 +34,28 @@ const Container = styled.div`
 export const Login = () => {
   const { handleSubmit, register, reset } = useForm();
 
-  const dispatch = useDispatch();
-
   const onSubmit = (values) => {
-    dispatch(logInStart(values));
+    axios
+      .post('http://localhost:8080/api/auth/signin/', values)
+      .then((response) => {
+        if (response.data.accessToken) {
+          localStorage.setItem('cloud_users', JSON.stringify(response.data));
+        }
+        return response.data;
+      })
+      .catch(() => {
+        // resetting by keeping username
+        const { username } = values;
+        reset({ username });
+      });
   };
+
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to log into your account.</H4>
         <Container>
-          <StyledRow>
+          <Row className="row">
             <div className="col-4">
               <label>User Name:</label>
             </div>
@@ -59,8 +66,8 @@ export const Login = () => {
                 ref={register({ required: true })}
               />
             </div>
-          </StyledRow>
-          <StyledRow>
+          </Row>
+          <Row className="row">
             <div className="col-4">
               <label>Password:</label>
             </div>
@@ -71,7 +78,7 @@ export const Login = () => {
                 ref={register({ required: true })}
               />
             </div>
-          </StyledRow>
+          </Row>
           <Button type="submit">Submit</Button>
         </Container>
       </form>
