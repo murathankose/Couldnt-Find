@@ -3,4 +3,5 @@
 
 export const environment = {
   production: false,
+  apiGateway: "https://localhost:8080/api/",
 };

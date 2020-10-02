@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import React from 'react';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
+
+import { Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { logInStart } from '@internship/store';
+
 
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
 `;
-const Row = styled.div`
+const StyledRow = styled(Row)`
   margin-bottom: 1rem;
 `;
 const Button = styled.button`
@@ -34,28 +38,17 @@ const Container = styled.div`
 export const Login = () => {
   const { handleSubmit, register, reset } = useForm();
 
-  const onSubmit = (values) => {
-    axios
-      .post('http://localhost:8080/api/auth/signin/', values)
-      .then((response) => {
-        if (response.data.accessToken) {
-          localStorage.setItem('cloud_users', JSON.stringify(response.data));
-        }
-        return response.data;
-      })
-      .catch(() => {
-        // resetting by keeping username
-        const { username } = values;
-        reset({ username });
-      });
-  };
+  const dispatch = useDispatch();
 
+  const onSubmit = (values) => {
+    dispatch(logInStart(values));
+  };
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to log into your account.</H4>
         <Container>
-          <Row className="row">
+          <StyledRow>
             <div className="col-4">
               <label>User Name:</label>
             </div>
@@ -66,8 +59,8 @@ export const Login = () => {
                 ref={register({ required: true })}
               />
             </div>
-          </Row>
-          <Row className="row">
+          </StyledRow>
+          <StyledRow>
             <div className="col-4">
               <label>Password:</label>
             </div>
@@ -78,7 +71,7 @@ export const Login = () => {
                 ref={register({ required: true })}
               />
             </div>
-          </Row>
+          </StyledRow>
           <Button type="submit">Submit</Button>
         </Container>
       </form>
