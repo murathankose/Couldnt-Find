@@ -34,6 +34,12 @@
     },
     "ui": {
       "tags": []
+    },
+    "store-authentication": {
+      "tags": []
+    },
+    "config": {
+      "tags": []
     }
   }
 }

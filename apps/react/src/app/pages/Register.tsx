@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import React from 'react';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { registerAsync } from '@internship/store/authentication';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
 `;
-const Row = styled.div`
+const StyledRow = styled(Row)`
   margin-bottom: 1rem;
 `;
 const Button = styled.button`
@@ -32,12 +34,10 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Register = () => {
-  const { handleSubmit, register, reset } = useForm();
-
+  const { handleSubmit, register } = useForm();
+  const dispatch = useDispatch();
   const onSubmit = (values) => {
-    axios.post('http://localhost:8080/api/auth/sign-up/', values).then(() => {
-      reset();
-    });
+    dispatch(registerAsync.request(values));
   };
 
   return (
@@ -45,42 +45,30 @@ export const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to create an account.</H4>
         <Container>
-          <Row className="row">
+          <StyledRow>
             <div className="col-4">
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input
-                type="text"
-                name="username"
-                ref={register({ required: true })}
-              />
+              <input type="text" name="username" ref={register({ required: true })} />
             </div>
-          </Row>
-          <Row className="row">
+          </StyledRow>
+          <StyledRow>
             <div className="col-4">
               <label>E-mail:</label>
             </div>
             <div className="col-8">
-              <input
-                type="email"
-                name="email"
-                ref={register({ required: true })}
-              />
+              <input type="email" name="email" ref={register({ required: true })} />
             </div>
-          </Row>
-          <Row className="row">
+          </StyledRow>
+          <StyledRow>
             <div className="col-4">
               <label>Password:</label>
             </div>
             <div className="col-8">
-              <input
-                type="password"
-                name="password"
-                ref={register({ required: true })}
-              />
+              <input type="password" name="password" ref={register({ required: true })} />
             </div>
-          </Row>
+          </StyledRow>
           <Button type="submit">Submit</Button>
         </Container>
       </form>
