@@ -18,7 +18,10 @@
     "paths": {
       "@internship/shared/hooks": ["libs/shared/hooks/src/index.ts"],
       "@internship/ui": ["libs/ui/src/index.ts"],
-      "@internship/store": ["libs/store/src/index.ts"]
+      "@internship/store/authentication": [
+        "libs/store/authentication/src/index.ts"
+      ],
+      "@internship/config": ["libs/config/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -3,9 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { registerStart } from '@internship/store';
-
-
+import { registerAsync } from '@internship/store/authentication';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -36,12 +34,10 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Register = () => {
-  const { handleSubmit, register, reset } = useForm();
-
+  const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
-
   const onSubmit = (values) => {
-    dispatch(registerStart(values));
+    dispatch(registerAsync.request(values));
   };
 
   return (
@@ -54,11 +50,7 @@ export const Register = () => {
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input
-                type="text"
-                name="username"
-                ref={register({ required: true })}
-              />
+              <input type="text" name="username" ref={register({ required: true })} />
             </div>
           </StyledRow>
           <StyledRow>
@@ -66,11 +58,7 @@ export const Register = () => {
               <label>E-mail:</label>
             </div>
             <div className="col-8">
-              <input
-                type="email"
-                name="email"
-                ref={register({ required: true })}
-              />
+              <input type="email" name="email" ref={register({ required: true })} />
             </div>
           </StyledRow>
           <StyledRow>
@@ -78,11 +66,7 @@ export const Register = () => {
               <label>Password:</label>
             </div>
             <div className="col-8">
-              <input
-                type="password"
-                name="password"
-                ref={register({ required: true })}
-              />
+              <input type="password" name="password" ref={register({ required: true })} />
             </div>
           </StyledRow>
           <Button type="submit">Submit</Button>

@@ -1,10 +1,10 @@
 import React from 'react';
 import Routes from './Routes';
 import { Navigation } from '@internship/ui';
-import { Provider } from 'react-redux'
-import store from '../../../../libs/store/src/lib/rootIndex';
+import { Provider } from 'react-redux';
+import { configureStore } from '@internship/config';
 
-
+const store = configureStore();
 
 export const App = () => {
   return (

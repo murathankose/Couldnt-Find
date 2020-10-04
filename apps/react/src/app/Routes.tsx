@@ -12,7 +12,7 @@ export default class Routes extends Component {
   render() {
     return (
       <Router history={history}>
-        <Route exact path="/" component={MainPage}/>
+        <Route exact path="/" component={MainPage} />
         <Route path="/about" component={About} />
         <Route path="/contact" component={Contact} />
         <Route path="/login" component={Login} />
