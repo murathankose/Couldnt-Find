@@ -1,4 +1,5 @@
 import axiosStatic, { AxiosRequestConfig } from 'axios';
+import { loginInterceptor, tokenInterceptor } from './interceptors';
 
 const baseUrl = 'http://localhost:8080';
 
@@ -9,7 +10,11 @@ const defaultConfig: AxiosRequestConfig = {
 export function createAxios(baseConfig: AxiosRequestConfig) {
   const instance = axiosStatic.create(baseConfig);
 
-  // TODO interface calls
+  // Request Interceptors
+  instance.interceptors.request.use(tokenInterceptor);
+
+  // Response Interceptors
+  instance.interceptors.response.use(loginInterceptor);
   return instance;
 }
 
