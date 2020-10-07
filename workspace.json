@@ -60,10 +60,7 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "apps/react/tsconfig.app.json",
-              "apps/react/tsconfig.spec.json"
-            ],
+            "tsConfig": ["apps/react/tsconfig.app.json", "apps/react/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!apps/react/**/*"]
           }
         },
@@ -114,10 +111,7 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/shared/hooks/tsconfig.lib.json",
-              "libs/shared/hooks/tsconfig.spec.json"
-            ],
+            "tsConfig": ["libs/shared/hooks/tsconfig.lib.json", "libs/shared/hooks/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!libs/shared/hooks/**/*"]
           }
         },
@@ -140,10 +134,7 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/ui/tsconfig.lib.json",
-              "libs/ui/tsconfig.spec.json"
-            ],
+            "tsConfig": ["libs/ui/tsconfig.lib.json", "libs/ui/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!libs/ui/**/*"]
           }
         },
@@ -166,10 +157,7 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/store/authentication/tsconfig.lib.json",
-              "libs/store/authentication/tsconfig.spec.json"
-            ],
+            "tsConfig": ["libs/store/authentication/tsconfig.lib.json", "libs/store/authentication/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!libs/store/authentication/**/*"]
           }
         },
@@ -192,10 +180,7 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/config/tsconfig.lib.json",
-              "libs/config/tsconfig.spec.json"
-            ],
+            "tsConfig": ["libs/config/tsconfig.lib.json", "libs/config/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!libs/config/**/*"]
           }
         },
@@ -203,6 +188,75 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/config/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-api": {
+      "root": "libs/shared/api",
+      "sourceRoot": "libs/shared/api/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["libs/shared/api/tsconfig.lib.json", "libs/shared/api/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/api/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-types": {
+      "root": "libs/shared/types",
+      "sourceRoot": "libs/shared/types/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["libs/shared/types/tsconfig.lib.json", "libs/shared/types/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/types/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/types/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-utils": {
+      "root": "libs/shared/utils",
+      "sourceRoot": "libs/shared/utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["libs/shared/utils/tsconfig.lib.json", "libs/shared/utils/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/utils/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/jest.config.js",
             "passWithNoTests": true
           }
         }

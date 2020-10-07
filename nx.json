@@ -40,6 +40,15 @@
     },
     "config": {
       "tags": []
+    },
+    "shared-api": {
+      "tags": []
+    },
+    "shared-types": {
+      "tags": []
+    },
+    "shared-utils": {
+      "tags": []
     }
   }
 }

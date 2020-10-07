@@ -1,5 +1,5 @@
 {
   "rules": {},
-  "extends": ["../../.eslintrc"],
+  "extends": ["../../../.eslintrc"],
   "ignorePatterns": ["!**/*"]
 }

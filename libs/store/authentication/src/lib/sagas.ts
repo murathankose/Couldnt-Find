@@ -1,20 +1,10 @@
-import axios from 'axios';
 import { loginAsync, registerAsync } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-
-// TODO remove it after axios instance implementation and api library
-const login = (data) => {
-  return axios.post('http://localhost:8080/auth/signin', data).then((response) => response.data);
-};
-
-// TODO remove it after axios instance implementation and api library
-const register = (data) => {
-  return axios.post('http://localhost:8080/auth/sign-up', data);
-};
+import { api } from '@internship/shared/api';
 
 function* doLogin({ payload }) {
   try {
-    const data = yield call(login, payload);
+    const data = yield call(api.auth.login, payload);
     if (data.accessToken) localStorage.setItem('cloud_users', JSON.stringify(data));
 
     yield put(loginAsync.success({}));
@@ -26,7 +16,7 @@ function* doLogin({ payload }) {
 
 function* doRegister({ payload }) {
   try {
-    yield call(register, payload);
+    yield call(api.auth.register, payload);
 
     yield put(registerAsync.success({}));
   } catch (e) {
