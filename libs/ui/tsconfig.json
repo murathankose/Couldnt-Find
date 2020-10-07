@@ -7,5 +7,10 @@
     "allowSyntheticDefaultImports": true
   },
   "files": [],
-  "include": []
+  "include": [],
+  "references": [
+    {
+      "path": "./.storybook/tsconfig.json"
+    }
+  ]
 }

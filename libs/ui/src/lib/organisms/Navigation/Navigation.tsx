@@ -1,8 +1,7 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
 
-export const Navigation = withRouter(() => {
+export const Navigation = () => {
   return (
     <Navbar bg="primary" variant="dark">
       <Navbar.Brand href="/">Home</Navbar.Brand>
@@ -17,4 +16,4 @@ export const Navigation = withRouter(() => {
       </Navbar.Collapse>
     </Navbar>
   );
-});
+};
