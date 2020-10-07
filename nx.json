@@ -40,6 +40,9 @@
     },
     "config": {
       "tags": []
+    },
+    "shared-api": {
+      "tags": []
     }
   }
 }
