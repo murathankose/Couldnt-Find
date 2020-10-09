@@ -1,7 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { NavDropdown } from 'react-bootstrap';
+import {useSelector} from 'react-redux';
 
 export const Navigation = () => {
+  const {authenticated}=useSelector((store)=>({authenticated:store.authentication.authenticated}))
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
       <ul className="navbar-nav">
@@ -20,16 +23,20 @@ export const Navigation = () => {
             Contact Us
           </NavLink>
         </li>
+        {authenticated===false &&
+          <NavDropdown className="nav-link" title="Dropdown" id="basic-nav-dropdown">
+            <NavDropdown.Item href="/register">Sign Up</NavDropdown.Item>
+            <NavDropdown.Item href="/login">Sign In</NavDropdown.Item>
+          </NavDropdown>
+        }
+        {authenticated===true &&
         <li className="nav-link">
-          <NavLink to="/register" className="nav-link">
-            Sign Up
+          <NavLink to="/contact" className="nav-link">
+            out
           </NavLink>
         </li>
-        <li className="nav-link">
-          <NavLink to="/login" className="nav-link">
-            Sign In
-          </NavLink>
-        </li>
+        }
+
       </ul>
     </nav>
   );

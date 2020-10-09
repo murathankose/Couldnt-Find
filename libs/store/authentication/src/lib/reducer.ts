@@ -8,7 +8,7 @@ export function authenticationReducer(state = initialState, action: Authenticati
   switch (action.type) {
     case getType(loginAsync.success):
       return { ...state, authenticated: true };
-    case getType(loginAsync.failure):
+   case getType(loginAsync.failure):
       return { ...state, authenticated: false };
   }
   return state;
