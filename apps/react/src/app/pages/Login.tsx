@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginAsync,captchaAction } from '@internship/store/authentication';
-import ReCAPTCHA from 'react-google-recaptcha';
+import styled from "styled-components";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAsync } from "@internship/store/authentication";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -36,18 +36,11 @@ const Container = styled.div`
 `;
 export const Login = () => {
   const { handleSubmit, register } = useForm();
-  const [isNeededCaptcha, setIsNeededCaptcha] = useState(false);
   const dispatch = useDispatch();
+  const { captcha } = useSelector((store) => store.temp.captchaRequired);
 
-  const {captcha}=useSelector((store)=>({captcha:store.captcha.captcha}))
-console.log("asd"+captcha);
-
- /* useEffect(() => {
-    dispatch(captchaAction());
-  },[onSubmit()])*/
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
-    dispatch(captchaAction());
   };
   function onChange(value) {
     console.log('Captcha value:', value);

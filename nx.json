@@ -17,13 +17,7 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "build-storybook"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e", "build-storybook"]
       }
     }
   },
@@ -33,9 +27,7 @@
     },
     "react-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "react"
-      ]
+      "implicitDependencies": ["react"]
     },
     "shared-hooks": {
       "tags": []
@@ -60,9 +52,10 @@
     },
     "ui-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "ui"
-      ]
+      "implicitDependencies": ["ui"]
+    },
+    "store-temp": {
+      "tags": []
     }
   }
 }
