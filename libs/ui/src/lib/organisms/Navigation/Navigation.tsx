@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
-import {useSelector} from 'react-redux';
+import { useAuthentication } from '@internship/shared/hooks';
 
 export const Navigation = () => {
-  const {authenticated}=useSelector((store)=>({authenticated:store.authentication.authenticated}))
+  const { isAuthenticated } = useAuthentication();
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
       <ul className="navbar-nav">
@@ -23,20 +23,18 @@ export const Navigation = () => {
             Contact Us
           </NavLink>
         </li>
-        {authenticated===false &&
+        {isAuthenticated ? (
+          <li className="nav-link">
+            <NavLink to="/contact" className="nav-link">
+              out
+            </NavLink>
+          </li>
+        ) : (
           <NavDropdown className="nav-link" title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="/register">Sign Up</NavDropdown.Item>
             <NavDropdown.Item href="/login">Sign In</NavDropdown.Item>
           </NavDropdown>
-        }
-        {authenticated===true &&
-        <li className="nav-link">
-          <NavLink to="/contact" className="nav-link">
-            out
-          </NavLink>
-        </li>
-        }
-
+        )}
       </ul>
     </nav>
   );
