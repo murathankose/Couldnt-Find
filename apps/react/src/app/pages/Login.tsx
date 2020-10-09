@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -35,11 +36,18 @@ const Container = styled.div`
 `;
 export const Login = () => {
   const { handleSubmit, register } = useForm();
+  const [isNeededCaptcha, setIsNeededCaptcha] = useState(false);
   const dispatch = useDispatch();
+
 
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
+    /*if () setIsNeededCaptcha(false);
+    else setIsNeededCaptcha(true);*/
   };
+  function onChange(value) {
+    console.log('Captcha value:', value);
+  }
 
   return (
     <StyledApp>
@@ -62,6 +70,13 @@ export const Login = () => {
               <input type="password" name="password" ref={register({ required: true })} />
             </div>
           </StyledRow>
+          {isNeededCaptcha ? (
+            <StyledRow>
+              <div className="col-8">
+                <ReCAPTCHA sitekey="6LcQ1tIZAAAAAGNUDStvqDuRoUT4JosqNHUXQg_y" name="captcha" onChange={onChange} />
+              </div>
+            </StyledRow>
+          ) : null}
           <Button type="submit">Submit</Button>
         </Container>
       </form>

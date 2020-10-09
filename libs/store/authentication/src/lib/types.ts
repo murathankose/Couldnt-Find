@@ -4,12 +4,16 @@ import * as actions from './actions';
 export interface AuthenticationStore {
   authenticated: boolean;
 }
-
+export interface CaptchaStore {
+  captcha: boolean;
+}
+export type CaptchaActions = ActionType<typeof actions>;
 export type AuthenticationActions = ActionType<typeof actions>;
 
 export interface LoginRequest {
   username: string;
   password: string;
+  captcha?: string;
 }
 
 export interface RegisterRequest {
