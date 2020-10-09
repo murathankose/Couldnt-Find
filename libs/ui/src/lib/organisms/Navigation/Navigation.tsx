@@ -31,8 +31,12 @@ export const Navigation = () => {
           </li>
         ) : (
           <NavDropdown className="nav-link" title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="/register">Sign Up</NavDropdown.Item>
-            <NavDropdown.Item href="/login">Sign In</NavDropdown.Item>
+            <NavDropdown.Item href="#">
+              <NavLink to="/register">Sign Up</NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#">
+              <NavLink to="/login">Sign In</NavLink>
+            </NavDropdown.Item>
           </NavDropdown>
         )}
       </ul>
