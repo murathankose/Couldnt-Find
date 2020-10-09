@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginAsync } from '@internship/store/authentication';
+import { loginAsync,captchaAction } from '@internship/store/authentication';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 const StyledApp = styled.div`
@@ -39,11 +39,15 @@ export const Login = () => {
   const [isNeededCaptcha, setIsNeededCaptcha] = useState(false);
   const dispatch = useDispatch();
 
+  const {captcha}=useSelector((store)=>({captcha:store.captcha.captcha}))
+console.log("asd"+captcha);
 
+ /* useEffect(() => {
+    dispatch(captchaAction());
+  },[onSubmit()])*/
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
-    /*if () setIsNeededCaptcha(false);
-    else setIsNeededCaptcha(true);*/
+    dispatch(captchaAction());
   };
   function onChange(value) {
     console.log('Captcha value:', value);
@@ -70,7 +74,7 @@ export const Login = () => {
               <input type="password" name="password" ref={register({ required: true })} />
             </div>
           </StyledRow>
-          {isNeededCaptcha ? (
+          {captcha ? (
             <StyledRow>
               <div className="col-8">
                 <ReCAPTCHA sitekey="6LcQ1tIZAAAAAGNUDStvqDuRoUT4JosqNHUXQg_y" name="captcha" onChange={onChange} />

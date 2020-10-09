@@ -1,4 +1,4 @@
-import { loginAsync, registerAsync } from './actions';
+import { loginAsync, registerAsync,captchaAction } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
 
