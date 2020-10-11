@@ -10,6 +10,7 @@ export type AuthenticationActions = ActionType<typeof actions>;
 export interface LoginRequest {
   username: string;
   password: string;
+  captcha?: string;
 }
 
 export interface RegisterRequest {

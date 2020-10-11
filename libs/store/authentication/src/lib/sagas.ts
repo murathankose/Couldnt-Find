@@ -5,7 +5,7 @@ import { api } from '@internship/shared/api';
 function* doLogin({ payload }) {
   try {
     const data = yield call(api.auth.login, payload);
-    if (data.accessToken) localStorage.setItem('cloud_users', JSON.stringify(data));
+    if (data?.accessToken) localStorage.setItem('cloud_users', JSON.stringify(data));
 
     yield put(loginAsync.success({}));
   } catch (e) {

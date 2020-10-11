@@ -15,10 +15,7 @@
             "main": "apps/react/src/main.tsx",
             "polyfills": "apps/react/src/polyfills.ts",
             "tsConfig": "apps/react/tsconfig.app.json",
-            "assets": [
-              "apps/react/src/favicon.ico",
-              "apps/react/src/assets"
-            ],
+            "assets": ["apps/react/src/favicon.ico", "apps/react/src/assets"],
             "styles": [],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
@@ -63,14 +60,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "apps/react/tsconfig.app.json",
-              "apps/react/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/react/**/*"
-            ]
+            "tsConfig": ["apps/react/tsconfig.app.json", "apps/react/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/react/**/*"]
           }
         },
         "test": {
@@ -104,13 +95,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "apps/react-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/react-e2e/**/*"
-            ]
+            "tsConfig": ["apps/react-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/react-e2e/**/*"]
           }
         }
       }
@@ -125,14 +111,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/shared/hooks/tsconfig.lib.json",
-              "libs/shared/hooks/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/hooks/**/*"
-            ]
+            "tsConfig": ["libs/shared/hooks/tsconfig.lib.json", "libs/shared/hooks/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/hooks/**/*"]
           }
         },
         "test": {
@@ -154,14 +134,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/ui/tsconfig.lib.json",
-              "libs/ui/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/ui/**/*"
-            ]
+            "tsConfig": ["libs/ui/tsconfig.lib.json", "libs/ui/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/ui/**/*"]
           }
         },
         "test": {
@@ -213,14 +187,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/store/authentication/tsconfig.lib.json",
-              "libs/store/authentication/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/store/authentication/**/*"
-            ]
+            "tsConfig": ["libs/store/authentication/tsconfig.lib.json", "libs/store/authentication/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/store/authentication/**/*"]
           }
         },
         "test": {
@@ -242,14 +210,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/config/tsconfig.lib.json",
-              "libs/config/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/config/**/*"
-            ]
+            "tsConfig": ["libs/config/tsconfig.lib.json", "libs/config/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/config/**/*"]
           }
         },
         "test": {
@@ -271,14 +233,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/shared/api/tsconfig.lib.json",
-              "libs/shared/api/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/api/**/*"
-            ]
+            "tsConfig": ["libs/shared/api/tsconfig.lib.json", "libs/shared/api/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/api/**/*"]
           }
         },
         "test": {
@@ -300,14 +256,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/shared/types/tsconfig.lib.json",
-              "libs/shared/types/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/types/**/*"
-            ]
+            "tsConfig": ["libs/shared/types/tsconfig.lib.json", "libs/shared/types/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/types/**/*"]
           }
         },
         "test": {
@@ -329,14 +279,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/shared/utils/tsconfig.lib.json",
-              "libs/shared/utils/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/utils/**/*"
-            ]
+            "tsConfig": ["libs/shared/utils/tsconfig.lib.json", "libs/shared/utils/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/utils/**/*"]
           }
         },
         "test": {
@@ -369,6 +313,27 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {}
+        }
+      }
+    },
+    "store-temp": {
+      "root": "libs/store/temp",
+      "sourceRoot": "libs/store/temp/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/store/temp/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/store/temp/jest.config.js",
+            "passWithNoTests": true
+          }
         }
       }
     }

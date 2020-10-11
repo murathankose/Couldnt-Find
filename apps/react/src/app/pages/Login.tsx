@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useTemporary } from '@internship/shared/hooks';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -36,10 +38,14 @@ const Container = styled.div`
 export const Login = () => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
+  const { isCaptchaRequired } = useTemporary();
 
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
   };
+  function onChange(value) {
+    console.log('Captcha value:', value);
+  }
 
   return (
     <StyledApp>
@@ -61,6 +67,17 @@ export const Login = () => {
             <div className="col-8">
               <input type="password" name="password" ref={register({ required: true })} />
             </div>
+          </StyledRow>
+          {isCaptchaRequired ? (
+            <StyledRow>
+              <div className="col-8">
+                <ReCAPTCHA sitekey="6LcQ1tIZAAAAAGNUDStvqDuRoUT4JosqNHUXQg_y" name="captcha" onChange={onChange} />
+              </div>
+            </StyledRow>
+          ) : null}
+          <StyledRow>
+            <p>No account?</p>
+            <a href="/register">Sign Up</a>
           </StyledRow>
           <Button type="submit">Submit</Button>
         </Container>

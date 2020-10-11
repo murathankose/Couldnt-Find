@@ -15,6 +15,7 @@ const configureStore = () => {
   const store: any = createStore(rootReducer, bindMiddleware(middlewares));
 
   sagaMiddleware.run(rootSaga);
+  window["UGLY_STORE"] = store;
 
   return store;
 };
