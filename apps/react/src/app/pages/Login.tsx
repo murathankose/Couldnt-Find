@@ -75,6 +75,10 @@ export const Login = () => {
               </div>
             </StyledRow>
           ) : null}
+          <StyledRow>
+            <p>No account?</p>
+            <a href="/register">Sign Up</a>
+          </StyledRow>
           <Button type="submit">Submit</Button>
         </Container>
       </form>

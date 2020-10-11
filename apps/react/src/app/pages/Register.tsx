@@ -69,6 +69,10 @@ export const Register = () => {
               <input type="password" name="password" ref={register({ required: true })} />
             </div>
           </StyledRow>
+          <StyledRow>
+            <p>Already have an account. </p>
+            <a href="/register">Sign in</a>
+          </StyledRow>
           <Button type="submit">Submit</Button>
         </Container>
       </form>
