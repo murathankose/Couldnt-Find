@@ -25,8 +25,8 @@ export const Navigation = () => {
         </li>
         {isAuthenticated ? (
           <li className="nav-link">
-            <NavLink to="/contact" className="nav-link">
-              out
+            <NavLink to="/logout" className="nav-link">
+              Logout
             </NavLink>
           </li>
         ) : (

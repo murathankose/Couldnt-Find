@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import MainPage from './pages/MainPage';
+import Logout from './pages/Logout';
 
 export const Routes = ({ children, ...props }) => {
   return (
@@ -16,6 +17,7 @@ export const Routes = ({ children, ...props }) => {
       <Route path="/contact" component={Contact} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/logout" component={Logout} />
     </Router>
   );
 };
