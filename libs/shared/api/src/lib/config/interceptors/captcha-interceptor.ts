@@ -1,13 +1,13 @@
-import { AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 
-export const captchaInterceptor = (res: AxiosResponse) => {
-  if (res.config.url.endsWith('/signin')) {
-    //TODO res.status return undefined
-    if (res.status === 400) {
+export const captchaInterceptor = (error: AxiosError) => {
+  if (error.config.url.endsWith('/signin')) {
+    console.log(error.config.data);
+    if (error.response.status === 400) {
       //TODO find a better usage to remove this ugly implementation
       window['UGLY_STORE'].dispatch({ type: '@temp/CAPTCHA_REQUIRED', payload: true });
     }
   }
 
-  throw res;
+  throw error;
 };

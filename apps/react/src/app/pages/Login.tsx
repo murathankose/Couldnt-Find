@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { useTemporary } from '@internship/shared/hooks';
+import { Captcha } from '@internship/ui';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -71,7 +71,7 @@ export const Login = () => {
           {isCaptchaRequired ? (
             <StyledRow>
               <div className="col-8">
-                <ReCAPTCHA sitekey="6LcQ1tIZAAAAAGNUDStvqDuRoUT4JosqNHUXQg_y" name="captcha" onChange={onChange} />
+                <Captcha onChange={onChange} />
               </div>
             </StyledRow>
           ) : null}
