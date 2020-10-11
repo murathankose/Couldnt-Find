@@ -1,11 +1,11 @@
-import { loginAsync, registerAsync,captchaAction } from './actions';
+import { loginAsync, registerAsync } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
 
 function* doLogin({ payload }) {
   try {
     const data = yield call(api.auth.login, payload);
-    if (data.accessToken) localStorage.setItem('cloud_users', JSON.stringify(data));
+    if (data?.accessToken) localStorage.setItem('cloud_users', JSON.stringify(data));
 
     yield put(loginAsync.success({}));
   } catch (e) {

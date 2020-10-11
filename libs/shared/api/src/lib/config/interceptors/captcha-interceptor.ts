@@ -1,15 +1,12 @@
 import { AxiosResponse } from 'axios';
 
-
 export const captchaInterceptor = (res: AxiosResponse) => {
-
-
   if (res.config.url.endsWith('/signin')) {
-    const data = res.data.type;
     if (res.status === 400) {
-      console.log(res.status);
+      //TODO find a better usage to remove this ugly implementation
+      window['UGLY_STORE'].dispatch({ type: '@temp/CAPTCHA_REQUIRED', payload: true });
     }
   }
 
-  return res;
+  throw res;
 };
