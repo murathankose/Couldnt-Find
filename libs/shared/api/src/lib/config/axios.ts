@@ -1,5 +1,6 @@
 import axiosStatic, { AxiosRequestConfig } from 'axios';
-import { loginInterceptor, tokenInterceptor, captchaInterceptor } from './interceptors';
+import { loginInterceptor, tokenInterceptor, captchaRequiredInterceptor } from './interceptors';
+
 
 const baseUrl = 'http://localhost:8080';
 
@@ -12,10 +13,11 @@ export function createAxios(baseConfig: AxiosRequestConfig) {
 
   // Request Interceptors
   instance.interceptors.request.use(tokenInterceptor);
+/*  instance.interceptors.request.use(captchaInterceptor);*/
 
   // Response Interceptors
   instance.interceptors.response.use(loginInterceptor);
-  instance.interceptors.response.use((c) =>c, captchaInterceptor);
+  instance.interceptors.response.use((c) =>c, captchaRequiredInterceptor);
   return instance;
 }
 

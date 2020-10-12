@@ -35,6 +35,7 @@ const Container = styled.div`
   border: ridge;
   padding: 4.5rem;
 `;
+
 export const Login = () => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
@@ -43,9 +44,6 @@ export const Login = () => {
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
   };
-  function onChange(value) {
-    console.log('Captcha value:', value);
-  }
 
   return (
     <StyledApp>
@@ -71,7 +69,7 @@ export const Login = () => {
           {isCaptchaRequired ? (
             <StyledRow>
               <div className="col-8">
-                <Captcha onChange={onChange} />
+                <Captcha name="captcha" ref={register({ required: true })} />
               </div>
             </StyledRow>
           ) : null}
