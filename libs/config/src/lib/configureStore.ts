@@ -1,6 +1,15 @@
 import { applyMiddleware, createStore } from 'redux';
 import { rootReducer, rootSaga } from './rootReducer';
 import { sagaMiddleware } from './middlewares';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -12,12 +21,12 @@ const bindMiddleware = (middleware) => {
 
 const configureStore = () => {
   const middlewares = [sagaMiddleware];
-  const store: any = createStore(rootReducer, bindMiddleware(middlewares));
-
+  const store: any = createStore(persistedReducer, bindMiddleware(middlewares));
+  const persistor = persistStore(store)
   sagaMiddleware.run(rootSaga);
   window["UGLY_STORE"] = store;
 
-  return store;
+  return {store, persistor};
 };
 
 export { configureStore };

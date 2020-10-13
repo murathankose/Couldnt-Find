@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { NavDropdown } from 'react-bootstrap';
+import {  NavDropdown } from 'react-bootstrap';
 import { useAuthentication } from '@internship/shared/hooks';
 
 export const Navigation = () => {

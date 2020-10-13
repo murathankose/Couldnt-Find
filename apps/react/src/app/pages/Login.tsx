@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
@@ -36,14 +36,21 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 
-export const Login = () => {
+export const Login = (props) => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
   const { isCaptchaRequired } = useTemporary();
-
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
   };
+
+  const onClickLogin = () => {
+    const{history}=props;
+    const{push}=history;
+    push("/");
+  };
+
+
 
   return (
     <StyledApp>
@@ -77,7 +84,7 @@ export const Login = () => {
             <p>No account?</p>
             <a href="/register">Sign Up</a>
           </StyledRow>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" >Submit</Button>
         </Container>
       </form>
     </StyledApp>
