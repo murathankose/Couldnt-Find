@@ -23,8 +23,7 @@
       "@internship/shared/api": ["libs/shared/api/src/index.ts"],
       "@internship/shared/types": ["libs/shared/types/src/index.ts"],
       "@internship/shared/utils": ["libs/shared/utils/src/index.ts"],
-      "@internship/store/temp": ["libs/store/temp/src/index.ts"],
-      "@internship/mylibrary": ["libs/mylibrary/src/index.ts"]
+      "@internship/store/temp": ["libs/store/temp/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
