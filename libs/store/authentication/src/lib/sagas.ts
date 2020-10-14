@@ -1,6 +1,7 @@
-import { loginAsync, registerAsync } from './actions';
+import { loginAsync, registerAsync,logoutAsync } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
+import { removeAccessToken } from '@internship/shared/utils';
 
 function* doLogin({ payload }) {
   try {
@@ -11,6 +12,19 @@ function* doLogin({ payload }) {
   } catch (e) {
     console.error(e);
     yield put(loginAsync.failure(e));
+  }
+}
+
+function* doLogout() {
+  try {
+
+    if (localStorage.getItem('access_token')){
+      yield put(logoutAsync.success({}));
+      localStorage.removeItem("cloud_users");
+      removeAccessToken();
+    }
+  } catch (e) {
+    console.error(e);
   }
 }
 
@@ -28,11 +42,13 @@ function* doRegister({ payload }) {
 function* watchLogin() {
   yield takeLatest(loginAsync.request, doLogin);
 }
-
+function* watchLogout() {
+  yield takeLatest(logoutAsync.request, doLogout);
+}
 function* watchRegister() {
   yield takeLatest(registerAsync.request, doRegister);
 }
 
 export function* authenticationSaga() {
-  yield all([fork(watchLogin), fork(watchRegister)]);
+  yield all([fork(watchLogin), fork(watchRegister),fork(watchLogout)]);
 }

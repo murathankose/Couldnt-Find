@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
-import { useTemporary } from '@internship/shared/hooks';
+import {  useTemporary } from '@internship/shared/hooks';
 import { Captcha } from '@internship/ui';
 
 const StyledApp = styled.div`
@@ -36,21 +36,14 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 
-export const Login = (props) => {
+export const Login = (context) => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
   const { isCaptchaRequired } = useTemporary();
+
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
   };
-
-  const onClickLogin = () => {
-    const{history}=props;
-    const{push}=history;
-    push("/");
-  };
-
-
 
   return (
     <StyledApp>
@@ -84,7 +77,7 @@ export const Login = (props) => {
             <p>No account?</p>
             <a href="/register">Sign Up</a>
           </StyledRow>
-          <Button type="submit" >Submit</Button>
+          <Button type="submit">Submit</Button>
         </Container>
       </form>
     </StyledApp>
