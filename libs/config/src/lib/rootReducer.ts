@@ -3,9 +3,18 @@ import { StateType } from 'typesafe-actions';
 import { authenticationReducer, authenticationSaga } from '@internship/store/authentication';
 import { all, fork } from 'redux-saga/effects';
 import { tempReducer } from '@internship/store/temp';
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
+
+const AuthenticationpersistConfig = {
+  key: 'authentication',
+  storage,
+  whitelist: ['authenticated']
+}
+
 
 export const rootReducer = combineReducers({
-  authentication: authenticationReducer,
+  authentication: persistReducer(AuthenticationpersistConfig, authenticationReducer),
   temp: tempReducer,
 });
 

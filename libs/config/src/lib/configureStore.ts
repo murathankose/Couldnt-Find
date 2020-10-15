@@ -1,6 +1,8 @@
 import { applyMiddleware, createStore } from 'redux';
 import { rootReducer, rootSaga } from './rootReducer';
 import { sagaMiddleware } from './middlewares';
+import { persistStore } from 'redux-persist';
+
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -13,7 +15,6 @@ const bindMiddleware = (middleware) => {
 const configureStore = () => {
   const middlewares = [sagaMiddleware];
   const store: any = createStore(rootReducer, bindMiddleware(middlewares));
-
   sagaMiddleware.run(rootSaga);
   window["UGLY_STORE"] = store;
 

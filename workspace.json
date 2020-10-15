@@ -325,7 +325,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/store/temp/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "libs/store/temp/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {

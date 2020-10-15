@@ -36,7 +36,7 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 
-export const Login = () => {
+export const Login = (context) => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
   const { isCaptchaRequired } = useTemporary();
