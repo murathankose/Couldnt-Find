@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
-import {  useTemporary } from '@internship/shared/hooks';
+import { useTemporary } from '@internship/shared/hooks';
 import { Captcha } from '@internship/ui';
 
 const StyledApp = styled.div`

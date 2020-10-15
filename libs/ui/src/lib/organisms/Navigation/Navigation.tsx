@@ -1,29 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button, Modal, NavDropdown } from 'react-bootstrap';
+import { Button, NavDropdown } from 'react-bootstrap';
 import { useAuthentication } from '@internship/shared/hooks';
-import { logoutAsync } from '@internship/store/authentication';
+import { logout } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Popup, PopupButton } from '../../molecules/Popup';
-
+import { useHistory } from 'react-router-dom';
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
+  useEffect(() => {
+    history.push('/');
+  }, [isAuthenticated]);
 
-  const handleClose = () =>{
+  const handleClose = () => {
     setShow(false);
-
-  }
-  const handleOpen = () =>{
+  };
+  const handleOpen = () => {
     setShow(true);
-
-  }
+  };
   const handleShow = () => {
-    dispatch(logoutAsync.request(null));
+    dispatch(logout());
     setShow(false);
-  }
+  };
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
       <ul className="navbar-nav">
@@ -44,16 +46,21 @@ export const Navigation = () => {
         </li>
         {isAuthenticated ? (
           <li className="nav-link">
-            <Button className="nav-link"  onClick={handleOpen}>
+            <Button className="nav-link" onClick={handleOpen}>
               Logout
             </Button>
-                <Popup show={show} onHide={handleClose}>Sistemden Çıkıyorsunuz Emin misiniz?
-                  <PopupButton href={null} variant="secondary" onClick={handleClose}>HAYIR</PopupButton>
-                  <PopupButton href={'/'} variant="primary" onClick={handleShow}>EVET</PopupButton>
-                </Popup>
+            <Popup show={show} onHide={handleClose}>
+              Sistemden Çıkıyorsunuz Emin misiniz?
+              <PopupButton variant="secondary" onClick={handleClose}>
+                HAYIR
+              </PopupButton>
+              <PopupButton variant="primary" onClick={handleShow}>
+                EVET
+              </PopupButton>
+            </Popup>
           </li>
         ) : (
-          <NavDropdown className="nav-link" title="Dropdown" id="basic-nav-dropdown">
+          <NavDropdown className="nav-link" title="Account" id="basic-nav-dropdown">
             <NavDropdown.Item href="#">
               <NavLink to="/register">Sign Up</NavLink>
             </NavDropdown.Item>

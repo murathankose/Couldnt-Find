@@ -13,7 +13,7 @@ export function authenticationReducer(state = initialState, action: Authenticati
     case getType(loginAsync.failure):
       return { ...state, authenticated: false };
     case getType(logout):
-      return { ...state, authenticated: false};
+      return  initialState;
 
 
   }
