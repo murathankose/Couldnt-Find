@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button, NavDropdown } from 'react-bootstrap';
+import { Nav, NavDropdown } from 'react-bootstrap';
+import { FaUserAlt } from "react-icons/fa";
 import { useAuthentication } from '@internship/shared/hooks';
 import { logout } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
-import { Popup, PopupButton } from '../../molecules/Popup';
 import { useHistory } from 'react-router-dom';
+import { Search, Popup, PopupButton, Button } from '@internship/ui';
+
+
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
@@ -28,7 +31,7 @@ export const Navigation = () => {
   };
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
-      <ul className="navbar-nav">
+      <ul className="navbar-nav mr-auto">
         <li className="navbar-brand">
           <NavLink exact to="/" className="nav-link">
             Home
@@ -70,6 +73,12 @@ export const Navigation = () => {
           </NavDropdown>
         )}
       </ul>
+      <Search/>
+      <Nav>
+        <NavLink to="/profile" className="nav-link ml-sm-2 bg-white">
+          <FaUserAlt/>
+        </NavLink>
+      </Nav>
     </nav>
   );
 };
