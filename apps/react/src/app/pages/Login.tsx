@@ -6,16 +6,30 @@ import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
 import { useTemporary } from '@internship/shared/hooks';
 import { Captcha } from '@internship/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faGoogle,
+  faFacebook,
+} from '@fortawesome/free-brands-svg-icons';
 import GoogleLogin from 'react-google-login';
 import { api } from '@internship/shared/api';
+
+const StyledAnchorTag = styled.a`
+  margin-bottom: 15px;
+  margin-top: 7px;
+  font-weight: 400;
+  font-size: 16px;
+`
 
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
 `;
+
 const StyledRow = styled(Row)`
   margin-bottom: 1rem;
 `;
+
 const Button = styled.button`
   border: none;
   color: white;
@@ -43,24 +57,9 @@ export const Login = (context) => {
   const dispatch = useDispatch();
   const { isCaptchaRequired } = useTemporary();
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    localStorage.setItem('cloud_users', JSON.stringify(response));
-    api.auth.loginGoogle(response);
-  }
-
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
   };
-
-   const API_BASE_URL = 'http://localhost:8080';
-
-   const ACCESS_TOKEN = 'accessToken';
-
-   const OAUTH2_REDIRECT_URI = 'http://localhost:4200/oauth2/redirect'
-
-   const GOOGLE_AUTH_URL = API_BASE_URL + '/oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI;
-
 
   return (
 
@@ -97,13 +96,9 @@ export const Login = (context) => {
             <a href="/register">Sign Up</a>
           </StyledRow>
           <Button type="submit">Submit</Button>
-          <GoogleLogin
-            clientId="23500386943-9hrfde5uu9qvugpa1bq3cacdsqbbdu0o.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-          />
+          <StyledAnchorTag className="btn btn-block btn-info" href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200">
+            <FontAwesomeIcon icon={faGoogle} style={{marginRight: '10px'}}/> Log in with google
+          </StyledAnchorTag>
         </Container>
       </form>
     </StyledApp>
