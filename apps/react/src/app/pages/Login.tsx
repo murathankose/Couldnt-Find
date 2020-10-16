@@ -11,8 +11,6 @@ import {
   faGoogle,
   faFacebook,
 } from '@fortawesome/free-brands-svg-icons';
-import GoogleLogin from 'react-google-login';
-import { api } from '@internship/shared/api';
 
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
@@ -59,6 +57,7 @@ export const Login = (context) => {
 
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
+
   };
 
   return (
@@ -96,7 +95,7 @@ export const Login = (context) => {
             <a href="/register">Sign Up</a>
           </StyledRow>
           <Button type="submit">Submit</Button>
-          <StyledAnchorTag className="btn btn-block btn-info" href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200">
+          <StyledAnchorTag className="btn btn-block btn-info" href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth">
             <FontAwesomeIcon icon={faGoogle} style={{marginRight: '10px'}}/> Log in with google
           </StyledAnchorTag>
         </Container>
