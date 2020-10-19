@@ -6,14 +6,28 @@ import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
 import { useTemporary } from '@internship/shared/hooks';
 import { Captcha } from '@internship/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faGoogle,
+  faFacebook,
+} from '@fortawesome/free-brands-svg-icons';
+
+const StyledAnchorTag = styled.a`
+  margin-bottom: 15px;
+  margin-top: 7px;
+  font-weight: 400;
+  font-size: 16px;
+`
 
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
 `;
+
 const StyledRow = styled(Row)`
   margin-bottom: 1rem;
 `;
+
 const Button = styled.button`
   border: none;
   color: white;
@@ -43,10 +57,13 @@ export const Login = (context) => {
 
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
+
   };
 
   return (
-    <StyledApp>
+
+  <StyledApp>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to log into your account.</H4>
         <Container>
@@ -78,6 +95,9 @@ export const Login = (context) => {
             <a href="/register">Sign Up</a>
           </StyledRow>
           <Button type="submit">Submit</Button>
+          <StyledAnchorTag className="btn btn-block btn-info" href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth">
+            <FontAwesomeIcon icon={faGoogle} style={{marginRight: '10px'}}/> Log in with google
+          </StyledAnchorTag>
         </Container>
       </form>
     </StyledApp>
