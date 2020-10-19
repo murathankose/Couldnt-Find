@@ -19,3 +19,13 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface UpdateRequest {
+  username: string;
+  email: string;
+  name: string;
+  lastname: string;
+  phone: string;
+  age: number;
+  password: string;
+}
+

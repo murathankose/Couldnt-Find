@@ -1,4 +1,4 @@
-import { loginAsync, registerAsync, logout } from './actions';
+import { loginAsync, registerAsync, logout, updateAsync } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
 import { removeAccessToken } from '@internship/shared/utils';
@@ -33,6 +33,17 @@ function* doRegister({ payload }) {
   }
 }
 
+function* doUpdate({ payload }) {
+  try {
+    yield call(api.auth.update, payload);
+
+    yield put(updateAsync.success({}));
+  } catch (e) {
+    console.error(e);
+    yield put(updateAsync.failure(e));
+  }
+}
+
 function* watchLogin() {
   yield takeLatest(loginAsync.request, doLogin);
 }
@@ -43,6 +54,10 @@ function* watchRegister() {
   yield takeLatest(registerAsync.request, doRegister);
 }
 
+function* watchUpdate() {
+  yield takeLatest(updateAsync.request, doUpdate);
+}
+
 export function* authenticationSaga() {
-  yield all([fork(watchLogin), fork(watchRegister), fork(watchLogout)]);
+  yield all([fork(watchLogin), fork(watchRegister), fork(watchLogout), fork(watchUpdate)]);
 }
