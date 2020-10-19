@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import MainPage from './pages/MainPage';
+import OAuth2RedirectHandler from './pages/OAuth2RedirectHandler'
 
 
 export const Routes = ({ children, ...props }) => {
@@ -17,9 +18,9 @@ export const Routes = ({ children, ...props }) => {
       <Route exact path="/" component={MainPage} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      <Route path="/auth" component={OAuth2RedirectHandler} />
       {!isAuthenticated&&(<Route path="/login" component={Login} />)}
       {!isAuthenticated&&(<Route path="/register" component={Register} />)}
-
       <Redirect to="/"/>
     </Router>
   );
