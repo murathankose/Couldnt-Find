@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Nav, NavDropdown } from 'react-bootstrap';
-import { FaUserAlt } from 'react-icons/all';
-import { useAuthentication } from '@internship/shared/hooks';
-import { logout } from '@internship/store/authentication';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Search, Popup, PopupButton, Button } from '@internship/ui';
+import React, { useEffect, useState } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import { NavDropdown } from "react-bootstrap";
+import { FaUserAlt } from "react-icons/all";
+import { useAuthentication } from "@internship/shared/hooks";
+import { logout } from "@internship/store/authentication";
+import { useDispatch } from "react-redux";
+import { Button } from "../../atoms/Button";
+import { Popup, PopupButton } from "../../molecules/Popup";
+import { Search } from "../../molecules/Search";
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
@@ -48,7 +49,7 @@ export const Navigation = () => {
         {isAuthenticated ? (
           <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
             <li className="nav-link">
-              <NavLink to="/profile" className="nav-link bg-primary w-50" >
+              <NavLink to="/profile" className="nav-link bg-primary w-50">
                 Profile
               </NavLink>
             </li>
