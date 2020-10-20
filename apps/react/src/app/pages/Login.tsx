@@ -7,17 +7,15 @@ import { loginAsync } from '@internship/store/authentication';
 import { useTemporary } from '@internship/shared/hooks';
 import { Captcha } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faGoogle,
-  faFacebook,
-} from '@fortawesome/free-brands-svg-icons';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-router-dom';
 
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;
   font-weight: 400;
   font-size: 16px;
-`
+`;
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -57,13 +55,10 @@ export const Login = (context) => {
 
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
-
   };
 
   return (
-
-  <StyledApp>
-
+    <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
         <H4>Enter your information to log into your account.</H4>
         <Container>
@@ -92,16 +87,17 @@ export const Login = (context) => {
           ) : null}
           <StyledRow>
             <p>No account?</p>
-            <a href="/register">Sign Up</a>
+            <Link href="/register">Sign Up</Link>
           </StyledRow>
           <Button type="submit">Submit</Button>
-          <StyledAnchorTag className="btn btn-block btn-info" href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth">
-            <FontAwesomeIcon icon={faGoogle} style={{marginRight: '10px'}}/> Log in with google
+          <StyledAnchorTag
+            className="btn btn-block btn-info"
+            href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth"
+          >
+            <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
           </StyledAnchorTag>
         </Container>
       </form>
     </StyledApp>
   );
 };
-
-export default Login;

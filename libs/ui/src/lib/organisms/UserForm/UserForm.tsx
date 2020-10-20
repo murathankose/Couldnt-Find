@@ -1,10 +1,10 @@
-import { Card, Col, Collapse, Container, Form, Row } from 'react-bootstrap';
+import { Card, Col, Collapse, Container, Form, Row } from "react-bootstrap";
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { updateAsync } from '@internship/store/authentication';
-import { useDispatch } from 'react-redux';
-import { Button } from '../../atoms/Button';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { updateAsync } from "@internship/store/authentication";
+import { useDispatch } from "react-redux";
+import { Button } from "../../atoms/Button";
 
 export const UserForm = () => {
   const { handleSubmit, register } = useForm();

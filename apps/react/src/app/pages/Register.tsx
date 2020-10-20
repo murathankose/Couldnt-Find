@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '@internship/store/authentication';
+import { Link } from 'react-router-dom';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -71,7 +72,7 @@ export const Register = () => {
           </StyledRow>
           <StyledRow>
             <p>Already have an account. </p>
-            <a href="/register">Sign in</a>
+            <Link to="/login">Sign in</Link>
           </StyledRow>
           <Button type="submit">Submit</Button>
         </Container>
@@ -79,5 +80,3 @@ export const Register = () => {
     </StyledApp>
   );
 };
-
-export default Register;

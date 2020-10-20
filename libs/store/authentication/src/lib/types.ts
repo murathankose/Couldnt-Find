@@ -28,4 +28,3 @@ export interface UpdateRequest {
   age?: string;
   password?: string;
 }
-

@@ -6,8 +6,7 @@ import { useAuthentication } from "@internship/shared/hooks";
 import { logout } from "@internship/store/authentication";
 import { useDispatch } from "react-redux";
 import { Button } from "../../atoms/Button";
-import { Popup, PopupButton } from "../../molecules/Popup";
-import { Search } from "../../molecules/Search";
+import { Popup, PopupButton, Search } from "../../molecules";
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
