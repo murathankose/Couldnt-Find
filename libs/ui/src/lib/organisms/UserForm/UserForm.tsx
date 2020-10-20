@@ -20,7 +20,7 @@ export const UserForm = () => {
           Username
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="username" type="username" placeholder="Username" readOnly/>
+          <Form.Control name="username"  placeholder="Username" readOnly/>
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="email">
@@ -36,7 +36,7 @@ export const UserForm = () => {
           Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="name"  type="name" placeholder="Name" ref={register({ required: false })} />
+          <Form.Control name="name"  placeholder="Name" ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="lastname">
@@ -44,7 +44,7 @@ export const UserForm = () => {
           Last Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="lastname"  type="lastname" placeholder="Last Name" ref={register({ required: false })} />
+          <Form.Control name="lastname"  placeholder="Last Name" ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="age">
@@ -52,7 +52,7 @@ export const UserForm = () => {
           Age
         </Form.Label>
         <Col sm={2}>
-          <Form.Control name="age"  type="age" placeholder="Age" ref={register({ required: false })} />
+          <Form.Control name="age" placeholder="Age" ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="phoneNumber">
@@ -60,7 +60,7 @@ export const UserForm = () => {
           Phone Number
         </Form.Label>
         <Col sm={4}>
-          <Form.Control name="phoneNumber"  type="phoneNumber" placeholder="Phone Number" ref={register({ required: false })} />
+          <Form.Control name="phoneNumber"    placeholder="Phone Number" ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="bio">

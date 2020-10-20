@@ -1,12 +1,12 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
-import { LoginRequest, RegisterRequest, UpdateRequest } from './types';
+import {  LoginRequest, RegisterRequest, UpdateRequest } from './types';
 import { AxiosError } from 'axios';
 
-export const loginAsync = createAsyncAction('@Authentication/LOGIN_REQUEST', '@Authentication/LOGIN_SUCCESS', '@Authentication/LOGIN_FAILURE')<
-  LoginRequest,
-  any,
-  AxiosError
->();
+export const loginAsync = createAsyncAction(
+  '@Authentication/LOGIN_REQUEST',
+  '@Authentication/LOGIN_SUCCESS',
+  '@Authentication/LOGIN_FAILURE'
+  )<LoginRequest, any, AxiosError>();
 
 export const registerAsync = createAsyncAction(
   '@Authentication/REGISTER_REQUEST',
@@ -21,3 +21,4 @@ export const updateAsync = createAsyncAction(
 )<UpdateRequest, any, AxiosError>();
 
 export const logout = createAction('@Authentication/LOGOUT')();
+
