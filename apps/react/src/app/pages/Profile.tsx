@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import EditProfile from './profilePageComponents/EditProfile';
+import { EditProfile } from './profilePageComponents/EditProfile';
 import { Button, Col, Row } from 'react-bootstrap';
 import { FaUserAlt } from 'react-icons/all';
 import { api } from '@internship/shared/api';
 
 export const Profile = () => {
-  const [inEditmode,setInEditMode]= useState(false);
-  const [username,setUsername]= useState(null);
+  const [inEditmode, setInEditMode] = useState(false);
+  const [username, setUsername] = useState(null);
   useEffect(() => {
-    api.auth.userDetail().then(r => setUsername(r.username));
-  })
+    api.auth.userDetail().then((r) => setUsername(r.username));
+  });
 
   return (
     <div>
@@ -23,7 +23,9 @@ export const Profile = () => {
             </div>
             <h5>
               <div>
-                <h4><b className="text-black-50">User Info</b></h4>
+                <h4>
+                  <b className="text-black-50">User Info</b>
+                </h4>
                 <Row>
                   <i className="text-black-50 ml-4"> UserName: {username} </i>
                 </Row>
@@ -41,20 +43,24 @@ export const Profile = () => {
                 </Row>
               </div>
             </h5>
-            <Button className="btn btn-success" disabled={inEditmode} onClick={()=>setInEditMode(true)}> Edit Profile</Button>
+            <Button className="btn btn-success" disabled={inEditmode} onClick={() => setInEditMode(true)}>
+              {' '}
+              Edit Profile
+            </Button>
           </div>
         </Col>
         <Col sm={6}>
-        {inEditmode &&
-          <>
-        <Button className="btn btn-success" disabled={!inEditmode} onClick={()=>setInEditMode(false)}> Edit Profile Close</Button>
-          <EditProfile />
-          </>
-        }
+          {inEditmode && (
+            <>
+              <Button className="btn btn-success" disabled={!inEditmode} onClick={() => setInEditMode(false)}>
+                {' '}
+                Edit Profile Close
+              </Button>
+              <EditProfile />
+            </>
+          )}
         </Col>
       </Row>
     </div>
   );
 };
-
-export default Profile;

@@ -3,14 +3,12 @@ import { Container, Row } from 'react-bootstrap';
 import { UserForm } from '@internship/ui';
 
 export const EditProfile = () => {
-
-
   return (
     <Container fluid>
       <Row>
         <h3>Edit Profile</h3>
       </Row>
-      <UserForm/>
+      <UserForm />
     </Container>
   );
 };

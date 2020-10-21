@@ -1,7 +1,7 @@
-import { loginAsync, registerAsync, logout, updateAsync } from './actions';
-import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { api } from '@internship/shared/api';
-import { removeAccessToken } from '@internship/shared/utils';
+import { loginAsync, logout, registerAsync, updateAsync } from "./actions";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
+import { api } from "@internship/shared/api";
+import { removeAccessToken } from "@internship/shared/utils";
 
 function* doLogin({ payload }) {
   try {
