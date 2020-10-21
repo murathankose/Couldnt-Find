@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { UserForm } from '@internship/ui';
 
-export const EditProfile = () => {
+export const EditProfile = ({ ...props}) => {
   return (
     <Container fluid>
       <Row>

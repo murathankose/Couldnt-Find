@@ -6,7 +6,7 @@ import { updateAsync } from "@internship/store/authentication";
 import { useDispatch } from "react-redux";
 import { Button } from "../../atoms/Button";
 
-export const UserForm = () => {
+export const UserForm = ({ ...props}) => {
   const { handleSubmit, register } = useForm();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();

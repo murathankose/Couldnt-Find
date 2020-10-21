@@ -9,13 +9,15 @@ export const OAuth2RedirectHandler = (props) => {
     const results = regex.exec(props.location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   };
-  const token = getUrlParameter('token');
+  const refreshToken = getUrlParameter('refreshToken');
+  const accessToken = getUrlParameter('accessToken');
   const error = getUrlParameter('error');
-  console.log('Token' + token);
+  console.log('Token' + accessToken);
   console.log('errror' + error);
   console.log(props.location.search);
-  if (token) {
-    localStorage.setItem(ACCESS_TOKEN, token);
+  if (accessToken) {
+    localStorage.setItem(ACCESS_TOKEN, accessToken);
+    //localStorage.setItem(ACCESS_TOKEN, refreshToken);
     return (
       <Redirect
         to={{
