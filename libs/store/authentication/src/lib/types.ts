@@ -21,11 +21,10 @@ export interface RegisterRequest {
 
 export interface UpdateRequest {
   username: string;
-  email: string;
-  name: string;
-  lastname: string;
-  phone: string;
-  age: number;
-  password: string;
+  email?: string;
+  name?: string;
+  lastname?: string;
+  phone?: string;
+  age?: string;
+  password?: string;
 }
-

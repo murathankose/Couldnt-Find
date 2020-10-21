@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Nav, NavDropdown } from 'react-bootstrap';
-import { FaUserAlt } from "react-icons/fa";
-import { useAuthentication } from '@internship/shared/hooks';
-import { logout } from '@internship/store/authentication';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Search, Popup, PopupButton, Button } from '@internship/ui';
-
-
+import React, { useEffect, useState } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import { NavDropdown } from "react-bootstrap";
+import { FaUserAlt } from "react-icons/all";
+import { useAuthentication } from "@internship/shared/hooks";
+import { logout } from "@internship/store/authentication";
+import { useDispatch } from "react-redux";
+import { Button } from "../../atoms/Button";
+import { Popup, PopupButton, Search } from "../../molecules";
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
@@ -48,20 +46,27 @@ export const Navigation = () => {
           </NavLink>
         </li>
         {isAuthenticated ? (
-          <li className="nav-link">
-            <Button className="nav-link" onClick={handleOpen}>
-              Logout
-            </Button>
-            <Popup show={show} onHide={handleClose}>
-              Sistemden Çıkıyorsunuz Emin misiniz?
-              <PopupButton variant="secondary" onClick={handleClose}>
-                HAYIR
-              </PopupButton>
-              <PopupButton variant="primary" onClick={handleShow}>
-                EVET
-              </PopupButton>
-            </Popup>
-          </li>
+          <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
+            <li className="nav-link">
+              <NavLink to="/profile" className="nav-link bg-primary w-50">
+                Profile
+              </NavLink>
+            </li>
+            <li className="nav-link">
+              <Button className="nav-link bg-primary" onClick={handleOpen}>
+                Logout
+              </Button>
+              <Popup show={show} onHide={handleClose}>
+                Sistemden Çıkıyorsunuz Emin misiniz?
+                <PopupButton variant="secondary" onClick={handleClose}>
+                  HAYIR
+                </PopupButton>
+                <PopupButton variant="primary" onClick={handleShow}>
+                  EVET
+                </PopupButton>
+              </Popup>
+            </li>
+          </NavDropdown>
         ) : (
           <NavDropdown className="nav-link" title="Account" id="basic-nav-dropdown">
             <NavDropdown.Item href="#">
@@ -73,12 +78,7 @@ export const Navigation = () => {
           </NavDropdown>
         )}
       </ul>
-      <Search/>
-      <Nav>
-        <NavLink to="/profile" className="nav-link ml-sm-2 bg-white">
-          <FaUserAlt/>
-        </NavLink>
-      </Nav>
+      <Search />
     </nav>
   );
 };

@@ -6,6 +6,6 @@ export class AuthResource {
   // TODO change any types according to request/response model
   login = (data: any): Promise<any> => this.axios.post('auth/signin', data, this.axiosRequestConfig).then((r) => r.data);
   register = (data: any): Promise<any> => this.axios.post('auth/sign-up', data, this.axiosRequestConfig).then((r) => r.data);
-
   update = (data: any): Promise<any> => this.axios.put('user/edit', data, this.axiosRequestConfig).then((r) => r.data);
+  userDetail = (): Promise<any> => this.axios.get('user/', this.axiosRequestConfig).then((r) => r.data);
 }

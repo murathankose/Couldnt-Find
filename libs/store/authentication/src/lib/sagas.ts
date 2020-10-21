@@ -1,8 +1,7 @@
-import { loginAsync, registerAsync, logout, updateAsync } from './actions';
-import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { api } from '@internship/shared/api';
-import { removeAccessToken } from '@internship/shared/utils';
-
+import { loginAsync, logout, registerAsync, updateAsync } from "./actions";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
+import { api } from "@internship/shared/api";
+import { removeAccessToken } from "@internship/shared/utils";
 
 function* doLogin({ payload }) {
   try {
@@ -25,7 +24,6 @@ function doLogout() {
 function* doRegister({ payload }) {
   try {
     yield call(api.auth.register, payload);
-
     yield put(registerAsync.success({}));
   } catch (e) {
     console.error(e);
@@ -35,8 +33,10 @@ function* doRegister({ payload }) {
 
 function* doUpdate({ payload }) {
   try {
-    yield call(api.auth.update, payload);
+    let requestData = {};
+    Object.entries(payload).forEach(([key, value]) => (value !== '' ? (requestData = { ...requestData, [key]: value }) : null));
 
+    yield call(api.auth.update, requestData);
     yield put(updateAsync.success({}));
   } catch (e) {
     console.error(e);
