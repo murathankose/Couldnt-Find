@@ -1,10 +1,14 @@
 import { AxiosResponse } from 'axios';
-import { setAccessToken } from '@internship/shared/utils';
+import { setAccessToken, setRefreshToken } from '@internship/shared/utils';
 
 export const loginInterceptor = (res: AxiosResponse) => {
   if (res.config.url.endsWith('/signin')) {
     const accessToken = res.data?.accessToken;
+    const refreshToken = res.data?.refreshToken;
     if (res.status === 200 && accessToken) {
+      if(refreshToken){
+        setRefreshToken(refreshToken);
+      }
       setAccessToken(accessToken);
     }
   }
