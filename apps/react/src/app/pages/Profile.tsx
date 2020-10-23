@@ -3,9 +3,11 @@ import { EditProfile } from './profilePageComponents/EditProfile';
 import { Button, Col, Row } from 'react-bootstrap';
 import { api } from '@internship/shared/api';
 import { ProfileImage } from '../../../../../libs/ui/src/lib/atoms/Image';
+import ChangePassword from './profilePageComponents/ChangePassword';
 
 export const Profile = () => {
   const [inEditmode, setInEditMode] = useState(false);
+  const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
   const [detail, setDetail] = useState({});
   useEffect(() => {
@@ -21,6 +23,7 @@ export const Profile = () => {
 
   const changeValues = () => {
     setInEditMode(true);
+    setInChangePassword(false);
     setEditUserInfo(false);
   };
   return (
@@ -62,6 +65,10 @@ export const Profile = () => {
               {' '}
               Edit Profile
             </Button>
+            <Button className="btn btn-sm btn-success mt-3" disabled={inChangePassword} onClick={() => {setInChangePassword(true); setInEditMode(false)}}>
+              {' '}
+              Change Password
+            </Button>{' '}
           </div>
         </Col>
         <Col sm={6}>
@@ -72,6 +79,15 @@ export const Profile = () => {
                 Edit Profile Close
               </Button>
               <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
+            </>
+          )}
+          {inChangePassword && (
+            <>
+            <Button className="btn btn-success" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
+              {' '}
+              Change Password Close
+            </Button>
+            <ChangePassword />
             </>
           )}
         </Col>
