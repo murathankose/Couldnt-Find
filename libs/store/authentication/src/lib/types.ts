@@ -28,3 +28,9 @@ export interface UpdateRequest {
   age?: string;
   password?: string;
 }
+
+export interface ChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
+}

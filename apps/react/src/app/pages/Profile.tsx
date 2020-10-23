@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { EditProfile } from './profilePageComponents/EditProfile';
+import { ChangePassword } from './profilePageComponents/ChangePassword';
 import { Button, Col, Row } from 'react-bootstrap';
 import { api } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
 
 export const Profile = () => {
   const [inEditmode, setInEditMode] = useState(false);
+  const [inChangePassword, setInChangePassword] = useState(false);
   const [detail, setDetail] = useState({});
   useEffect(() => {
     api.auth
@@ -53,10 +55,14 @@ export const Profile = () => {
                 </Row>
               </div>
             </h5>
-            <Button className="btn btn-success" disabled={inEditmode} onClick={() => setInEditMode(true)}>
+            <Button className="btn btn-sm btn-success mt-3" disabled={inEditmode} onClick={() => {setInEditMode(true); setInChangePassword(false); }}>
               {' '}
               Edit Profile
-            </Button>
+            </Button>{' '}
+            <Button className="btn btn-sm btn-success mt-3" disabled={inChangePassword} onClick={() => {setInChangePassword(true); setInEditMode(false)}}>
+              {' '}
+              Change Password
+            </Button>{' '}
           </div>
         </Col>
         <Col sm={6}>
@@ -67,6 +73,15 @@ export const Profile = () => {
                 Edit Profile Close
               </Button>
               <EditProfile />
+            </>
+          )}
+          {inChangePassword && (
+            <>
+              <Button className="btn btn-success" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
+                {' '}
+                Change Password Close
+              </Button>
+              <ChangePassword />
             </>
           )}
         </Col>

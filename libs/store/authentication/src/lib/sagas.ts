@@ -1,4 +1,4 @@
-import { loginAsync, logout, registerAsync, updateAsync } from "./actions";
+import { changePasswordAsync, loginAsync, logout, registerAsync, updateAsync } from './actions';
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { api } from "@internship/shared/api";
 import { removeAccessToken, removeRefreshToken } from '@internship/shared/utils';
@@ -45,6 +45,16 @@ function* doUpdate({ payload }) {
   }
 }
 
+function* doChangePassword({ payload }) {
+  try {
+    yield call(api.auth.changePassword, payload);
+    yield put(changePasswordAsync.success({}));
+  } catch (e) {
+    console.error(e);
+    yield put(changePasswordAsync.failure(e));
+  }
+}
+
 function* watchLogin() {
   yield takeLatest(loginAsync.request, doLogin);
 }
@@ -54,11 +64,13 @@ function* watchLogout() {
 function* watchRegister() {
   yield takeLatest(registerAsync.request, doRegister);
 }
-
 function* watchUpdate() {
   yield takeLatest(updateAsync.request, doUpdate);
 }
+function* watchChangePassword() {
+  yield takeLatest(changePasswordAsync.request, doChangePassword);
+}
 
 export function* authenticationSaga() {
-  yield all([fork(watchLogin), fork(watchRegister), fork(watchLogout), fork(watchUpdate)]);
+  yield all([fork(watchLogin), fork(watchRegister), fork(watchLogout), fork(watchUpdate), fork(watchChangePassword)]);
 }

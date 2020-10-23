@@ -8,7 +8,6 @@ export const EditProfile = ({ ...props }) => {
       <Row>
         <h3>Edit Profile</h3>
       </Row>
-
       <UserForm />
     </Container>
   );

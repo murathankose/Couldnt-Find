@@ -1,5 +1,5 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
-import { LoginRequest, RegisterRequest, UpdateRequest } from './types';
+import { ChangePasswordRequest, LoginRequest, RegisterRequest, UpdateRequest } from './types';
 import { AxiosError } from 'axios';
 
 export const loginAsync = createAsyncAction('@Authentication/LOGIN_REQUEST', '@Authentication/LOGIN_SUCCESS', '@Authentication/LOGIN_FAILURE')<
@@ -22,3 +22,9 @@ export const updateAsync = createAsyncAction('@Authentication/UPDATE_REQUEST', '
 
 export const logout = createAction('@Authentication/LOGOUT')();
 export const googleLogin = createAction('@Authentication/GOOGLELOGIN')();
+
+export const changePasswordAsync = createAsyncAction(
+  '@Authentication/CHANGE_PASSWORD_REQUEST',
+  '@Authentication/CHANGE_PASSWORD_SUCCESS',
+  '@Authentication/CHANGE_PASSWORD_FAILURE'
+)<ChangePasswordRequest, any, AxiosError>();
