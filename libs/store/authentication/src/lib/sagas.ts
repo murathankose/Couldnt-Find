@@ -1,7 +1,7 @@
 import { loginAsync, logout, registerAsync, updateAsync } from "./actions";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { api } from "@internship/shared/api";
-import { removeAccessToken } from "@internship/shared/utils";
+import { removeAccessToken, removeRefreshToken } from '@internship/shared/utils';
 
 function* doLogin({ payload }) {
   try {
@@ -18,6 +18,7 @@ function doLogout() {
   if (localStorage.getItem('access_token')) {
     localStorage.removeItem('cloud_users');
     removeAccessToken();
+    removeRefreshToken();
   }
 }
 

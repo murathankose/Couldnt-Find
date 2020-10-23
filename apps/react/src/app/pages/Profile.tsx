@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { EditProfile } from './profilePageComponents/EditProfile';
 import { Button, Col, Row } from 'react-bootstrap';
-import { FaUserAlt } from 'react-icons/all';
 import { api } from '@internship/shared/api';
-import { ProfileImage } from '../../../../../libs/ui/src/lib/atoms/Image';
+import { ProfileImage } from '@internship/ui';
 
 export const Profile = () => {
   const [inEditmode, setInEditMode] = useState(false);
   const [detail, setDetail] = useState({});
   useEffect(() => {
-    api.auth.userDetail().then(r => console.log(r)).catch(e => console.error(e));
+    api.auth
+      .userDetail()
+      .then((r) => console.log(r))
+      .catch((e) => console.error(e));
     api.auth.userDetail().then((r) => {
       setDetail(r);
     });
   }, [inEditmode]);
-  const { username, name, lastname, email, phoneNumber,age,image } = detail;
+  const { username, name, lastName, email, phoneNumber, age, image } = detail;
 
   return (
     <div>
@@ -38,7 +40,7 @@ export const Profile = () => {
                   <i className="text-black-50 ml-4"> Name:{name}</i>
                 </Row>
                 <Row>
-                  <i className="text-black-50 ml-4"> SurName:{lastname}</i>
+                  <i className="text-black-50 ml-4"> SurName:{lastName}</i>
                 </Row>
                 <Row>
                   <i className="text-black-50 ml-4"> Age: {age}</i>

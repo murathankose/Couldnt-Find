@@ -1,6 +1,8 @@
 import React from 'react';
-import { ACCESS_TOKEN } from '@internship/shared/types';
+import { ACCESS_TOKEN,REFRESH_TOKEN } from '@internship/shared/types';
 import { Redirect } from 'react-router-dom';
+import { googleLogin, loginAsync } from '@internship/store/authentication';
+import { useDispatch } from "react-redux";
 
 export const OAuth2RedirectHandler = (props) => {
   const getUrlParameter = (name) => {
@@ -12,12 +14,14 @@ export const OAuth2RedirectHandler = (props) => {
   const refreshToken = getUrlParameter('refreshToken');
   const accessToken = getUrlParameter('accessToken');
   const error = getUrlParameter('error');
+  const dispatch = useDispatch();
   console.log('Token' + accessToken);
   console.log('errror' + error);
   console.log(props.location.search);
   if (accessToken) {
     localStorage.setItem(ACCESS_TOKEN, accessToken);
-    //localStorage.setItem(ACCESS_TOKEN, refreshToken);
+    localStorage.setItem(REFRESH_TOKEN, refreshToken);
+    dispatch(googleLogin());
     return (
       <Redirect
         to={{

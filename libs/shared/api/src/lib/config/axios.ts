@@ -4,7 +4,8 @@ import {
   tokenInterceptor,
   captchaRequiredInterceptor,
   captchaInterceptor,
-  refreshTokenInterceptor
+  refreshTokenInterceptor,
+  errorinterceptor
 } from './interceptors';
 
 
@@ -24,6 +25,7 @@ export function createAxios(baseConfig: AxiosRequestConfig) {
   // Response Interceptors
   instance.interceptors.response.use(loginInterceptor);
   instance.interceptors.response.use((c) =>c, captchaRequiredInterceptor);
+  instance.interceptors.response.use((c) =>c, errorinterceptor);
   instance.interceptors.response.use((c) =>c, refreshTokenInterceptor);
   return instance;
 }

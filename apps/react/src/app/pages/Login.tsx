@@ -1,15 +1,15 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
-import { useTemporary } from '@internship/shared/hooks';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Captcha } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
-
+import { useHistory } from 'react-router-dom';
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;
@@ -44,19 +44,29 @@ const H4 = styled.h4`
 `;
 const Container = styled.div`
   display: inline-block;
-  border: ridge;
   padding: 4.5rem;
 `;
 
 export const Login = (context) => {
   const { handleSubmit, register } = useForm();
-  const dispatch = useDispatch();
   const { isCaptchaRequired } = useTemporary();
-
+  const { isAuthenticated } = useAuthentication();
+  const isErrorRequired = useSelector((store) => store.temp?.errorRequired);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
+    if (!isAuthenticated&&isErrorRequired) {
+      history.push('/');
+    }
   };
 
+  const onChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'username' || name === 'password') {
+      window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+    }
+  };
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,7 +77,7 @@ export const Login = (context) => {
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input type="text" name="username" ref={register({ required: true })} />
+              <input className="form-control" type="text" name="username" onChange={onChange} ref={register({ required: true })} />
             </div>
           </StyledRow>
           <StyledRow>
@@ -75,7 +85,7 @@ export const Login = (context) => {
               <label>Password:</label>
             </div>
             <div className="col-8">
-              <input type="password" name="password" ref={register({ required: true })} />
+              <input className="form-control" type="password" name="password" onChange={onChange} ref={register({ required: true })} />
             </div>
           </StyledRow>
           {isCaptchaRequired ? (
@@ -85,6 +95,7 @@ export const Login = (context) => {
               </div>
             </StyledRow>
           ) : null}
+          {isErrorRequired ? <div className="alert alert-danger">{isErrorRequired}</div> : null}
           <StyledRow>
             <p>No account?</p>
             <Link href="/register">Sign Up</Link>

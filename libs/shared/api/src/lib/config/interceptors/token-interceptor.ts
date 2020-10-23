@@ -7,6 +7,5 @@ export const tokenInterceptor = (config: AxiosRequestConfig) => {
   if (accessToken) {
     config.headers['Authorization'] = `Bearer ${accessToken}`;
   }
-  console.log('token config:' + config);
   return config;
 };

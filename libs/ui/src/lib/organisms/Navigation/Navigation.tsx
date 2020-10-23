@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
-import { NavDropdown } from "react-bootstrap";
-import { FaUserAlt } from "react-icons/all";
-import { useAuthentication } from "@internship/shared/hooks";
-import { logout } from "@internship/store/authentication";
-import { useDispatch } from "react-redux";
-import { Button } from "../../atoms/Button";
-import { Popup, PopupButton, Search } from "../../molecules";
-
+import React, { useEffect, useState } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
+import { NavDropdown } from 'react-bootstrap';
+import { FaUserAlt } from 'react-icons/all';
+import { useAuthentication } from '@internship/shared/hooks';
+import { logout } from '@internship/store/authentication';
+import { useDispatch } from 'react-redux';
+import { Button } from '../../atoms/Button';
+import { Popup, PopupButton, Search } from '../../molecules';
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  useEffect(() => {
-    history.push('/');
-  }, [isAuthenticated]);
 
   const handleClose = () => {
     setShow(false);
@@ -26,6 +22,7 @@ export const Navigation = () => {
   const handleShow = () => {
     dispatch(logout());
     setShow(false);
+    history.push('/');
   };
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
@@ -48,14 +45,14 @@ export const Navigation = () => {
         {isAuthenticated ? (
           <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
             <li className="nav-link">
-              <NavLink to="/profile" className="nav-link bg-primary w-50">
+              <NavLink to="/profile" className="nav-link active bg-primary w-50 rounded">
                 Profile
               </NavLink>
             </li>
             <li className="nav-link">
-              <Button className="nav-link bg-primary" onClick={handleOpen}>
+              <NavLink type="button" to="/profile" className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
                 Logout
-              </Button>
+              </NavLink>
               <Popup show={show} onHide={handleClose}>
                 Sistemden Çıkıyorsunuz Emin misiniz?
                 <PopupButton variant="secondary" onClick={handleClose}>
