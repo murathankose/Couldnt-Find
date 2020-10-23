@@ -2,30 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { EditProfile } from './profilePageComponents/EditProfile';
 import { Button, Col, Row } from 'react-bootstrap';
 import { api } from '@internship/shared/api';
-import { ProfileImage } from '../../../../../libs/ui/src/lib/atoms/Image';
+import { ProfileImage } from '@internship/ui';
 import ChangePassword from './profilePageComponents/ChangePassword';
 
 export const Profile = () => {
-  const [inEditmode, setInEditMode] = useState(false);
+  const [inEditMode, setInEditMode] = useState(false);
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
-  const [detail, setDetail] = useState({});
+  const [{ username, name, lastname, email, phoneNumber, age, image }, setDetail] = useState();
+
   useEffect(() => {
     api.auth
       .userDetail()
-      .then((r) => console.log(r))
+      .then((r) => setDetail(r))
       .catch((e) => console.error(e));
-    api.auth.userDetail().then((r) => {
-      setDetail(r);
-    });
   }, [editUserInfo]);
-  const { username, name, lastname, email, phoneNumber, age, image } = detail;
 
   const changeValues = () => {
     setInEditMode(true);
     setInChangePassword(false);
     setEditUserInfo(false);
   };
+
   return (
     <div>
       <h2>Profile Page</h2>
@@ -34,7 +32,7 @@ export const Profile = () => {
           <div className="card text-center">
             <div className="card-header">
               <h3>Welcome</h3>
-              <ProfileImage width="200" height="200" alt={`${username} profile picture`} image={image}></ProfileImage>
+              <ProfileImage width="200" height="200" alt={`${username} profile picture`} image={image} />
             </div>
             <h5>
               <div>
@@ -61,21 +59,25 @@ export const Profile = () => {
                 </Row>
               </div>
             </h5>
-            <Button className="btn btn-success" disabled={inEditmode} onClick={changeValues}>
-              {' '}
+            <Button className="btn btn-success" disabled={inEditMode} onClick={changeValues}>
               Edit Profile
             </Button>
-            <Button className="btn btn-sm btn-success mt-3" disabled={inChangePassword} onClick={() => {setInChangePassword(true); setInEditMode(false)}}>
-              {' '}
+            <Button
+              className="btn btn-sm btn-success mt-3"
+              disabled={inChangePassword}
+              onClick={() => {
+                setInChangePassword(true);
+                setInEditMode(false);
+              }}
+            >
               Change Password
-            </Button>{' '}
+            </Button>
           </div>
         </Col>
         <Col sm={6}>
-          {inEditmode && (
+          {inEditMode && (
             <>
-              <Button className="btn btn-success" disabled={!inEditmode} onClick={() => setInEditMode(false)}>
-                {' '}
+              <Button className="btn btn-success" disabled={!inEditMode} onClick={() => setInEditMode(false)}>
                 Edit Profile Close
               </Button>
               <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
@@ -83,11 +85,10 @@ export const Profile = () => {
           )}
           {inChangePassword && (
             <>
-            <Button className="btn btn-success" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
-              {' '}
-              Change Password Close
-            </Button>
-            <ChangePassword />
+              <Button className="btn btn-success" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
+                Change Password Close
+              </Button>
+              <ChangePassword />
             </>
           )}
         </Col>
@@ -95,4 +96,3 @@ export const Profile = () => {
     </div>
   );
 };
-export default Profile;
