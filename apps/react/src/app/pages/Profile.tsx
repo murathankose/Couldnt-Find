@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { EditProfile } from './profilePageComponents/EditProfile';
-import { ChangePassword } from './profilePageComponents/ChangePassword';
 import { Button, Col, Row } from 'react-bootstrap';
 import { api } from '@internship/shared/api';
-import { ProfileImage } from '@internship/ui';
+import { ProfileImage } from '../../../../../libs/ui/src/lib/atoms/Image';
 
 export const Profile = () => {
   const [inEditmode, setInEditMode] = useState(false);
-  const [inChangePassword, setInChangePassword] = useState(false);
+  const [editUserInfo, setEditUserInfo] = useState(false);
   const [detail, setDetail] = useState({});
   useEffect(() => {
     api.auth
@@ -17,9 +16,13 @@ export const Profile = () => {
     api.auth.userDetail().then((r) => {
       setDetail(r);
     });
-  }, [inEditmode]);
-  const { username, name, lastName, email, phoneNumber, age, image } = detail;
+  }, [editUserInfo]);
+  const { username, name, lastname, email, phoneNumber, age, image } = detail;
 
+  const changeValues = () => {
+    setInEditMode(true);
+    setEditUserInfo(false);
+  };
   return (
     <div>
       <h2>Profile Page</h2>
@@ -42,7 +45,7 @@ export const Profile = () => {
                   <i className="text-black-50 ml-4"> Name:{name}</i>
                 </Row>
                 <Row>
-                  <i className="text-black-50 ml-4"> SurName:{lastName}</i>
+                  <i className="text-black-50 ml-4"> SurName:{lastname}</i>
                 </Row>
                 <Row>
                   <i className="text-black-50 ml-4"> Age: {age}</i>
@@ -55,14 +58,10 @@ export const Profile = () => {
                 </Row>
               </div>
             </h5>
-            <Button className="btn btn-sm btn-success mt-3" disabled={inEditmode} onClick={() => {setInEditMode(true); setInChangePassword(false); }}>
+            <Button className="btn btn-success" disabled={inEditmode} onClick={changeValues}>
               {' '}
               Edit Profile
-            </Button>{' '}
-            <Button className="btn btn-sm btn-success mt-3" disabled={inChangePassword} onClick={() => {setInChangePassword(true); setInEditMode(false)}}>
-              {' '}
-              Change Password
-            </Button>{' '}
+            </Button>
           </div>
         </Col>
         <Col sm={6}>
@@ -72,16 +71,7 @@ export const Profile = () => {
                 {' '}
                 Edit Profile Close
               </Button>
-              <EditProfile />
-            </>
-          )}
-          {inChangePassword && (
-            <>
-              <Button className="btn btn-success" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
-                {' '}
-                Change Password Close
-              </Button>
-              <ChangePassword />
+              <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
             </>
           )}
         </Col>

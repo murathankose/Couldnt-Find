@@ -6,12 +6,14 @@ import { updateAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../atoms/Button';
 
-export const UserForm = ({ ...props }) => {
+export const UserForm = ({ setEditUserInfo, setInEditMode, ...props }) => {
   const { handleSubmit, register } = useForm();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const onSubmit = (values) => {
     dispatch(updateAsync.request(values));
+    setEditUserInfo(true);
+    setInEditMode(false);
   };
 
   return (
@@ -72,7 +74,29 @@ export const UserForm = ({ ...props }) => {
           <Form.Control name="bio" as="textarea" rows={5} ref={register({ required: false })} />
         </Col>
       </Form.Group>
-      <Row className="justify-content-center">
+
+      <Container fluid>
+        <Button onClick={() => setOpen(!open)} aria-controls="collapse" aria-expanded={open}>
+          Change Password
+        </Button>
+        <Collapse in={open}>
+          <div id="collapse">
+            <Card>
+              <Form.Group as={Row} controlId="password">
+                <Col sm="10">
+                  <Form.Control name="password" type="password" placeholder="New Password" ref={register({ required: false })} />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} controlId="confirmPassword">
+                <Col sm="10">
+                  <Form.Control name="confirmPassword" type="password" placeholder="Confirm Password" />
+                </Col>
+              </Form.Group>
+            </Card>
+          </div>
+        </Collapse>
+      </Container>
+      <Row className="justify-content-end">
         <Button type="submit">Update</Button>
       </Row>
     </Form>
