@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useAuthentication } from '@internship/shared/hooks';
-import { About, Contact, Login, MailSuccesPage, MainPage, OAuth2RedirectHandler, Profile, Register, WrongPage } from './pages';
+import { About, Contact, Login, MailSuccessPage, MainPage, OAuth2RedirectHandler, Profile, Register, WrongPage } from './pages';
 
 export const Routes = ({ children, ...props }) => {
   const { isAuthenticated } = useAuthentication();
@@ -13,7 +13,7 @@ export const Routes = ({ children, ...props }) => {
       <Route path="/contact" component={Contact} />
       {isAuthenticated === true ? <Route path="/profile" component={Profile} /> : <Route path="/profile" component={WrongPage} />}
       <Route path="/auth" component={OAuth2RedirectHandler} />
-      <Route exact path="/mailsuccess" component={MailSuccesPage} />
+      <Route exact path="/mailsuccess" component={MailSuccessPage} />
       {isAuthenticated === false ? <Route path="/login" component={Login} /> : <Route path="/login" component={WrongPage} />}
       {isAuthenticated === false ? <Route path="/register" component={Register} /> : <Route path="/register" component={WrongPage} />}
     </Router>

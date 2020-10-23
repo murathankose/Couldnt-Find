@@ -1,10 +1,11 @@
-import styled from 'styled-components';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { registerAsync } from '@internship/store/authentication';
-import { Link ,useHistory} from 'react-router-dom';
+import styled from "styled-components";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { registerAsync } from "@internship/store/authentication";
+import { Link, useHistory } from "react-router-dom";
+
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
@@ -37,6 +38,7 @@ export const Register = () => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
+
   const onSubmit = (values) => {
     dispatch(registerAsync.request(values));
     history.push('/login');

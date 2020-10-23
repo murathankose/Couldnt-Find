@@ -1,13 +1,12 @@
 import { Col, Container, Form, Row } from 'react-bootstrap';
-import { Button, UserForm } from '@internship/ui';
-import React, { useState } from 'react';
+import { Button } from '@internship/ui';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { changePasswordAsync, updateAsync } from '@internship/store/authentication';
+import { changePasswordAsync } from '@internship/store/authentication';
 
-export const ChangePassword = ({ ...props }) => {
+export const ChangePassword = () => {
   const { handleSubmit, register } = useForm();
-  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const onSubmit = (values) => {
     dispatch(changePasswordAsync.request(values));
@@ -31,7 +30,7 @@ export const ChangePassword = ({ ...props }) => {
         </Form.Group>
         <Form.Group as={Row} controlId="newPasswordConfirmation">
           <Col sm={4}>
-            <Form.Control type="password" name="newPasswordConfirmation"  placeholder="Confirm Password" ref={register({ required: true })} />
+            <Form.Control type="password" name="newPasswordConfirmation" placeholder="Confirm Password" ref={register({ required: true })} />
           </Col>
         </Form.Group>
         <Row className="justify-content-center">
@@ -39,7 +38,6 @@ export const ChangePassword = ({ ...props }) => {
         </Row>
       </Form>
     </Container>
-
   );
 };
 export default ChangePassword;

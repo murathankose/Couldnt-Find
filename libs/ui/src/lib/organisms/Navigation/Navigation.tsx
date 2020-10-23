@@ -1,39 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
 import { FaUserAlt } from 'react-icons/all';
 import { useAuthentication } from '@internship/shared/hooks';
 import { logout } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
-import { Button } from '../../atoms/Button';
 import { Popup, PopupButton, Search } from '../../molecules';
+
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
   const handleClose = () => {
     setShow(false);
   };
+
   const handleOpen = () => {
     setShow(true);
   };
+
   const handleShow = () => {
     dispatch(logout());
     setShow(false);
     history.push('/');
   };
+
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
       <div className="container">
-        <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbar" aria-controls="navbar"
-                aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation"
-                onClick={handleNavCollapse}>
-          <span className="navbar-toggler-icon"></span>
+        <button
+          className="custom-toggler navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbar"
+          aria-controls="navbar"
+          aria-expanded={!isNavCollapsed}
+          aria-label="Toggle navigation"
+          onClick={handleNavCollapse}
+        >
+          <span className="navbar-toggler-icon" />
         </button>
         <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbar">
           <ul className="navbar-nav mr-auto">
@@ -86,7 +96,6 @@ export const Navigation = () => {
             )}
             <Search />
           </ul>
-
         </div>
       </div>
     </nav>

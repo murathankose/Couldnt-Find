@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +8,8 @@ import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Captcha } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;
@@ -47,26 +47,28 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 
-export const Login = (context) => {
+export const Login = () => {
   const { handleSubmit, register } = useForm();
   const { isCaptchaRequired } = useTemporary();
   const { isAuthenticated } = useAuthentication();
   const isErrorRequired = useSelector((store) => store.temp?.errorRequired);
   const dispatch = useDispatch();
   const history = useHistory();
+
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
-    if (!isAuthenticated&&isErrorRequired) {
+    if (!isAuthenticated && isErrorRequired) {
       history.push('/');
     }
   };
 
   const onChange = (event) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
     if (name === 'username' || name === 'password') {
       window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     }
   };
+
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>

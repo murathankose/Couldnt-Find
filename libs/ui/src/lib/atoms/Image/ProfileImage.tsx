@@ -1,5 +1,9 @@
 import React from 'react';
-export const ProfileImage = ({ ...props}) => {
-  const {image}=props;
-  return <img className="rounded-circle shadow" alt={`Profile`} src={image} {...props}/>
+
+type ProfileImageProps = {
+  image: string;
+} & JSX.IntrinsicElements['img'];
+
+export const ProfileImage: React.FC<ProfileImageProps> = ({ image, ...rest }) => {
+  return <img className="rounded-circle shadow" alt={`Profile`} src={image} {...rest} />;
 };
