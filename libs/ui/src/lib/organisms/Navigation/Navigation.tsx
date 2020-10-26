@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
 import { FaUserAlt } from 'react-icons/all';
 import { useAuthentication } from '@internship/shared/hooks';
@@ -12,6 +12,7 @@ export const Navigation = () => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
@@ -70,7 +71,7 @@ export const Navigation = () => {
                   </NavLink>
                 </li>
                 <li className="nav-link">
-                  <NavLink type="button" to="/profile" className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
+                  <NavLink type="button" to={location.pathname} className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
                     Logout
                   </NavLink>
                   <Popup show={show} onHide={handleClose}>
