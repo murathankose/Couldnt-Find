@@ -8,8 +8,8 @@ import { useAuthentication, useError, useTemporary } from '@internship/shared/ho
 import { Captcha } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { Link, useHistory } from 'react-router-dom';
-
+import { Link,useHistory } from 'react-router-dom';
+import { api } from '@internship/shared/api';
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;
@@ -51,12 +51,15 @@ export const Login = () => {
   const { handleSubmit, register } = useForm();
   const { isCaptchaRequired } = useTemporary();
   const { isAuthenticated } = useAuthentication();
-  const { isErrorRequired } = useError();
+  const {isErrorRequired}=useError();
   const dispatch = useDispatch();
   const history = useHistory();
 
+
+
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
+
   };
 
   const onChange = (event) => {
@@ -67,7 +70,7 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (!isAuthenticated) {
       history.push('/');
     }
   }, [isAuthenticated]);
@@ -119,7 +122,7 @@ export const Login = () => {
             className="btn btn-block btn-info"
             href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth"
           >
-            <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
+            <FontAwesomeIcon  icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
           </StyledAnchorTag>
         </Container>
       </form>
