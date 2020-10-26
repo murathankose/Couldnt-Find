@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
 import { FaUserAlt } from 'react-icons/all';
 import { useAuthentication } from '@internship/shared/hooks';
 import { logout } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
-import { Button } from '../../atoms/Button';
 import { Popup, PopupButton, Search } from '../../molecules';
+
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
@@ -29,10 +30,16 @@ export const Navigation = () => {
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
       <div className="container">
-        <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbar" aria-controls="navbar"
-                aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation"
-                onClick={handleNavCollapse}>
+        <button
+          className="custom-toggler navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbar"
+          aria-controls="navbar"
+          aria-expanded={!isNavCollapsed ? true : false}
+          aria-label="Toggle navigation"
+          onClick={handleNavCollapse}
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbar">
@@ -60,7 +67,7 @@ export const Navigation = () => {
                   </NavLink>
                 </li>
                 <li className="nav-link">
-                  <NavLink type="button" to="/profile" className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
+                  <NavLink type="button" to={location.pathname} className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
                     Logout
                   </NavLink>
                   <Popup show={show} onHide={handleClose}>
@@ -86,7 +93,6 @@ export const Navigation = () => {
             )}
             <Search />
           </ul>
-
         </div>
       </div>
     </nav>
