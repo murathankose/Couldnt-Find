@@ -8,6 +8,7 @@ export const loginInterceptor = (res: AxiosResponse) => {
     if (res.status === 200) {
       if (accessToken) setAccessToken(accessToken);
       if (refreshToken) setRefreshToken(refreshToken);
+      window['UGLY_STORE'].dispatch({ type: '@temp/CAPTCHA_REQUIRED', payload: false });
     }
   }
 
