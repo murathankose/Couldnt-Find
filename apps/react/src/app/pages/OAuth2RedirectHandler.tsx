@@ -1,23 +1,16 @@
 import React from 'react';
-import { ACCESS_TOKEN,REFRESH_TOKEN } from '@internship/shared/types';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '@internship/shared/types';
 import { Redirect } from 'react-router-dom';
-import { googleLogin, loginAsync } from '@internship/store/authentication';
-import { useDispatch } from "react-redux";
+import { googleLogin } from '@internship/store/authentication';
+import { useDispatch } from 'react-redux';
+import { getUrlParameter } from '@internship/shared/utils';
 
 export const OAuth2RedirectHandler = (props) => {
-  const getUrlParameter = (name) => {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    const results = regex.exec(props.location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  };
-  const refreshToken = getUrlParameter('refreshToken');
-  const accessToken = getUrlParameter('accessToken');
-  const error = getUrlParameter('error');
+  const refreshToken = getUrlParameter('refreshToken', props.location.search);
+  const accessToken = getUrlParameter('accessToken', props.location.search);
+  const error = getUrlParameter('error', props.location.search);
   const dispatch = useDispatch();
-  console.log('Token' + accessToken);
-  console.log('errror' + error);
-  console.log(props.location.search);
+
   if (accessToken) {
     localStorage.setItem(ACCESS_TOKEN, accessToken);
     localStorage.setItem(REFRESH_TOKEN, refreshToken);

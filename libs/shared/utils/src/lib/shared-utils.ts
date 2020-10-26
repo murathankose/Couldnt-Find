@@ -11,3 +11,10 @@ export const setRefreshToken = (token: string) => window.localStorage.setItem(RE
 export const getRefreshToken = (): string => window.localStorage.getItem(REFRESH_TOKEN);
 
 export const removeRefreshToken = () => window.localStorage.removeItem(REFRESH_TOKEN);
+
+export const getUrlParameter = (name, search) => {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  const results = regex.exec(search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};

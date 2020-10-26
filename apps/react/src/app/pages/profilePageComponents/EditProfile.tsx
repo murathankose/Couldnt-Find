@@ -2,7 +2,12 @@ import React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { UserForm } from '@internship/ui';
 
-export const EditProfile = ({ setInEditMode, setEditUserInfo, ...props }) => {
+type EditProfileProps = {
+  setInEditMode;
+  setEditUserInfo;
+};
+
+export const EditProfile: React.FC<EditProfileProps> = ({ setInEditMode, setEditUserInfo }) => {
   return (
     <Container fluid>
       <Row>
@@ -12,5 +17,3 @@ export const EditProfile = ({ setInEditMode, setEditUserInfo, ...props }) => {
     </Container>
   );
 };
-
-export default EditProfile;

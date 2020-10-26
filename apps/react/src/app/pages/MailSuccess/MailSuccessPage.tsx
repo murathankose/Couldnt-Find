@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-export const MailSuccesPage = () => {
+export const MailSuccessPage = () => {
   return (
       <div>
-        <h2>MailSuccesPage</h2>
+        <h2>MailSuccessPage</h2>
       </div>
 
   );

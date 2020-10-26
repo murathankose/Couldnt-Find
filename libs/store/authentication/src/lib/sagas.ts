@@ -1,6 +1,6 @@
 import { changePasswordAsync, loginAsync, logout, registerAsync, updateAsync } from './actions';
-import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { api } from "@internship/shared/api";
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
+import { api } from '@internship/shared/api';
 import { removeAccessToken, removeRefreshToken } from '@internship/shared/utils';
 
 function* doLogin({ payload }) {

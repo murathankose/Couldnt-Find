@@ -1,10 +1,14 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 
-export const Popup = ({ children, ...props }) => {
-  const { show, handleClose } = props;
+type PopupProps = {
+  show: boolean;
+  onHide?;
+};
+
+export const Popup: React.FC<PopupProps> = ({ children, ...props }) => {
   return (
-    <Modal show={show} onHide={handleClose} {...props}>
+    <Modal {...props}>
       <Modal.Header closeButton>
         <Modal.Title>{children}</Modal.Title>
       </Modal.Header>

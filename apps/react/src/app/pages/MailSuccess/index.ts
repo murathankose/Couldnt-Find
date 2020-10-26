@@ -1,1 +1,1 @@
-export * from './MailSuccesPage';
+export * from './MailSuccessPage';
