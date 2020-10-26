@@ -16,11 +16,11 @@ export const Profile = () => {
       .userDetail()
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
+    setEditUserInfo(false);
   }, [editUserInfo]);
   const changeValues = () => {
     setInEditMode(true);
     setInChangePassword(false);
-    setEditUserInfo(false);
   };
 
   return (
