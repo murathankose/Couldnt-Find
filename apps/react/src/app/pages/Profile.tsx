@@ -4,12 +4,15 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
 import ChangePassword from './profilePageComponents/ChangePassword';
-
+import { useAuthentication } from '@internship/shared/hooks';
+import { useHistory } from 'react-router-dom';
 export const Profile = () => {
   const [inEditMode, setInEditMode] = useState(false);
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
   const [detail, setDetail] = useState<UserDetailResponse>('');
+  const { isAuthenticated } = useAuthentication();
+  const history = useHistory();
 
   useEffect(() => {
     api.auth
@@ -18,6 +21,13 @@ export const Profile = () => {
       .catch((e) => console.error(e));
     setEditUserInfo(false);
   }, [editUserInfo]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      history.push('/');
+    }
+  }, [isAuthenticated]);
+
   const changeValues = () => {
     setInEditMode(true);
     setInChangePassword(false);
