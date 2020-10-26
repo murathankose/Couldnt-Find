@@ -9,7 +9,7 @@ export const Profile = () => {
   const [inEditMode, setInEditMode] = useState(false);
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
-  const [{ username, name, lastname, email, phoneNumber, age, image }, setDetail] = useState();
+  const [{ username, name, lastname, email, phoneNumber, age, image }, setDetail] = useState({});
 
   useEffect(() => {
     api.auth
@@ -63,7 +63,7 @@ export const Profile = () => {
               Edit Profile
             </Button>
             <Button
-              className="btn btn-sm btn-success mt-3"
+              className="btn  btn-success mt-2"
               disabled={inChangePassword}
               onClick={() => {
                 setInChangePassword(true);

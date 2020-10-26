@@ -19,6 +19,10 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
 export interface UpdateRequest {
   username: string;
   email?: string;
@@ -27,6 +31,17 @@ export interface UpdateRequest {
   phone?: string;
   age?: string;
   password?: string;
+}
+
+export interface LogoutRequest {
+  accessToken:string;
+  refreshToken:string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
 }
 
 export interface ChangePasswordRequest {

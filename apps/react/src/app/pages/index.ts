@@ -7,3 +7,4 @@ export * from './OAuth2RedirectHandler';
 export * from './Profile';
 export * from './Register';
 export * from './MailSuccess';
+export * from './ForgotPassword/ForgotPasswordPage';
