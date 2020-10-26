@@ -8,5 +8,9 @@ export class AuthResource {
   register = (data: any): Promise<any> => this.axios.post('auth/sign-up', data, this.axiosRequestConfig).then((r) => r.data);
   update = (data: any): Promise<any> => this.axios.put('user/edit', data, this.axiosRequestConfig).then((r) => r.data);
   userDetail = (): Promise<any> => this.axios.get('user/', this.axiosRequestConfig).then((r) => r.data);
+  newpassword = (data: any): Promise<any> => this.axios.post('auth/forgot-password', data, this.axiosRequestConfig).then((r) => r.data);
+  logout = (data: any): Promise<any> => this.axios.post('user/logout', data, this.axiosRequestConfig).then((r) => r.data);
+  resetpassword = (data: any): Promise<any> => this.axios.post('user/create-new-password', data, this.axiosRequestConfig).then((r) => r.data);
+
   changePassword = (data: any): Promise<any> => this.axios.post('user/change-password', data, this.axiosRequestConfig).then((r) => r.data);
 }

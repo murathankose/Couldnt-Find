@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,13 +56,14 @@ export const Login = (context) => {
   const history = useHistory();
   const onSubmit = (values) => {
     dispatch(loginAsync.request(values));
-    if (!isAuthenticated&&isErrorRequired) {
+    console.log(values);
+    if (isAuthenticated && isErrorRequired) {
       history.push('/');
     }
   };
 
   const onChange = (event) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
     if (name === 'username' || name === 'password') {
       window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     }
@@ -77,7 +78,7 @@ export const Login = (context) => {
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input className="form-control" type="text" name="username" onChange={onChange} ref={register({ required: true })} />
+              <input className="form-control " type="text" name="username" onChange={onChange} ref={register({ required: true })} />
             </div>
           </StyledRow>
           <StyledRow>
@@ -95,17 +96,26 @@ export const Login = (context) => {
               </div>
             </StyledRow>
           ) : null}
-          {isErrorRequired ? <div className="alert alert-danger">{isErrorRequired}</div> : null}
+          {isErrorRequired ? (
+            <>
+              <div className="alert alert-danger">{isErrorRequired}</div>
+              <Link to="/forgotpassword">Forgot Password ?</Link>
+            </>
+          ) : null}
           <StyledRow>
-            <p>No account?</p>
-            <Link href="/register">Sign Up</Link>
+            <div className="col-5">
+              <label>No account ?</label>
+            </div>
+            <div className="col-3">
+              <Link to="/register">Sign Up</Link>
+            </div>
           </StyledRow>
           <Button type="submit">Submit</Button>
           <StyledAnchorTag
             className="btn btn-block btn-info"
             href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth"
           >
-            <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
+            <FontAwesomeIcon  icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
           </StyledAnchorTag>
         </Container>
       </form>
