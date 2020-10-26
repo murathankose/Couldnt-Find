@@ -51,69 +51,76 @@ export const ResetPassword = (props) => {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   };
 
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, getValues } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
   const [passworderror, setPasswordError] = useState('');
-  const [enable, setEnable] = useState(false);
+  const [enable, setEnable] = useState(true);
   const resttoken = getUrlParameter('token');
   const error = getUrlParameter('error');
   console.log('resttoken' + resttoken);
   console.log('errror' + error);
   const onSubmit = (values) => {
-dispatch(resetpasswordAsync.request(values));
-    console.log(values);
-
+    values = { ...values, token: resttoken };
+    dispatch(resetpasswordAsync.request(values));
+    history.push('/');
   };
 
-  const onChange = (event) => {
-    const { name, value } = event.target;
-    if (name === 'newPassword' || name === 'newPasswordConfirmation') {
-      if (name === 'newPassword' && value !== name.newPasswordConfirmation) {
-        setPasswordError('Şifre Eşleşmedi');
-        setEnable(true);
-      } else if (name === 'newPasswordConfirmation' && value !== name.newPassword) {
-        setPasswordError('Şifre Eşleşmedi');
-        setEnable(true);
-      }
+  const onChange = () => {
+    const firstPassword = getValues()['newPassword'];
+    const secondPassword = getValues()['newPasswordConfirmation'];
+    if (firstPassword !== secondPassword) {
+      setPasswordError('Şifre Eşleşmedi');
     } else {
-      setPasswordError(null);
+      setPasswordError('');
       setEnable(false);
     }
   };
 
-   if (resttoken) {
-  return (
-    <StyledApp>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <H4>Reset Password ?</H4>
-        <Container>
-          <StyledRow>
-            <div className="col-4">
-              <label>New Password</label>
-            </div>
-            <div className="col-8">
-              <input className={passworderror?"form-control is-invalid":"form-control"} type="password" name="newPassword" onChange={onChange} ref={register({ required: true })} />
-              <div className="invalid-feedback">{passworderror}</div>
-            </div>
-          </StyledRow>
-          <StyledRow>
-            <div className="col-4">
-              <label>Repeate Password</label>
-            </div>
-            <div className="col-8">
-              <input className={passworderror?"form-control is-invalid":"form-control"} type="password" name="newPasswordConfirmation" onChange={onChange} ref={register({ required: true })} />
-              <div className="invalid-feedback">{passworderror}</div>
-              <input className="form-control" value={resttoken} type="text" name="token"  ref={register({ required: true })} />
-            </div>
-          </StyledRow>
-          <Button type="submit">Confirm Password</Button>
-        </Container>
-      </form>
-    </StyledApp>
-  );
-  }
-  else {
+  if (resttoken) {
+    return (
+      <StyledApp>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <H4>Reset Password ?</H4>
+          <Container>
+            <StyledRow>
+              <div className="col-4">
+                <label>New Password</label>
+              </div>
+              <div className="col-8">
+                <input
+                  className={passworderror ? 'form-control is-invalid' : 'form-control'}
+                  type="password"
+                  name="newPassword"
+                  onChange={onChange}
+                  ref={register({ required: true })}
+                />
+                <div className="invalid-feedback">{passworderror}</div>
+              </div>
+            </StyledRow>
+            <StyledRow>
+              <div className="col-4">
+                <label>Repeate Password</label>
+              </div>
+              <div className="col-8">
+                <input
+                  className={passworderror ? 'form-control is-invalid' : 'form-control'}
+                  type="password"
+                  name="newPasswordConfirmation"
+                  onChange={onChange}
+                  ref={register({ required: true })}
+                />
+                <div className="invalid-feedback">{passworderror}</div>
+              </div>
+            </StyledRow>
+            <Button type="submit" disabled={enable}>
+              Confirm Password
+            </Button>
+          </Container>
+        </form>
+      </StyledApp>
+    );
+  } else {
     return (
       <Redirect
         to={{

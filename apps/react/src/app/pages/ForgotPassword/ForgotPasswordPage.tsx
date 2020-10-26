@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { forgotpasswordAsync, loginAsync } from '@internship/store/authentication';
+import { useDispatch, useSelector } from 'react-redux';
+import { forgotpasswordAsync } from '@internship/store/authentication';
 import { useHistory } from 'react-router-dom';
+import { useError } from '@internship/shared/hooks';
 
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
@@ -47,10 +48,19 @@ export const ForgotPasswordPage = () => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { isErrorRequired } = useError();
+  const onChange = (event) => {
+    const { name } = event.target;
+    if (name === 'email') {
+      window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+    }
+  };
+
   const onSubmit = (values) => {
     dispatch(forgotpasswordAsync.request(values));
+    if (isErrorRequired) {
       history.push('/');
-
+    }
   };
 
   return (
@@ -63,14 +73,17 @@ export const ForgotPasswordPage = () => {
               <label>The mail address of the account to be recovered</label>
             </div>
             <div className="col-8">
-              <input className="form-control" type="text" name="email"  ref={register({ required: true })} />
+              <input className="form-control" type="text" name="email" onChange={onChange} ref={register({ required: true })} />
             </div>
           </StyledRow>
-          <Button type="submit" >New Password</Button>
+          {isErrorRequired ? (
+            <>
+              <div className="alert alert-danger">{isErrorRequired}</div>
+            </>
+          ) : null}
+          <Button type="submit">New Password</Button>
         </Container>
       </form>
     </StyledApp>
-
   );
 };
-

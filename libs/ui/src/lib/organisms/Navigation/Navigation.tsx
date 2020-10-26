@@ -60,7 +60,7 @@ export const Navigation = () => {
                   </NavLink>
                 </li>
                 <li className="nav-link">
-                  <NavLink type="button" to="/profile" className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
+                  <NavLink type="button" to="/" className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
                     Logout
                   </NavLink>
                   <Popup show={show} onHide={handleClose}>
