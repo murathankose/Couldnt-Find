@@ -21,7 +21,7 @@ export const updateAsync = createAsyncAction('@Authentication/UPDATE_REQUEST', '
 >();
 
 export const logout = createAction('@Authentication/LOGOUT')();
-export const googleLogin = createAction('@Authentication/GOOGLELOGIN')();
+export const googleLogin = createAction('@Authentication/GOOGLE_LOGIN')();
 
 export const changePasswordAsync = createAsyncAction(
   '@Authentication/CHANGE_PASSWORD_REQUEST',

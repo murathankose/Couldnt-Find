@@ -1,24 +1,13 @@
-import axiosStatic, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
-import { getRefreshToken, removeAccessToken, setAccessToken } from '@internship/shared/utils';
+import { AxiosError } from 'axios';
+import { getRefreshToken, removeAccessToken } from '@internship/shared/utils';
+import axios from '../axios';
 
-export const refreshTokenInterceptor = (error: AxiosError, axios: AxiosInstance = axiosStatic) => {
+export const refreshTokenInterceptor = (error: AxiosError) => {
   console.log(error.toJSON);
   if (error.response.status === 401 && error.response.data?.error.toString() === 'JWT Expired.') {
     removeAccessToken();
-    axios.get('http://localhost:8080/api/auth/refresh-token', { params: { token : getRefreshToken() }
-    })
-      .then(function (response) {
-        const accessToken = response.data?.accessToken;
-        if(accessToken){
-          setAccessToken(accessToken);
-          error.config.headers['Authorization'] = `Bearer ${accessToken}`;
-          axios.request(error.config);
-        }
-      })
-
-  }
-  else {
+    axios.get('auth/refresh-token', { params: { token: getRefreshToken() } }).then(() => axios.request(error.config));
+  } else {
     throw error;
   }
 };
-

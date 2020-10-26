@@ -14,19 +14,23 @@ export const Navigation = () => {
   const history = useHistory();
   const location = useLocation();
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
   const handleClose = () => {
     setShow(false);
   };
+
   const handleOpen = () => {
     setShow(true);
   };
+
   const handleShow = () => {
     dispatch(logout());
     setShow(false);
     history.push('/');
   };
+
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
       <div className="container">
@@ -36,11 +40,11 @@ export const Navigation = () => {
           data-toggle="collapse"
           data-target="#navbar"
           aria-controls="navbar"
-          aria-expanded={!isNavCollapsed ? true : false}
+          aria-expanded={!isNavCollapsed}
           aria-label="Toggle navigation"
           onClick={handleNavCollapse}
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" />
         </button>
         <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbar">
           <ul className="navbar-nav mr-auto">

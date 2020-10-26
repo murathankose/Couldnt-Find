@@ -4,9 +4,11 @@ import { useHistory } from 'react-router-dom';
 
 export const WrongPage = () => {
   const history = useHistory();
+
   const goToTheMainPage = () => {
     history.push('/');
   };
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: 30 }}>
       <div>
