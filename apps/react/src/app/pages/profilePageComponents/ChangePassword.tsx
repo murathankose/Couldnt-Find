@@ -1,15 +1,36 @@
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Alert, Col, Container, Form, Row } from 'react-bootstrap';
 import { Button } from '@internship/ui';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changePasswordAsync } from '@internship/store/authentication';
 
+
 export const ChangePassword = () => {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, errors } = useForm<Inputs>();
   const dispatch = useDispatch();
+  const [show, setShow] = useState(true);
+  const isErrorRequired = useSelector((store) => store.temp?.errorRequired);
+  const isSuccessfulAction = useSelector((store) => store.temp?.successfulAction);
+
   const onSubmit = (values) => {
     dispatch(changePasswordAsync.request(values));
+  };
+
+  const onChange = (event) => {
+    const { name } = event.target;
+    if (name === 'newPassword' || name === 'password' || name === 'newPasswordConfirmation') {
+      window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+    }
+    if (name === 'newPassword' || name === 'password' || name === 'newPasswordConfirmation') {
+      window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_ACTION', payload: null });
+    }
+  };
+
+  type Inputs = {
+    oldPassword: string,
+    newPassword: string,
+    newPasswordConfirmation: string,
   };
 
   return (
@@ -19,20 +40,43 @@ export const ChangePassword = () => {
       </Row>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group as={Row} controlId="oldPassword">
+          <Form.Label column sm={2}>
+            Old Password
+          </Form.Label>
           <Col sm={4}>
-            <Form.Control type="password" name="oldPassword" placeholder="Old Password" ref={register({ required: true })} />
+            <Form.Control type="password" name="oldPassword" placeholder="Old Password" onChange={onChange} ref={register({ required: true })} />
+            {errors.oldPassword &&
+            <span>
+              <Alert variant="danger">This field is required</Alert>
+            </span>}
           </Col>
         </Form.Group>
         <Form.Group as={Row} controlId="newPassword">
+          <Form.Label column sm={2}>
+            New Password
+          </Form.Label>
           <Col sm={4}>
-            <Form.Control type="password" name="newPassword" placeholder="New Password" ref={register({ required: true })} />
+            <Form.Control type="password" name="newPassword" placeholder="New Password" onChange={onChange} ref={register({ required: true })} />
+            {errors.newPassword &&
+            <span>
+              <Alert variant="danger">This field is required</Alert>
+            </span>}
           </Col>
         </Form.Group>
         <Form.Group as={Row} controlId="newPasswordConfirmation">
+          <Form.Label column sm={2}>
+            Confirm Password
+          </Form.Label>
           <Col sm={4}>
-            <Form.Control type="password" name="newPasswordConfirmation" placeholder="Confirm Password" ref={register({ required: true })} />
+            <Form.Control type="password" name="newPasswordConfirmation" placeholder="Confirm Password" onChange={onChange} ref={register({ required: true })} />
+            {errors.newPasswordConfirmation &&
+            <span>
+              <Alert variant="danger">This field is required</Alert>
+            </span>}
           </Col>
         </Form.Group>
+        {isErrorRequired ? <Alert variant="danger" onClose={() => setShow(false)} dismissible>{isErrorRequired}</Alert> : null}
+        {isSuccessfulAction ? <Alert variant="success" onClose={() => setShow(false)} dismissible>{isSuccessfulAction}</Alert> : null}
         <Row className="justify-content-center">
           <Button type="submit">Update</Button>
         </Row>

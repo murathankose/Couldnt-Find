@@ -1,8 +1,7 @@
-import { AxiosError } from 'axios';
+import axiosStatic,{ AxiosError, AxiosInstance } from 'axios';
 import { getRefreshToken, removeAccessToken } from '@internship/shared/utils';
-import axios from '../axios';
 
-export const refreshTokenInterceptor = (error: AxiosError) => {
+export const refreshTokenInterceptor = (error: AxiosError, axios: AxiosInstance = axiosStatic) => {
   console.log(error.toJSON);
   if (error.response.status === 401 && error.response.data?.error.toString() === 'JWT Expired.') {
     removeAccessToken();
