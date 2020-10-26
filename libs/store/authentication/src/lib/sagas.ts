@@ -49,7 +49,7 @@ function doLogout() {
   }
 }
 
-function* doLogout({payload}) {
+/*function* doLogout({payload}) {
   try {
     yield call(api.auth.logout,payload );
     yield put(logoutAsync.success({}));
@@ -62,7 +62,7 @@ function* doLogout({payload}) {
     console.error(e);
     yield put(logoutAsync.failure(e));
   }
-}
+}*/
 
 function* doRegister({ payload }) {
   try {
@@ -109,9 +109,9 @@ function* watchForgotPassword() {
 function* watchLogout() {
   yield takeLatest(logout, doLogout);
 }
-function* watchLogout() {
+/*function* watchLogout() {
   yield takeLatest(logoutAsync.request, doLogout);
-}
+}*/
 function* watchRegister() {
   yield takeLatest(registerAsync.request, doRegister);
 }

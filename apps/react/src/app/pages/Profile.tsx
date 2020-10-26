@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { EditProfile } from './profilePageComponents/EditProfile';
 import { Button, Col, Row } from 'react-bootstrap';
-import { api } from '@internship/shared/api';
+import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
 import ChangePassword from './profilePageComponents/ChangePassword';
 
@@ -9,7 +9,7 @@ export const Profile = () => {
   const [inEditMode, setInEditMode] = useState(false);
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
-  const [{ username, name, lastname, email, phoneNumber, age, image }, setDetail] = useState({});
+  const [detail, setDetail] = useState<UserDetailResponse>('');
 
   useEffect(() => {
     api.auth
@@ -17,7 +17,6 @@ export const Profile = () => {
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
   }, [editUserInfo]);
-
   const changeValues = () => {
     setInEditMode(true);
     setInChangePassword(false);
@@ -32,7 +31,7 @@ export const Profile = () => {
           <div className="card text-center">
             <div className="card-header">
               <h3>Welcome</h3>
-              <ProfileImage width="200" height="200" alt={`${username} profile picture`} image={image} />
+              <ProfileImage width="200" height="200" alt={`${detail.username} profile picture`} image={detail.image} />
             </div>
             <h5>
               <div>
@@ -40,22 +39,22 @@ export const Profile = () => {
                   <b className="text-black-50">User Info</b>
                 </h4>
                 <Row>
-                  <i className="text-black-50 ml-4"> UserName: {username}</i>
+                  <i className="text-black-50 ml-4"> UserName: {detail.username}</i>
                 </Row>
                 <Row>
-                  <i className="text-black-50 ml-4"> Name:{name}</i>
+                  <i className="text-black-50 ml-4"> Name:{detail.name}</i>
                 </Row>
                 <Row>
-                  <i className="text-black-50 ml-4"> SurName:{lastname}</i>
+                  <i className="text-black-50 ml-4"> SurName:{detail.lastName}</i>
                 </Row>
                 <Row>
-                  <i className="text-black-50 ml-4"> Age: {age}</i>
+                  <i className="text-black-50 ml-4"> Age: {detail.age}</i>
                 </Row>
                 <Row>
-                  <i className="text-black-50 ml-4"> Phone: {phoneNumber}</i>
+                  <i className="text-black-50 ml-4"> Phone: {detail.phoneNumber}</i>
                 </Row>
                 <Row>
-                  <i className="text-black-50 ml-4 "> Email: {email}</i>
+                  <i className="text-black-50 ml-4 "> Email: {detail.email}</i>
                 </Row>
               </div>
             </h5>

@@ -1,7 +1,7 @@
 export interface UserDetailResponse {
   username: string;
   name: string;
-  lastname: string;
+  lastName: string;
   email: string;
   phoneNumber: string;
   age: string;
