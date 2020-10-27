@@ -34,8 +34,8 @@ export const errorInterceptor = (error: AxiosError) => {
     }
   }
 
-  console.log(error.config.url);
-  console.log(errorMessage);
+  /*console.log(error.config.url);
+  console.log(errorMessage);*/
   window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: errorMessage });
 
   };

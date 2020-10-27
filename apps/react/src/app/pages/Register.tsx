@@ -58,7 +58,6 @@ export const Register = () => {
   }, [isSuccessRequired]);
 
   useEffect(() => {
-    console.log("deneme "+ isSuccessRequired)
     if (isAuthenticated && !show) {
       history.push('/');
     }
