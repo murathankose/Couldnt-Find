@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { forgotpasswordAsync } from '@internship/store/authentication';
 import { useHistory } from 'react-router-dom';
-import { useError } from '@internship/shared/hooks';
+import { useTemporary } from '@internship/shared/hooks';
 
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
@@ -48,11 +48,11 @@ export const ForgotPasswordPage = () => {
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isErrorRequired } = useError();
+  const { isErrorRequired } = useTemporary();
   const onChange = (event) => {
     const { name } = event.target;
     if (name === 'email') {
-      window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+      dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     }
   };
 

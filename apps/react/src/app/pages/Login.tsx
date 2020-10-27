@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
-import { useAuthentication, useError, useTemporary } from '@internship/shared/hooks';
-import { Captcha } from '@internship/ui';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
+import { Captcha, Popup, PopupButton } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
@@ -48,9 +48,9 @@ const Container = styled.div`
 
 export const Login = () => {
   const { handleSubmit, register } = useForm();
-  const { isCaptchaRequired } = useTemporary();
+  const { isCaptchaRequired, isErrorRequired } = useTemporary();
   const { isAuthenticated } = useAuthentication();
-  const { isErrorRequired } = useError();
+  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -61,13 +61,17 @@ export const Login = () => {
   const onChange = (event) => {
     const { name } = event.target;
     if (name === 'username' || name === 'password') {
-      window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+      dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     }
   };
-
+//TODO success interceptor eklendiğinde kaldırılacak.
+  const goToMainPage = () => {
+    setShow(false);
+    history.push('/');
+  };
   useEffect(() => {
     if (isAuthenticated) {
-      history.push('/');
+      setShow(true);
     }
   }, [isAuthenticated]);
 
@@ -120,6 +124,12 @@ export const Login = () => {
           >
             <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
           </StyledAnchorTag>
+          <Popup show={show}>
+            Giriş işleminiz başarı ile gerçekleşti.
+            <PopupButton variant="primary" onClick={goToMainPage}>
+              Ana Sayfaya Dön
+            </PopupButton>
+          </Popup>
         </Container>
       </form>
     </StyledApp>
