@@ -48,7 +48,7 @@ const Container = styled.div`
 
 export const Login = () => {
   const { handleSubmit, register, errors } = useForm<Inputs>();
-  const { isCaptchaRequired, isErrorRequired } = useTemporary();
+  const { isCaptchaRequired, isErrorRequired, isSuccessRequired } = useTemporary();
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -64,14 +64,19 @@ export const Login = () => {
       dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     }
   };
-//TODO success interceptor eklendiğinde kaldırılacak.
-  const goToMainPage = () => {
+
+  const checkSubmit = () => {
     setShow(false);
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
     history.push('/');
-  };
+  }
   useEffect(() => {
-    if (isAuthenticated) {
-      setShow(true);
+    setShow(true);
+  }, [isSuccessRequired]);
+
+  useEffect(() => {
+    if (isAuthenticated && !show) {
+      history.push('/');
     }
   }, [isAuthenticated]);
 
@@ -137,12 +142,14 @@ export const Login = () => {
           >
             <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
           </StyledAnchorTag>
-          <Popup show={show}>
-            Giriş işleminiz başarı ile gerçekleşti.
-            <PopupButton variant="primary" onClick={goToMainPage}>
-              Ana Sayfaya Dön
-            </PopupButton>
-          </Popup>
+          {isSuccessRequired ? (
+            <Popup show={show} onHide = {checkSubmit}>
+              {isSuccessRequired}
+              <PopupButton variant="primary" onClick={checkSubmit}>
+                Submit
+              </PopupButton>
+            </Popup>
+          ) : null}
         </Container>
       </form>
     </StyledApp>

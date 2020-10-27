@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { registerAsync } from '@internship/store/authentication';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
+import { Popup, PopupButton } from '@internship/ui';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -38,17 +39,27 @@ const Container = styled.div`
 export const Register = () => {
   const { handleSubmit, register, errors } = useForm<Inputs>();
   const dispatch = useDispatch();
-  const { isErrorRequired } = useTemporary();
+  const { isErrorRequired, isSuccessRequired } = useTemporary();
   const history = useHistory();
   const { isAuthenticated } = useAuthentication();
+  const [show, setShow] = useState(false);
 
   const onSubmit = (values) => {
     dispatch(registerAsync.request(values));
-    history.push('/login');
   };
 
+  const checkSubmit = () => {
+    setShow(false);
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+    history.push('/');
+  }
   useEffect(() => {
-    if (isAuthenticated) {
+    setShow(true);
+  }, [isSuccessRequired]);
+
+  useEffect(() => {
+    console.log("deneme "+ isSuccessRequired)
+    if (isAuthenticated && !show) {
       history.push('/');
     }
   }, [isAuthenticated]);
@@ -113,6 +124,14 @@ export const Register = () => {
             <Link to="/login">Sign in</Link>
           </StyledRow>
           <Button type="submit">Submit</Button>
+          {isSuccessRequired ? (
+            <Popup show={show} onHide = {checkSubmit}>
+              {isSuccessRequired}
+              <PopupButton variant="primary" onClick={checkSubmit}>
+                Submit
+              </PopupButton>
+            </Popup>
+          ) : null}
         </Container>
       </form>
     </StyledApp>
