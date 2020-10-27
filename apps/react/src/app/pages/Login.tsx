@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Row } from 'react-bootstrap';
+import { Alert, Col, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
@@ -47,7 +47,7 @@ const Container = styled.div`
 `;
 
 export const Login = () => {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, errors } = useForm<Inputs>();
   const { isCaptchaRequired, isErrorRequired } = useTemporary();
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
@@ -75,6 +75,11 @@ export const Login = () => {
     }
   }, [isAuthenticated]);
 
+  type Inputs = {
+    username: string,
+    password: string,
+  };
+
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -86,6 +91,10 @@ export const Login = () => {
             </div>
             <div className="col-8">
               <input className="form-control" type="text" name="username" onChange={onChange} ref={register({ required: true })} />
+              {errors.username &&
+              <span>
+                <Alert variant="danger">Enter your username</Alert>
+              </span>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -94,6 +103,10 @@ export const Login = () => {
             </div>
             <div className="col-8">
               <input className="form-control" type="password" name="password" onChange={onChange} ref={register({ required: true })} />
+              {errors.password &&
+              <span>
+                <Alert variant="danger">Enter your password</Alert>
+              </span>}
             </div>
           </StyledRow>
           {isCaptchaRequired ? (
@@ -105,7 +118,7 @@ export const Login = () => {
           ) : null}
           {isErrorRequired ? (
             <>
-              <div className="alert alert-danger">{isErrorRequired}</div>
+              <Alert variant="danger">{isErrorRequired}</Alert>
               <Link to="/forgotpassword">Forgot Password ?</Link>
             </>
           ) : null}

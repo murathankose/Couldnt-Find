@@ -4,14 +4,14 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePasswordAsync } from '@internship/store/authentication';
+import { useTemporary } from '@internship/shared/hooks';
 
 
 export const ChangePassword = () => {
   const { handleSubmit, register, errors } = useForm<Inputs>();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
-  const isErrorRequired = useSelector((store) => store.temp?.errorRequired);
-  const isSuccessfulAction = useSelector((store) => store.temp?.successfulAction);
+  const { isErrorRequired } = useTemporary();
 
   const onSubmit = (values) => {
     dispatch(changePasswordAsync.request(values));
@@ -47,7 +47,7 @@ export const ChangePassword = () => {
             <Form.Control type="password" name="oldPassword" placeholder="Old Password" onChange={onChange} ref={register({ required: true })} />
             {errors.oldPassword &&
             <span>
-              <Alert variant="danger">This field is required</Alert>
+              <Alert variant="danger">Enter your old password</Alert>
             </span>}
           </Col>
         </Form.Group>
@@ -59,7 +59,7 @@ export const ChangePassword = () => {
             <Form.Control type="password" name="newPassword" placeholder="New Password" onChange={onChange} ref={register({ required: true })} />
             {errors.newPassword &&
             <span>
-              <Alert variant="danger">This field is required</Alert>
+              <Alert variant="danger">Enter your new password</Alert>
             </span>}
           </Col>
         </Form.Group>
@@ -71,12 +71,11 @@ export const ChangePassword = () => {
             <Form.Control type="password" name="newPasswordConfirmation" placeholder="Confirm Password" onChange={onChange} ref={register({ required: true })} />
             {errors.newPasswordConfirmation &&
             <span>
-              <Alert variant="danger">This field is required</Alert>
+              <Alert variant="danger">Enter your new password again</Alert>
             </span>}
           </Col>
         </Form.Group>
-        {isErrorRequired ? <Alert variant="danger" onClose={() => setShow(false)} dismissible>{isErrorRequired}</Alert> : null}
-        {isSuccessfulAction ? <Alert variant="success" onClose={() => setShow(false)} dismissible>{isSuccessfulAction}</Alert> : null}
+        {isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}
         <Row className="justify-content-center">
           <Button type="submit">Update</Button>
         </Row>

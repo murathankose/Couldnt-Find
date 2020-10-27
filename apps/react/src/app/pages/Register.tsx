@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Row } from 'react-bootstrap';
+import { Alert, Form, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '@internship/store/authentication';
 import { Link, useHistory } from 'react-router-dom';
-import { useAuthentication } from '@internship/shared/hooks';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -36,8 +36,9 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Register = () => {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, errors } = useForm<Inputs>();
   const dispatch = useDispatch();
+  const { isErrorRequired } = useTemporary();
   const history = useHistory();
   const { isAuthenticated } = useAuthentication();
 
@@ -52,6 +53,19 @@ export const Register = () => {
     }
   }, [isAuthenticated]);
 
+  const onChange = (event) => {
+    const { name } = event.target;
+    if (name === 'username' || name === 'password') {
+      window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+    }
+  };
+
+  type Inputs = {
+    username: string,
+    email: string,
+    password: string,
+  };
+
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -62,7 +76,11 @@ export const Register = () => {
               <label>User Name:</label>
             </div>
             <div className="col-8">
-              <input type="text" name="username" ref={register({ required: true })} />
+              <input type="text" name="username" onChange={onChange} ref={register({ required: true })} />
+              {errors.username &&
+              <span>
+              <Alert variant="danger">Required</Alert>
+            </span>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -70,7 +88,11 @@ export const Register = () => {
               <label>E-mail:</label>
             </div>
             <div className="col-8">
-              <input type="email" name="email" ref={register({ required: true })} />
+              <input type="email" name="email" onChange={onChange} ref={register({ required: true })} />
+              {errors.username &&
+              <span>
+                <Alert variant="danger">Required</Alert>
+              </span>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -78,8 +100,13 @@ export const Register = () => {
               <label>Password:</label>
             </div>
             <div className="col-8">
-              <input type="password" name="password" ref={register({ required: true })} />
+              <input type="password" name="password" onChange={onChange} ref={register({ required: true })} />
+              {errors.username &&
+              <span>
+                <Alert variant="danger">Required</Alert>
+              </span>}
             </div>
+            {isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}
           </StyledRow>
           <StyledRow>
             <p>Already have an account. </p>
