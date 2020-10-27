@@ -75,6 +75,7 @@ export const Login = () => {
   }, [isSuccessRequired]);
 
   useEffect(() => {
+    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     if (isAuthenticated && !show) {
       history.push('/');
     }

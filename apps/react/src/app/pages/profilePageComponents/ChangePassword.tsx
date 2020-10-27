@@ -20,8 +20,6 @@ export const ChangePassword = () => {
     const { name } = event.target;
     if (name === 'newPassword' || name === 'password' || name === 'newPasswordConfirmation') {
       dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
-    }
-    if (name === 'newPassword' || name === 'password' || name === 'newPasswordConfirmation') {
       dispatch({ type: '@temp/SUCCESS_ACTION', payload: null });
     }
   };

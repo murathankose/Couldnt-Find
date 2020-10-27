@@ -58,6 +58,7 @@ export const Register = () => {
   }, [isSuccessRequired]);
 
   useEffect(() => {
+    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     if (isAuthenticated && !show) {
       history.push('/');
     }
@@ -66,7 +67,7 @@ export const Register = () => {
   const onChange = (event) => {
     const { name } = event.target;
     if (name === 'username' || name === 'password') {
-      window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     }
   };
 
