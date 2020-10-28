@@ -3,9 +3,10 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
 import { FaUserAlt } from 'react-icons/all';
 import { useAuthentication } from '@internship/shared/hooks';
-import { logout } from '@internship/store/authentication';
+import {  logoutAsync} from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Popup, PopupButton, Search } from '../../molecules';
+import { getAccessToken, getRefreshToken } from '@internship/shared/utils';
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
@@ -14,9 +15,7 @@ export const Navigation = () => {
   const history = useHistory();
   const location = useLocation();
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
-
   const handleClose = () => {
     setShow(false);
   };
@@ -24,9 +23,12 @@ export const Navigation = () => {
   const handleOpen = () => {
     setShow(true);
   };
-
+  const tokens= {
+    accessToken:getAccessToken(),
+    refreshToken:getRefreshToken()
+  }
   const handleShow = () => {
-    dispatch(logout());
+    dispatch(logoutAsync.request(tokens));
     setShow(false);
     history.push('/');
   };
@@ -79,7 +81,7 @@ export const Navigation = () => {
                     <PopupButton variant="secondary" onClick={handleClose}>
                       HAYIR
                     </PopupButton>
-                    <PopupButton variant="primary" onClick={handleShow}>
+                    <PopupButton type="submit" variant="primary" onClick={handleShow}>
                       EVET
                     </PopupButton>
                   </Popup>

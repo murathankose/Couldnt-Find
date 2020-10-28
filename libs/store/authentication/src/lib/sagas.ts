@@ -1,7 +1,6 @@
 import {
   forgotpasswordAsync,
   loginAsync,
-  logout,
   logoutAsync,
   registerAsync,
   changePasswordAsync,
@@ -41,15 +40,8 @@ function* doForgotPassword({ payload }) {
   }
 }
 
-function doLogout() {
-  if (localStorage.getItem('access_token')) {
-    localStorage.removeItem('cloud_users');
-    removeAccessToken();
-    removeRefreshToken();
-  }
-}
 
-/*function* doLogout({payload}) {
+function* doLogout({payload}) {
   try {
     yield call(api.auth.logout,payload );
     yield put(logoutAsync.success({}));
@@ -62,7 +54,7 @@ function doLogout() {
     console.error(e);
     yield put(logoutAsync.failure(e));
   }
-}*/
+}
 
 function* doRegister({ payload }) {
   try {
@@ -107,11 +99,8 @@ function* watchForgotPassword() {
   yield takeLatest(forgotpasswordAsync.request, doForgotPassword);
 }
 function* watchLogout() {
-  yield takeLatest(logout, doLogout);
-}
-/*function* watchLogout() {
   yield takeLatest(logoutAsync.request, doLogout);
-}*/
+}
 function* watchRegister() {
   yield takeLatest(registerAsync.request, doRegister);
 }

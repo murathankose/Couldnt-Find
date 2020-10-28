@@ -11,7 +11,6 @@ export class AuthResource {
   newpassword = (data: any): Promise<any> => this.axios.post('auth/forgot-password', data, this.axiosRequestConfig).then((r) => r.data);
   logout = (data: any): Promise<any> => this.axios.post('user/logout', data, this.axiosRequestConfig).then((r) => r.data);
   resetpassword = (data: any): Promise<any> => this.axios.post('user/create-new-password', data, this.axiosRequestConfig).then((r) => r.data);
-
   userDetail = (): Promise<UserDetailResponse> => this.axios.get('user/', this.axiosRequestConfig).then((r) => r.data);
   changePassword = (data: any): Promise<any> => this.axios.post('user/change-password', data, this.axiosRequestConfig).then((r) => r.data);
 }
