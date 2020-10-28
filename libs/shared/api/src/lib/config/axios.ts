@@ -25,11 +25,11 @@ export function createAxios(baseConfig: AxiosRequestConfig) {
 
   // Response Interceptors
   instance.interceptors.response.use(loginInterceptor);
-  instance.interceptors.response.use(successInterceptor);
 
   instance.interceptors.response.use((c) =>c, captchaRequiredInterceptor);
   instance.interceptors.response.use((c) =>c, refreshTokenInterceptor);
   instance.interceptors.response.use((c) =>c, errorInterceptor);
+  instance.interceptors.response.use((c) =>c, successInterceptor);
   return instance;
 }
 
