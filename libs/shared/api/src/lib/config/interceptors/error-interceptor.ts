@@ -44,6 +44,6 @@ export const errorInterceptor = (error: AxiosError, axios: AxiosInstance = axios
       errorMessage = err[error.config.url]['400-2'];
     }
   }
-
   window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: errorMessage });
+  throw error;
 };
