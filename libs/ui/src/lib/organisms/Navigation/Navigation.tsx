@@ -15,7 +15,9 @@ export const Navigation = () => {
   const history = useHistory();
   const location = useLocation();
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+
   const handleClose = () => {
     setShow(false);
   };
@@ -23,10 +25,7 @@ export const Navigation = () => {
   const handleOpen = () => {
     setShow(true);
   };
-  const tokens= {
-    accessToken:getAccessToken(),
-    refreshToken:getRefreshToken()
-  }
+
   const handleShow = () => {
     dispatch(logoutAsync.request(tokens));
     setShow(false);
