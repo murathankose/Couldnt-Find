@@ -25,6 +25,10 @@ export const Navigation = () => {
   const handleOpen = () => {
     setShow(true);
   };
+  const tokens= {
+    accessToken:getAccessToken(),
+    refreshToken:getRefreshToken()
+  }
 
   const handleShow = () => {
     dispatch(logoutAsync.request(tokens));
