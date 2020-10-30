@@ -1,5 +1,5 @@
 import { Alert, Col, Container, Form, Row } from 'react-bootstrap';
-import { Button } from '@internship/ui';
+import { Button, Popup, PopupButton } from '@internship/ui';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ export const ChangePassword = () => {
   const { handleSubmit, register, errors } = useForm<Inputs>();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
-  const { isErrorRequired } = useTemporary();
+  const { isErrorRequired, isSuccessRequired } = useTemporary();
 
   const onSubmit = (values) => {
     dispatch(changePasswordAsync.request(values));
@@ -82,6 +82,7 @@ export const ChangePassword = () => {
           </Col>
         </Form.Group>
         {isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}
+        {isSuccessRequired ? <Alert variant="success">{isSuccessRequired}</Alert> : null}
         <Row className="justify-content-center">
           <Button type="submit">Update</Button>
         </Row>

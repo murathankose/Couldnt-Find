@@ -24,6 +24,7 @@ export const Navigation = () => {
 
   const handleOpen = () => {
     setShow(true);
+    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null});
   };
   const tokens= {
     accessToken:getAccessToken(),
@@ -54,24 +55,24 @@ export const Navigation = () => {
         <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbar">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-brand">
-              <NavLink exact to="/" className="nav-link">
+              <NavLink exact to="/" className="nav-link" onClick={()=>dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
                 Home
               </NavLink>
             </li>
             <li className="nav-link">
-              <NavLink to="/about" className="nav-link">
+              <NavLink to="/about" className="nav-link" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>
                 About
               </NavLink>
             </li>
             <li className="nav-link">
-              <NavLink to="/contact" className="nav-link">
+              <NavLink to="/contact" className="nav-link" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload  : null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>
                 Contact Us
               </NavLink>
             </li>
             {isAuthenticated ? (
               <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
                 <li className="nav-link">
-                  <NavLink to="/profile" className="nav-link active bg-primary w-50 rounded">
+                  <NavLink to="/profile" className="nav-link active bg-primary w-50 rounded" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>
                     Profile
                   </NavLink>
                 </li>
@@ -93,10 +94,10 @@ export const Navigation = () => {
             ) : (
               <NavDropdown className="nav-link" title="Account" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#">
-                  <NavLink to="/register">Sign Up</NavLink>
+                  <NavLink to="/register" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>Sign Up</NavLink>
                 </NavDropdown.Item>
                 <NavDropdown.Item href="#">
-                  <NavLink to="/login">Sign In</NavLink>
+                  <NavLink to="/login" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>Sign In</NavLink>
                 </NavDropdown.Item>
               </NavDropdown>
             )}
