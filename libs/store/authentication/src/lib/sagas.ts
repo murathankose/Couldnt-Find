@@ -1,14 +1,6 @@
-import {
-  forgotpasswordAsync,
-  loginAsync,
-  logoutAsync,
-  registerAsync,
-  changePasswordAsync,
-  resetpasswordAsync,
-  updateAsync
-} from './actions';
-import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { api } from "@internship/shared/api";
+import { changePasswordAsync, forgotpasswordAsync, loginAsync, logoutAsync, registerAsync, resetpasswordAsync, updateAsync } from './actions';
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
+import { api } from '@internship/shared/api';
 import { removeAccessToken, removeRefreshToken } from '@internship/shared/utils';
 
 function* doLogin({ payload }) {
@@ -23,7 +15,7 @@ function* doLogin({ payload }) {
 }
 function* doResetPassword({ payload }) {
   try {
-   yield call(api.auth.resetpassword, payload);
+    yield call(api.auth.resetpassword, payload);
     yield put(resetpasswordAsync.success({}));
   } catch (e) {
     console.error(e);
@@ -40,10 +32,9 @@ function* doForgotPassword({ payload }) {
   }
 }
 
-
-function* doLogout({payload}) {
+function* doLogout({ payload }) {
   try {
-    yield call(api.auth.logout,payload );
+    yield call(api.auth.logout, payload);
     yield put(logoutAsync.success({}));
     if (localStorage.getItem('access_token')) {
       localStorage.removeItem('cloud_users');
@@ -112,5 +103,13 @@ function* watchChangePassword() {
 }
 
 export function* authenticationSaga() {
-  yield all([fork(watchLogin), fork(watchRegister), fork(watchLogout), fork(watchUpdate), fork(watchForgotPassword), fork(watchResetPassword), fork(watchChangePassword)]);
+  yield all([
+    fork(watchLogin),
+    fork(watchRegister),
+    fork(watchLogout),
+    fork(watchUpdate),
+    fork(watchForgotPassword),
+    fork(watchResetPassword),
+    fork(watchChangePassword),
+  ]);
 }
