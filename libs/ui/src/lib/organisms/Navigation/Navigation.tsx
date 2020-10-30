@@ -3,7 +3,7 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
 import { FaUserAlt } from 'react-icons/all';
 import { useAuthentication } from '@internship/shared/hooks';
-import {  logoutAsync} from '@internship/store/authentication';
+import { logoutAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Popup, PopupButton, Search } from '../../molecules';
 import { getAccessToken, getRefreshToken } from '@internship/shared/utils';
@@ -24,12 +24,13 @@ export const Navigation = () => {
 
   const handleOpen = () => {
     setShow(true);
-    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null});
+    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
   };
-  const tokens= {
-    accessToken:getAccessToken(),
-    refreshToken:getRefreshToken()
-  }
+  const tokens = {
+    accessToken: getAccessToken(),
+    refreshToken: getRefreshToken(),
+  };
 
   const handleShow = () => {
     dispatch(logoutAsync.request(tokens));
@@ -38,7 +39,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
+    <nav className="navbar navbar-expand-sm bg-primary  navbar-dark">
       <div className="container">
         <button
           className="custom-toggler navbar-toggler"
@@ -55,29 +56,50 @@ export const Navigation = () => {
         <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbar">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-brand">
-              <NavLink exact to="/" className="nav-link" onClick={()=>dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
+              <NavLink exact to="/" className="nav-link" onClick={() => dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
                 Home
               </NavLink>
             </li>
             <li className="nav-link">
-              <NavLink to="/about" className="nav-link" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>
+              <NavLink
+                to="/about"
+                className="nav-link"
+                onClick={() => {
+                  dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                  dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                }}
+              >
                 About
               </NavLink>
             </li>
             <li className="nav-link">
-              <NavLink to="/contact" className="nav-link" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload  : null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>
+              <NavLink
+                to="/contact"
+                className="nav-link"
+                onClick={() => {
+                  dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                  dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                }}
+              >
                 Contact Us
               </NavLink>
             </li>
             {isAuthenticated ? (
               <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
-                <li className="nav-link">
-                  <NavLink to="/profile" className="nav-link active bg-primary w-50 rounded" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>
+                <NavDropdown.Item href="#">
+                  <NavLink
+                    to="/profile"
+                    type="button"
+                    onClick={() => {
+                      dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                      dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                    }}
+                  >
                     Profile
                   </NavLink>
-                </li>
-                <li className="nav-link">
-                  <NavLink type="button" to={location.pathname} className="nav-link active bg-primary w-50  rounded" onClick={handleOpen}>
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#">
+                  <NavLink type="button" to={location.pathname} onClick={handleOpen}>
                     Logout
                   </NavLink>
                   <Popup show={show} onHide={handleClose}>
@@ -89,20 +111,36 @@ export const Navigation = () => {
                       EVET
                     </PopupButton>
                   </Popup>
-                </li>
+                </NavDropdown.Item>
               </NavDropdown>
             ) : (
               <NavDropdown className="nav-link" title="Account" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#">
-                  <NavLink to="/register" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>Sign Up</NavLink>
+                  <NavLink
+                    to="/register"
+                    onClick={() => {
+                      dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                      dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                    }}
+                  >
+                    Sign Up
+                  </NavLink>
                 </NavDropdown.Item>
                 <NavDropdown.Item href="#">
-                  <NavLink to="/login" onClick={()=>{dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });}}>Sign In</NavLink>
+                  <NavLink
+                    to="/login"
+                    onClick={() => {
+                      dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                      dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                    }}
+                  >
+                    Sign In
+                  </NavLink>
                 </NavDropdown.Item>
               </NavDropdown>
             )}
-            <Search />
           </ul>
+          <Search />
         </div>
       </div>
     </nav>

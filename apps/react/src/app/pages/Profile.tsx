@@ -87,7 +87,7 @@ export const Profile = () => {
           {inEditMode && (
             <>
               <Button className="btn btn-danger" disabled={!inEditMode} onClick={() => setInEditMode(false)}>
-                X Edit Profile Close
+                X
               </Button>
               <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
             </>
@@ -95,7 +95,7 @@ export const Profile = () => {
           {inChangePassword && (
             <>
               <Button className="btn btn-danger" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
-                X Change Password Close
+                X
               </Button>
               <ChangePassword />
             </>
