@@ -1,5 +1,5 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { UserDetailResponse } from "./types";
+import { SessionDetailResponse, UserDetailResponse } from './types';
 
 export class AuthResource {
   constructor(private axios: AxiosInstance = axiosStatic, private axiosRequestConfig: AxiosRequestConfig = {}) {}
@@ -13,4 +13,12 @@ export class AuthResource {
   resetpassword = (data: any): Promise<any> => this.axios.post('user/create-new-password', data, this.axiosRequestConfig).then((r) => r.data);
   userDetail = (): Promise<UserDetailResponse> => this.axios.get('user/', this.axiosRequestConfig).then((r) => r.data);
   changePassword = (data: any): Promise<any> => this.axios.post('user/change-password', data, this.axiosRequestConfig).then((r) => r.data);
+  sessionDetail = (): Promise<SessionDetailResponse[]> => this.axios.get('/user/active-sessions', this.axiosRequestConfig).then((r) => r.data);
+  deleteSession = (authorizationToken:string, token:string): Promise<any> => this.axios.delete('/user/logout-from-session', {headers: {
+      Authorization: authorizationToken
+    },
+    params: {
+      token: token
+    }}).then((r) => r.data);
+
 }

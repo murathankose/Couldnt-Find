@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { EditProfile } from './profilePageComponents/EditProfile';
+import { EditProfile, ChangePassword, EditSession } from './profilePageComponents';
 import { Button, Col, Row } from 'react-bootstrap';
 import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
-import ChangePassword from './profilePageComponents/ChangePassword';
 import { useAuthentication } from '@internship/shared/hooks';
 import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 export const Profile = () => {
   const [inEditMode, setInEditMode] = useState(false);
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
+  const [sessionInfo, setSessionInfo] = useState(false);
   const [detail, setDetail] = useState<UserDetailResponse>();
   const { isAuthenticated } = useAuthentication();
   const history = useHistory();
@@ -31,7 +33,14 @@ export const Profile = () => {
   const changeValues = () => {
     setInEditMode(true);
     setInChangePassword(false);
+    setSessionInfo(false);
   };
+
+  const editSessionInfo = () => {
+    setSessionInfo(true);
+    setInChangePassword(false);
+    setInEditMode(false);
+  }
 
   return (
     <div>
@@ -68,7 +77,7 @@ export const Profile = () => {
                 </Row>
               </div>
             </h5>
-            <Button className="btn btn-success" disabled={inEditMode} onClick={changeValues}>
+            <Button className="btn  btn-success mt-2" disabled={inEditMode} onClick={changeValues}>
               Edit Profile
             </Button>
             <Button
@@ -77,29 +86,41 @@ export const Profile = () => {
               onClick={() => {
                 setInChangePassword(true);
                 setInEditMode(false);
+                setSessionInfo(false);
               }}
             >
               Change Password
+            </Button>
+            <Button className="btn  btn-success mt-2" disabled={sessionInfo} onClick={editSessionInfo}>
+              Session Info
             </Button>
           </div>
         </Col>
         <Col sm={6}>
           {inEditMode && (
             <>
-              <Button className="btn btn-danger" disabled={!inEditMode} onClick={() => setInEditMode(false)}>
-                X
+              <Button className="btn btn-danger mb-3" disabled={!inEditMode} onClick={() => setInEditMode(false)}>
+                <FontAwesomeIcon icon={faTimes} />
               </Button>
               <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
             </>
           )}
           {inChangePassword && (
             <>
-              <Button className="btn btn-danger" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
-                X
+              <Button className="btn btn-danger mb-3" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
+                <FontAwesomeIcon icon={faTimes} />
               </Button>
               <ChangePassword />
             </>
           )}
+          {sessionInfo ? (
+            <>
+              <Button className="btn btn-danger mb-3" disabled={!sessionInfo} onClick={() => setSessionInfo(false)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </Button>
+              <EditSession />
+            </>
+          ):(null)}
         </Col>
       </Row>
     </div>

@@ -7,3 +7,10 @@ export interface UserDetailResponse {
   age: string;
   image: string;
 }
+
+export interface  SessionDetailResponse {
+  refreshToken: string;
+  userAgent: string;
+  expireDate: string;
+  issueDate: string;
+}
