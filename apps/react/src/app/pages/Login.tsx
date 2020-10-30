@@ -103,6 +103,12 @@ export const Login = () => {
               </span>}
             </div>
           </StyledRow>
+          <StyledRow>
+            <div className="col-8">
+              <input type="checkbox" name="rememberMe" onChange={onChange} ref={register({ required: false })} /> ,
+              <label htmlFor="rememberMe">Remember me</label>
+            </div>
+          </StyledRow>
           {isCaptchaRequired ? (
             <StyledRow>
               <div className="col-8">
