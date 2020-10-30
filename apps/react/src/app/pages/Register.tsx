@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { registerAsync } from '@internship/store/authentication';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
-import { Popup, PopupButton } from '@internship/ui';
+import { Button, Popup, PopupButton } from '@internship/ui';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -15,25 +15,12 @@ const StyledApp = styled.div`
 const StyledRow = styled(Row)`
   margin-bottom: 1rem;
 `;
-const Button = styled.button`
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  background-color: #007bff;
-`;
 const H4 = styled.h4`
   margin-top: 2rem;
   margin-bottom: 2rem;
 `;
 const Container = styled.div`
   display: inline-block;
-  border: ridge;
   padding: 4.5rem;
 `;
 export const Register = () => {
@@ -80,14 +67,14 @@ export const Register = () => {
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <H4>Enter your information to create an account.</H4>
+        <H4 className="text text-center">Enter your information to create an account.</H4>
         <Container>
           <StyledRow>
-            <div className="col-4">
-              <label>User Name:</label>
+            <div className="col-4 mt-2">
+              <label>User Name</label>
             </div>
             <div className="col-8">
-              <input type="text" name="username" onChange={onChange} ref={register({ required: true })} />
+              <input className="form-control" placeholder="Enter username" type="text" name="username" onChange={onChange} ref={register({ required: true })} />
               {errors.username &&
               <span>
               <Alert variant="danger">Required</Alert>
@@ -95,11 +82,11 @@ export const Register = () => {
             </div>
           </StyledRow>
           <StyledRow>
-            <div className="col-4">
-              <label>E-mail:</label>
+            <div className="col-4 mt-2 ml-n3">
+              <label>E-mail</label>
             </div>
-            <div className="col-8">
-              <input type="email" name="email" onChange={onChange} ref={register({ required: true })} />
+            <div className="col-8 ml-sm-3">
+              <input className="form-control" placeholder="Enter email" type="email" name="email" onChange={onChange} ref={register({ required: true })} />
               {errors.username &&
               <span>
                 <Alert variant="danger">Required</Alert>
@@ -107,11 +94,11 @@ export const Register = () => {
             </div>
           </StyledRow>
           <StyledRow>
-            <div className="col-4">
-              <label>Password:</label>
+            <div className="col-4 mt-2 ml-n1">
+              <label>Password</label>
             </div>
-            <div className="col-8">
-              <input type="password" name="password" onChange={onChange} ref={register({ required: true })} />
+            <div className="col-8 ml-sm-1">
+              <input className="form-control" placeholder="Enter password" type="password" name="password" onChange={onChange} ref={register({ required: true })} />
               {errors.username &&
               <span>
                 <Alert variant="danger">Required</Alert>
@@ -120,10 +107,14 @@ export const Register = () => {
             {isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}
           </StyledRow>
           <StyledRow>
-            <p>Already have an account. </p>
-            <Link to="/login">Sign in</Link>
+            <div className="col-5 ml-sm-1">
+              <label>Already have an account.</label>
+            </div>
+            <div className="col-3">
+              <Link to="/login">Sign in</Link>
+            </div>
           </StyledRow>
-          <Button type="submit">Submit</Button>
+          <Button variant="outline-primary" type="submit">Submit</Button>
           {isSuccessRequired ? (
             <Popup show={show} onHide = {checkSubmit}>
               {isSuccessRequired}

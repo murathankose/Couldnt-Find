@@ -17,8 +17,13 @@ const err = {
   'user/edit': {
     '400-1': 'Email is already in use!',
     '400-2': 'You did not update anything'
-  }
-
+  },
+'auth/forgot-password':{
+    '400':'No such user',
+},
+  'user/create-new-password':{
+    '400':'Something is wrong with that token!',
+  },
 };
 export const errorInterceptor = (error: AxiosError, axios: AxiosInstance = axiosStatic) => {
   let errorMessage = err[error.config.url][error.response?.status];
