@@ -75,7 +75,7 @@ export const ForgotPasswordPage = () => {
             </>
           ) : null}
 
-          <Button variant="outline-primary" type="submit">New Password Submit</Button>
+          <Button variant="outline-primary" type="submit" disable={isSuccessRequired}>New Password Submit</Button>
         </Container>
       </form>
     </StyledApp>

@@ -14,12 +14,15 @@ const success = {
   },
   'user/create-new-password':{
     '200':'The password was changed'
+  },
+  'user/edit': {
+    '200': 'User update success.',
   }
 };
 export const successInterceptor = (res: AxiosResponse) => {
   if (res?.config.url.endsWith('/signin') || res?.config.url.endsWith('/sign-up')
     || res?.config.url.endsWith('/change-password')|| res?.config.url.endsWith('/create-new-password')
-    || res?.config.url.endsWith('/forgot-password')) {
+    || res?.config.url.endsWith('/forgot-password')|| res?.config.url.endsWith('/edit')) {
     const successMessage = success[res.config.url][res?.status];
     window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
   }

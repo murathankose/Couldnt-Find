@@ -15,8 +15,8 @@ const err = {
     '400-2': 'Password fields does not match'
   },
   'user/edit': {
-    '400-1': 'Email is already in use!',
-    '400-2': 'You did not update anything'
+    '400': 'Email is already in use!',
+    '500':'Phone Number Error'
   },
 'auth/forgot-password':{
     '400':'No such user',
@@ -36,20 +36,6 @@ export const errorInterceptor = (error: AxiosError, axios: AxiosInstance = axios
   }
 
   if (error.config.url === 'auth/sign-up' && error.response?.status === 400) {
-    if (error.response?.data.error.toString() === 'Email is already in use!') {
-      errorMessage = err[error.config.url]['400-1'];
-    } else {
-      errorMessage = err[error.config.url]['400-2'];
-    }
-  }
-  if (error.config.url === 'user/edit' && error.response?.status === 400) {
-    if (error.response?.data.error.toString() === 'Email is already in use!') {
-      errorMessage = err[error.config.url]['400-1'];
-    } else {
-      errorMessage = err[error.config.url]['400-2'];
-    }
-  }
-  if (error.config.url === 'user/edit' && error.response?.status === 400) {
     if (error.response?.data.error.toString() === 'Email is already in use!') {
       errorMessage = err[error.config.url]['400-1'];
     } else {

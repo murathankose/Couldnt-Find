@@ -5,6 +5,7 @@ import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
 import { useAuthentication } from '@internship/shared/hooks';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 export const Profile = () => {
@@ -15,7 +16,7 @@ export const Profile = () => {
   const [detail, setDetail] = useState<UserDetailResponse>();
   const { isAuthenticated } = useAuthentication();
   const history = useHistory();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     api.auth
       .userDetail()
@@ -34,7 +35,10 @@ export const Profile = () => {
     setInEditMode(true);
     setInChangePassword(false);
     setSessionInfo(false);
+    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
   };
+
 
   const editSessionInfo = () => {
     setSessionInfo(true);
@@ -86,6 +90,8 @@ export const Profile = () => {
               onClick={() => {
                 setInChangePassword(true);
                 setInEditMode(false);
+                dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
                 setSessionInfo(false);
               }}
             >
@@ -99,15 +105,31 @@ export const Profile = () => {
         <Col sm={6}>
           {inEditMode && (
             <>
-              <Button className="btn btn-danger mb-3" disabled={!inEditMode} onClick={() => setInEditMode(false)}>
-                <FontAwesomeIcon icon={faTimes} />
+              <Button
+                className="btn btn-danger"
+                disabled={!inEditMode}
+                onClick={() => {
+                  setInEditMode(false);
+                  dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                  dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                }}
+              >
+               <FontAwesomeIcon icon={faTimes} />
               </Button>
               <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
             </>
           )}
           {inChangePassword && (
             <>
-              <Button className="btn btn-danger mb-3" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
+              <Button
+                className="btn btn-danger"
+                disabled={!inChangePassword}
+                onClick={() => {
+                  setInChangePassword(false);
+                  dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                  dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                }}
+              >
                 <FontAwesomeIcon icon={faTimes} />
               </Button>
               <ChangePassword />

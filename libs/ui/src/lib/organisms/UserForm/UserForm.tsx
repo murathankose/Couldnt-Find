@@ -1,10 +1,11 @@
-import { Card, Col, Collapse, Container, Form, Row } from 'react-bootstrap';
+import { Alert, Card, Col, Collapse, Container, Form, Row } from 'react-bootstrap';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { updateAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../atoms/Button';
+import { useTemporary } from '@internship/shared/hooks';
 
 type UserFormProps = {
   setEditUserInfo;
@@ -15,12 +16,22 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
   const { handleSubmit, register } = useForm();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const { isErrorRequired, isSuccessRequired } = useTemporary();
+
   const onSubmit = (values) => {
     dispatch(updateAsync.request(values));
     setEditUserInfo(true);
-    setInEditMode(false);
   };
+
+  if (isErrorRequired !== null) {
+    setInEditMode(true);
+  }
+  if (isSuccessRequired !== null) {
+    setInEditMode(false);
+    setEditUserInfo(true);
+  }
   const onChange = () => {
+    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     setOpen(true);
   };
 
@@ -47,7 +58,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="name" placeholder="Name"  onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="name" placeholder="Name" onChange={onChange} ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="lastname">
@@ -82,8 +93,15 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           <Form.Control name="bio" onChange={onChange} as="textarea" rows={5} ref={register({ required: false })} />
         </Col>
       </Form.Group>
+      {isErrorRequired ? (
+        <>
+          <Alert variant="danger">{isErrorRequired}</Alert>
+        </>
+      ) : null}
       <Row className="justify-content-end">
-        <Button type="submit" disabled={!open}>Update</Button>
+        <Button type="submit" disabled={!open}>
+          Update
+        </Button>
       </Row>
     </Form>
   );
