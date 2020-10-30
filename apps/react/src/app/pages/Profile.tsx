@@ -86,16 +86,16 @@ export const Profile = () => {
         <Col sm={6}>
           {inEditMode && (
             <>
-              <Button className="btn btn-success" disabled={!inEditMode} onClick={() => setInEditMode(false)}>
-                Edit Profile Close
+              <Button className="btn btn-danger" disabled={!inEditMode} onClick={() => setInEditMode(false)}>
+                X Edit Profile Close
               </Button>
               <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
             </>
           )}
           {inChangePassword && (
             <>
-              <Button className="btn btn-success" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
-                Change Password Close
+              <Button className="btn btn-danger" disabled={!inChangePassword} onClick={() => setInChangePassword(false)}>
+                X Change Password Close
               </Button>
               <ChangePassword />
             </>

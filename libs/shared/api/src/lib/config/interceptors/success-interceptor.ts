@@ -17,13 +17,12 @@ const success = {
   }
 };
 export const successInterceptor = (res: AxiosResponse) => {
-  const successMessage = success[res.config.url][res?.status];
   if (res?.config.url.endsWith('/signin') || res?.config.url.endsWith('/sign-up')
-    || res?.config.url.endsWith('/change-password')) {
+    || res?.config.url.endsWith('/change-password')|| res?.config.url.endsWith('/create-new-password')
+    || res?.config.url.endsWith('/forgot-password')) {
     const successMessage = success[res.config.url][res?.status];
     window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
   }
-  window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
 
   return res;
 };

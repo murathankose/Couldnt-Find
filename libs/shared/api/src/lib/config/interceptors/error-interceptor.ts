@@ -49,6 +49,13 @@ export const errorInterceptor = (error: AxiosError, axios: AxiosInstance = axios
       errorMessage = err[error.config.url]['400-2'];
     }
   }
+  if (error.config.url === 'user/edit' && error.response?.status === 400) {
+    if (error.response?.data.error.toString() === 'Email is already in use!') {
+      errorMessage = err[error.config.url]['400-1'];
+    } else {
+      errorMessage = err[error.config.url]['400-2'];
+    }
+  }
   window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: errorMessage });
   throw error;
 };
