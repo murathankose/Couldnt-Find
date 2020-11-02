@@ -7,6 +7,7 @@ import { registerAsync } from '@internship/store/authentication';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Button, Popup, PopupButton } from '@internship/ui';
+import getFieldValue from 'react-hook-form/dist/logic/getFieldValue';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -30,7 +31,8 @@ export const Register = () => {
   const history = useHistory();
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
-
+  const [btnEnable,setBtnEnable]=useState(true);
+  const [passworderror, setPasswordError] = useState('');
   const onSubmit = (values) => {
     dispatch(registerAsync.request(values));
   };
@@ -39,7 +41,7 @@ export const Register = () => {
     setShow(false);
     dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
     history.push('/');
-  }
+  };
   useEffect(() => {
     setShow(true);
   }, [isSuccessRequired]);
@@ -54,16 +56,38 @@ export const Register = () => {
   const onChange = (event) => {
     const { name } = event.target;
     if (name === 'username' || name === 'password') {
-     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+      dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+    }
+    if (name === 'password') {
+      const firstPassword = event.target.value;
+      if (firstPassword.length < 6 || firstPassword.length>20) {
+        setPasswordError('Şifre en az 6 en fazla 20 karakter olmalı');
+        setBtnEnable(true);
+      }
+      else if(firstPassword.search(/[A-Z]/)<0){
+        setPasswordError('Şifre en az 1 tane büyük harf içermeli');
+        setBtnEnable(true);
+      }
+      else if(firstPassword.search(/[a-z]/)<0){
+        setPasswordError('Şifre en az 1 tane küçük harf içermeli');
+        setBtnEnable(true);
+      }
+      else if(firstPassword.search(/[0-9]/)<0){
+        setPasswordError('Şifre en az 1 rakam içermeli');
+        setBtnEnable(true);
+      }
+      else {
+        setPasswordError('');
+        setBtnEnable(false);
+      }
     }
   };
 
   type Inputs = {
-    username: string,
-    email: string,
-    password: string,
+    username: string;
+    email: string;
+    password: string;
   };
-
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,11 +98,19 @@ export const Register = () => {
               <label>User Name</label>
             </div>
             <div className="col-8">
-              <input className="form-control" placeholder="Enter username" type="text" name="username" onChange={onChange} ref={register({ required: true })} />
-              {errors.username &&
-              <span>
-              <Alert variant="danger">Required</Alert>
-            </span>}
+              <input
+                className="form-control"
+                placeholder="Enter username"
+                type="text"
+                name="username"
+                onChange={onChange}
+                ref={register({ required: true })}
+              />
+              {errors.username && (
+                <span>
+                  <Alert variant="danger">Required</Alert>
+                </span>
+              )}
             </div>
           </StyledRow>
           <StyledRow>
@@ -86,11 +118,19 @@ export const Register = () => {
               <label>E-mail</label>
             </div>
             <div className="col-8 ml-sm-3">
-              <input className="form-control" placeholder="Enter email" type="email" name="email" onChange={onChange} ref={register({ required: true })} />
-              {errors.username &&
-              <span>
-                <Alert variant="danger">Required</Alert>
-              </span>}
+              <input
+                className="form-control"
+                placeholder="Enter email"
+                type="email"
+                name="email"
+                onChange={onChange}
+                ref={register({ required: true })}
+              />
+              {errors.username && (
+                <span>
+                  <Alert variant="danger">Required</Alert>
+                </span>
+              )}
             </div>
           </StyledRow>
           <StyledRow>
@@ -98,13 +138,26 @@ export const Register = () => {
               <label>Password</label>
             </div>
             <div className="col-8 ml-sm-1">
-              <input className="form-control" placeholder="Enter password" type="password" name="password" onChange={onChange} ref={register({ required: true })} />
-              {errors.username &&
-              <span>
-                <Alert variant="danger">Required</Alert>
-              </span>}
+              <input
+                className={passworderror ? 'form-control is-invalid' : 'form-control'}
+                placeholder="Enter password"
+                type="password"
+                name="password"
+                onChange={onChange}
+                ref={register({ required: true })}
+              />
+              <div className="invalid-feedback">{passworderror}</div>
+              {errors.username && (
+                <span>
+                  <Alert variant="danger">Required</Alert>
+                </span>
+              )}
             </div>
-            {isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}
+          </StyledRow>
+          <StyledRow>
+            <div className="mr-auto">
+              {isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}
+            </div>
           </StyledRow>
           <StyledRow>
             <div className="col-5 ml-sm-1">
@@ -114,9 +167,11 @@ export const Register = () => {
               <Link to="/login">Sign in</Link>
             </div>
           </StyledRow>
-          <Button variant="outline-primary" type="submit">Submit</Button>
+          <Button variant="outline-primary" disabled={btnEnable} type="submit">
+            Submit
+          </Button>
           {isSuccessRequired ? (
-            <Popup show={show} onHide = {checkSubmit}>
+            <Popup show={show} onHide={checkSubmit}>
               {isSuccessRequired}
               <PopupButton variant="primary" onClick={checkSubmit}>
                 Submit
