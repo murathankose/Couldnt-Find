@@ -1,12 +1,36 @@
 import React from 'react';
+import { faCheck, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
+const StyledIcon = styled(FontAwesomeIcon)`
+  color: green;
+  margin-right: 1rem;
+  margin-left: 1rem;
+`;
+
+const StyledH2 = styled.h2`
+  margin-top: 2rem;
+  text-align-last: center;
+  color: blue;
+`;
 
 export const MailSuccessPage = () => {
   return (
-      <div className="container">
-        <h2 className="text-center text-muted text-primary">Forgot Password ?</h2>
-      </div>
+    <div className="container">
+      <StyledH2>
+        <StyledIcon icon={faCheck} />
+        Mailiniz Başarı ile Aktive edilmiştir.
+        <StyledIcon icon={faCheck} />
+      </StyledH2>
 
+      <StyledH2>
+        Giriş Yapmak için{' '}
+        <Link to="/login">
+          <StyledIcon icon={faChevronCircleRight} />
+        </Link>
+      </StyledH2>
+    </div>
   );
 };
-
