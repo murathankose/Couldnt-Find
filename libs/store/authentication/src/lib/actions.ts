@@ -38,6 +38,7 @@ export const logoutAsync = createAsyncAction('@Authentication/LOGOUT_REQUEST', '
   any,
   AxiosError
 >();
+export const updateLogout = createAction('@Authentication/UPDATE_LOGOUT')();
 
 export const resetpasswordAsync = createAsyncAction(
   '@Authentication/RESETPASSWORD_REQUEST',

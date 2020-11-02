@@ -116,7 +116,7 @@ export const Profile = () => {
               >
                <FontAwesomeIcon icon={faTimes} />
               </Button>
-              <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} />
+              <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} userInfo={detail}/>
             </>
           )}
           {inChangePassword && (

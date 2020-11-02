@@ -1,4 +1,13 @@
-import { changePasswordAsync, forgotpasswordAsync, loginAsync, logoutAsync, registerAsync, resetpasswordAsync, updateAsync } from './actions';
+import {
+  changePasswordAsync,
+  forgotpasswordAsync,
+  loginAsync,
+  logoutAsync,
+  registerAsync,
+  resetpasswordAsync,
+  updateAsync,
+  updateLogout
+} from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
 import { removeAccessToken, removeRefreshToken } from '@internship/shared/utils';
@@ -29,6 +38,15 @@ function* doForgotPassword({ payload }) {
   } catch (e) {
     console.error(e);
     yield put(forgotpasswordAsync.failure(e));
+  }
+}
+
+function doUpdateLogout() {
+  console.log("deneme2");
+  if (localStorage.getItem('access_token')) {
+    localStorage.removeItem('cloud_users');
+    removeAccessToken();
+    removeRefreshToken();
   }
 }
 
@@ -101,6 +119,9 @@ function* watchUpdate() {
 function* watchChangePassword() {
   yield takeLatest(changePasswordAsync.request, doChangePassword);
 }
+function* watchUpdateLogout() {
+  yield takeLatest(updateLogout, doUpdateLogout);
+}
 
 export function* authenticationSaga() {
   yield all([
@@ -111,5 +132,6 @@ export function* authenticationSaga() {
     fork(watchForgotPassword),
     fork(watchResetPassword),
     fork(watchChangePassword),
+    fork(watchUpdateLogout),
   ]);
 }

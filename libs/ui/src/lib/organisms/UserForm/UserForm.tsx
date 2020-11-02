@@ -1,38 +1,64 @@
-import { Alert, Card, Col, Collapse, Container, Form, Row } from 'react-bootstrap';
+import { Alert, Col, Form, Row } from 'react-bootstrap';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { updateAsync } from '@internship/store/authentication';
+import { updateAsync, updateLogout } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../atoms/Button';
 import { useTemporary } from '@internship/shared/hooks';
+import { Popup, PopupButton } from '../../molecules/Popup';
+import { useHistory } from 'react-router-dom';
 
 type UserFormProps = {
   setEditUserInfo;
   setInEditMode;
+  userInfo;
 };
 
-export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMode }) => {
+export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMode, userInfo }) => {
   const { handleSubmit, register } = useForm();
   const [open, setOpen] = useState(false);
+  const [logoutPopup, setLogoutPopup] = useState(false);
+  const [successPopup, setSuccessPopup] = useState(false);
+  const [changeEmail, setChangeEmail] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { isErrorRequired, isSuccessRequired } = useTemporary();
 
   const onSubmit = (values) => {
+    if (values.email !== '') {
+      setChangeEmail(true);
+    }
     dispatch(updateAsync.request(values));
-    setEditUserInfo(true);
   };
+
+  if (isSuccessRequired !== null && !logoutPopup && !successPopup) {
+    {
+      changeEmail ? setLogoutPopup(true) : setSuccessPopup(true);
+    }
+  }
 
   if (isErrorRequired !== null) {
     setInEditMode(true);
   }
-  if (isSuccessRequired !== null) {
-    setInEditMode(false);
-    setEditUserInfo(true);
-  }
+
   const onChange = () => {
     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     setOpen(true);
+  };
+
+  const forceLogout = () => {
+    setLogoutPopup(false);
+    dispatch(updateLogout());
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+    history.push('/');
+  };
+
+  const successPopupFunction = () => {
+    setSuccessPopup(false);
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+    setInEditMode(false);
+    setEditUserInfo(true);
   };
 
   return (
@@ -42,7 +68,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Username
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="username" placeholder="Username" readOnly />
+          <Form.Control name="username" placeholder={userInfo?.username} readOnly />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="email">
@@ -50,7 +76,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Email
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="email" type="email" placeholder="Email" onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="email" type="email" placeholder={userInfo?.email} onChange={onChange} ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="name">
@@ -58,7 +84,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="name" placeholder="Name" onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="name" placeholder={userInfo?.name} onChange={onChange} ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="lastname">
@@ -66,7 +92,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Last Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="lastname" placeholder="Last Name" onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="lastname" placeholder={userInfo?.lastName} onChange={onChange} ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="age">
@@ -74,7 +100,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Age
         </Form.Label>
         <Col sm={4}>
-          <Form.Control name="age" placeholder="Age" onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="age" placeholder={userInfo?.age} onChange={onChange} ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="phoneNumber">
@@ -82,7 +108,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Phone Number
         </Form.Label>
         <Col sm={4}>
-          <Form.Control name="phoneNumber" placeholder="Phone Number" onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="phoneNumber" placeholder={userInfo?.phoneNumber} onChange={onChange} ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="bio">
@@ -103,6 +129,23 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Update
         </Button>
       </Row>
+      {logoutPopup ? (
+        <Popup show={logoutPopup} onHide={forceLogout}>
+          E-mail'inizi değiştirdiğiniz için çıkış yaptırılıyorsunuz.
+          <br /> Lütfen yeni mailinize gelen aktivasyonu onaylayıp tekrardan giriş yapınız.
+          <PopupButton variant="primary" onClick={forceLogout}>
+            Logout
+          </PopupButton>
+        </Popup>
+      ) : null}
+      {successPopup ? (
+        <Popup show={successPopup} onHide={successPopupFunction}>
+          {isSuccessRequired}
+          <PopupButton variant="primary" onClick={successPopupFunction}>
+            Submit
+          </PopupButton>
+        </Popup>
+      ) : null}
     </Form>
   );
 };

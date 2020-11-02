@@ -23,9 +23,8 @@ export const EditSession = () => {
   const deleteSession = (token) => {
     if (token !== getRefreshToken()) {
       const accessToken = getAccessToken();
-      api.auth.deleteSession(`Bearer ${accessToken}`, token).catch((e) => console.error(e));
+      api.auth.deleteSession(`Bearer ${accessToken}`, token).then(()=>{setSessionInfo(!sessionInfo);}).catch((e) => console.error(e));
 
-      setSessionInfo(!sessionInfo);
     } else {
       setSameAccount(true);
     }
