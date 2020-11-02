@@ -7,7 +7,6 @@ import { registerAsync } from '@internship/store/authentication';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Button, Popup, PopupButton } from '@internship/ui';
-import getFieldValue from 'react-hook-form/dist/logic/getFieldValue';
 
 const StyledApp = styled.div`
   font-family: sans-serif;

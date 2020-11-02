@@ -29,6 +29,9 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
     if (values.email !== '') {
       setChangeEmail(true);
     }
+    else {
+      setChangeEmail(false);
+    }
     dispatch(updateAsync.request(values));
   };
 
