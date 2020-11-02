@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { EditProfile, ChangePassword, EditSession } from './profilePageComponents';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { api, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
 import { useAuthentication } from '@internship/shared/hooks';
@@ -47,7 +47,7 @@ export const Profile = () => {
   }
 
   return (
-    <div>
+    <Container>
       <h2>Profile Page</h2>
       <Row>
         <Col sm={6}>
@@ -145,6 +145,6 @@ export const Profile = () => {
           ):(null)}
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 };

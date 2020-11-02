@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, Col, Row } from 'react-bootstrap';
+import { Alert, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
@@ -9,6 +9,7 @@ import { Button, Captcha, Popup, PopupButton } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
+
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;

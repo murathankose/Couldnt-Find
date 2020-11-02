@@ -1,9 +1,10 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 
 export const MainPage = () => {
   return (
-    <div>
+    <Container>
       <h2>MainPage</h2>
-    </div>
+    </Container>
   );
 };
