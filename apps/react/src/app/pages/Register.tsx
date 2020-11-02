@@ -80,6 +80,29 @@ export const Register = () => {
         setBtnEnable(false);
       }
     }
+    if (name === 'password') {
+      const firstPassword = event.target.value;
+      if (firstPassword.length < 6 || firstPassword.length>20) {
+        setPasswordError('Şifre en az 6 en fazla 20 karakter olmalı');
+        setBtnEnable(true);
+      }
+      else if(firstPassword.search(/[A-Z]/)<0){
+        setPasswordError('Şifre en az 1 tane büyük harf içermeli');
+        setBtnEnable(true);
+      }
+      else if(firstPassword.search(/[a-z]/)<0){
+        setPasswordError('Şifre en az 1 tane küçük harf içermeli');
+        setBtnEnable(true);
+      }
+      else if(firstPassword.search(/[0-9]/)<0){
+        setPasswordError('Şifre en az 1 rakam içermeli');
+        setBtnEnable(true);
+      }
+        else {
+        setPasswordError('');
+        setBtnEnable(false);
+      }
+    }
   };
 
   type Inputs = {
@@ -98,17 +121,15 @@ export const Register = () => {
             </div>
             <div className="col-8">
               <input
-                className="form-control"
+                className={errors.username ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter username"
                 type="text"
                 name="username"
                 onChange={onChange}
                 ref={register({ required: true })}
               />
-              {errors.username && (
-                <span>
-                  <Alert variant="danger">Required</Alert>
-                </span>
+              {errors.email && (
+                <div className="invalid-feedback">Enter your email</div>
               )}
             </div>
           </StyledRow>
@@ -118,7 +139,7 @@ export const Register = () => {
             </div>
             <div className="col-8 ml-sm-3">
               <input
-                className="form-control"
+                className={errors.email ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter email"
                 type="email"
                 name="email"
@@ -126,9 +147,7 @@ export const Register = () => {
                 ref={register({ required: true })}
               />
               {errors.username && (
-                <span>
-                  <Alert variant="danger">Required</Alert>
-                </span>
+                <div className="invalid-feedback">Enter your username</div>
               )}
             </div>
           </StyledRow>

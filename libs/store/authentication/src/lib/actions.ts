@@ -38,7 +38,6 @@ export const logoutAsync = createAsyncAction('@Authentication/LOGOUT_REQUEST', '
   any,
   AxiosError
 >();
-export const updateLogout = createAction('@Authentication/UPDATE_LOGOUT')();
 
 export const resetpasswordAsync = createAsyncAction(
   '@Authentication/RESETPASSWORD_REQUEST',
@@ -47,6 +46,7 @@ export const resetpasswordAsync = createAsyncAction(
 )<ResetPasswordRequest, any, AxiosError>();
 
 export const googleLogin = createAction('@Authentication/GOOGLE_LOGIN')();
+export const updateLogout = createAction('@Authentication/UPDATE_LOGOUT')();
 
 export const changePasswordAsync = createAsyncAction(
   '@Authentication/CHANGE_PASSWORD_REQUEST',

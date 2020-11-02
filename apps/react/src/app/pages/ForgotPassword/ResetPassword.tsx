@@ -60,7 +60,24 @@ export const ResetPassword = (props) => {
       setPasswordError('Şifre Eşleşmedi');
       dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
       setEnable(false);
-    } else {
+    }
+   else if (firstPassword.length < 6 || firstPassword.length>20) {
+      setPasswordError('Şifre en az 6 en fazla 20 karakter olmalı');
+      setEnable(false);
+    }
+    else if(firstPassword.search(/[A-Z]/)<0){
+      setPasswordError('Şifre en az 1 tane büyük harf içermeli');
+      setEnable(false);
+    }
+    else if(firstPassword.search(/[a-z]/)<0){
+      setPasswordError('Şifre en az 1 tane küçük harf içermeli');
+      setEnable(false);
+    }
+    else if(firstPassword.search(/[0-9]/)<0){
+      setPasswordError('Şifre en az 1 rakam içermeli');
+      setEnable(false);
+    }
+    else {
       setPasswordError('');
       setEnable(true);
     }

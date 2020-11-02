@@ -57,7 +57,7 @@ export const Login = () => {
     setShow(false);
     dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
     history.push('/');
-  }
+  };
   useEffect(() => {
     setShow(true);
   }, [isSuccessRequired]);
@@ -70,8 +70,8 @@ export const Login = () => {
   }, [isAuthenticated]);
 
   type Inputs = {
-    username: string,
-    password: string,
+    username: string;
+    password: string;
   };
 
   return (
@@ -84,11 +84,15 @@ export const Login = () => {
               <label>User Name</label>
             </div>
             <div className="col-8 ">
-              <input className="form-control" placeholder="Enter username" type="text" name="username" onChange={onChange} ref={register({ required: true })} />
-              {errors.username &&
-              <span>
-                <Alert variant="danger">Enter your username</Alert>
-              </span>}
+              <input
+                className={errors.username ? 'form-control is-invalid' : 'form-control'}
+                placeholder="Enter username"
+                type="text"
+                name="username"
+                onChange={onChange}
+                ref={register({ required: true })}
+              />
+              {errors.username && <div className="invalid-feedback">Enter your username</div>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -96,11 +100,15 @@ export const Login = () => {
               <label>Password</label>
             </div>
             <div className="col-8 ml-sm-1">
-              <input className="form-control" placeholder="Enter password" type="password" name="password" onChange={onChange} ref={register({ required: true })} />
-              {errors.password &&
-              <span>
-                <Alert variant="danger">Enter your password</Alert>
-              </span>}
+              <input
+                className={errors.password ? 'form-control is-invalid' : 'form-control'}
+                placeholder="Enter password"
+                type="password"
+                name="password"
+                onChange={onChange}
+                ref={register({ required: true })}
+              />
+              {errors.password && <div className="invalid-feedback">Enter your password</div>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -119,7 +127,9 @@ export const Login = () => {
           {isErrorRequired ? (
             <>
               <Alert variant="danger">{isErrorRequired}</Alert>
-              <Link type="button" to="/forgotpassword" onClick={()=>dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>Forgot Password ?</Link>
+              <Link type="button" to="/forgotpassword" onClick={() => dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
+                Forgot Password ?
+              </Link>
             </>
           ) : null}
           <StyledRow>
@@ -130,7 +140,9 @@ export const Login = () => {
               <Link to="/register">Sign Up</Link>
             </div>
           </StyledRow>
-          <Button variant="outline-primary" type="submit">Login</Button>
+          <Button variant="outline-primary" type="submit">
+            Login
+          </Button>
           <StyledAnchorTag
             className="btn btn-block btn-info"
             href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth"
@@ -138,7 +150,7 @@ export const Login = () => {
             <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
           </StyledAnchorTag>
           {isSuccessRequired ? (
-            <Popup show={show} onHide = {checkSubmit}>
+            <Popup show={show} onHide={checkSubmit}>
               {isSuccessRequired}
               <PopupButton variant="primary" onClick={checkSubmit}>
                 Submit

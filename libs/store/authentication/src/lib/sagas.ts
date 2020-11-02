@@ -1,9 +1,9 @@
 import {
-  changePasswordAsync,
   forgotpasswordAsync,
   loginAsync,
   logoutAsync,
   registerAsync,
+  changePasswordAsync,
   resetpasswordAsync,
   updateAsync,
   updateLogout
