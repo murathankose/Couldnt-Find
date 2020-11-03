@@ -7,13 +7,16 @@ import { registerAsync } from '@internship/store/authentication';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Button, Popup, PopupButton } from '@internship/ui';
-
+import _ from 'lodash/fp';
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
 `;
 const StyledRow = styled(Row)`
   margin-bottom: 1rem;
+`;
+const StyledP = styled.p`
+  color: #bf1650;
 `;
 const H4 = styled.h4`
   margin-top: 2rem;
@@ -30,8 +33,6 @@ export const Register = () => {
   const history = useHistory();
   const { isAuthenticated } = useAuthentication();
   const [show, setShow] = useState(false);
-  const [btnEnable,setBtnEnable]=useState(true);
-  const [passworderror, setPasswordError] = useState('');
   const onSubmit = (values) => {
     dispatch(registerAsync.request(values));
   };
@@ -56,52 +57,6 @@ export const Register = () => {
     const { name } = event.target;
     if (name === 'username' || name === 'password') {
       dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
-    }
-    if (name === 'password') {
-      const firstPassword = event.target.value;
-      if (firstPassword.length < 6 || firstPassword.length>20) {
-        setPasswordError('Şifre en az 6 en fazla 20 karakter olmalı');
-        setBtnEnable(true);
-      }
-      else if(firstPassword.search(/[A-Z]/)<0){
-        setPasswordError('Şifre en az 1 tane büyük harf içermeli');
-        setBtnEnable(true);
-      }
-      else if(firstPassword.search(/[a-z]/)<0){
-        setPasswordError('Şifre en az 1 tane küçük harf içermeli');
-        setBtnEnable(true);
-      }
-      else if(firstPassword.search(/[0-9]/)<0){
-        setPasswordError('Şifre en az 1 rakam içermeli');
-        setBtnEnable(true);
-      }
-      else {
-        setPasswordError('');
-        setBtnEnable(false);
-      }
-    }
-    if (name === 'password') {
-      const firstPassword = event.target.value;
-      if (firstPassword.length < 6 || firstPassword.length>20) {
-        setPasswordError('Şifre en az 6 en fazla 20 karakter olmalı');
-        setBtnEnable(true);
-      }
-      else if(firstPassword.search(/[A-Z]/)<0){
-        setPasswordError('Şifre en az 1 tane büyük harf içermeli');
-        setBtnEnable(true);
-      }
-      else if(firstPassword.search(/[a-z]/)<0){
-        setPasswordError('Şifre en az 1 tane küçük harf içermeli');
-        setBtnEnable(true);
-      }
-      else if(firstPassword.search(/[0-9]/)<0){
-        setPasswordError('Şifre en az 1 rakam içermeli');
-        setBtnEnable(true);
-      }
-        else {
-        setPasswordError('');
-        setBtnEnable(false);
-      }
     }
   };
 
@@ -128,9 +83,7 @@ export const Register = () => {
                 onChange={onChange}
                 ref={register({ required: true })}
               />
-              {errors.email && (
-                <div className="invalid-feedback">Enter your email</div>
-              )}
+              {_.get('username.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -146,9 +99,7 @@ export const Register = () => {
                 onChange={onChange}
                 ref={register({ required: true })}
               />
-              {errors.username && (
-                <div className="invalid-feedback">Enter your username</div>
-              )}
+              {_.get('email.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -157,25 +108,28 @@ export const Register = () => {
             </div>
             <div className="col-8 ml-sm-1">
               <input
-                className={passworderror ? 'form-control is-invalid' : 'form-control'}
+                className={errors.password ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter password"
                 type="password"
                 name="password"
                 onChange={onChange}
-                ref={register({ required: true })}
+                ref={register({
+                  required: true,
+                  maxLength: 20,
+                  minLength: 6,
+                  pattern: /^[A-Za-z]+[0-9]/i,
+                })}
               />
-              <div className="invalid-feedback">{passworderror}</div>
-              {errors.username && (
-                <span>
-                  <Alert variant="danger">Required</Alert>
-                </span>
+              {_.get('password.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
+              {_.get('password.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
+              {_.get('password.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
+              {_.get('password.type', errors) === 'pattern' && (
+                <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a number.</StyledP>
               )}
             </div>
           </StyledRow>
           <StyledRow>
-            <div className="mr-auto">
-              {isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}
-            </div>
+            <div className="mr-auto">{isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}</div>
           </StyledRow>
           <StyledRow>
             <div className="col-5 ml-sm-1">
@@ -185,7 +139,7 @@ export const Register = () => {
               <Link to="/login">Sign in</Link>
             </div>
           </StyledRow>
-          <Button variant="outline-primary" disabled={btnEnable} type="submit">
+          <Button variant="outline-primary" type="submit">
             Submit
           </Button>
           {isSuccessRequired ? (

@@ -9,14 +9,16 @@ import { Button, Captcha, Popup, PopupButton } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
-
+import _ from 'lodash/fp';
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;
   font-weight: 400;
   font-size: 16px;
 `;
-
+const StyledP = styled.p`
+  color: #bf1650;
+`;
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
@@ -93,7 +95,7 @@ export const Login = () => {
                 onChange={onChange}
                 ref={register({ required: true })}
               />
-              {errors.username && <div className="invalid-feedback">Enter your username</div>}
+              {_.get('username.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -109,7 +111,7 @@ export const Login = () => {
                 onChange={onChange}
                 ref={register({ required: true })}
               />
-              {errors.password && <div className="invalid-feedback">Enter your password</div>}
+              {_.get('password.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>

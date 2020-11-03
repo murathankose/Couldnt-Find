@@ -7,14 +7,16 @@ import { forgotpasswordAsync } from '@internship/store/authentication';
 import { useHistory } from 'react-router-dom';
 import { useTemporary } from '@internship/shared/hooks';
 import { Button } from '@internship/ui';
-
+import _ from 'lodash/fp';
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;
   font-weight: 400;
   font-size: 16px;
 `;
-
+const StyledP = styled.p`
+  color: #bf1650;
+`;
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
@@ -23,7 +25,6 @@ const StyledApp = styled.div`
 const StyledRow = styled(Row)`
   margin-bottom: 1rem;
 `;
-
 
 const H4 = styled.h4`
   margin-top: 2rem;
@@ -35,10 +36,10 @@ const Container = styled.div`
 `;
 
 export const ForgotPasswordPage = () => {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isErrorRequired, isSuccessRequired} = useTemporary();
+  const { isErrorRequired, isSuccessRequired } = useTemporary();
   const onChange = (event) => {
     const { name } = event.target;
     if (name === 'email') {
@@ -61,7 +62,15 @@ export const ForgotPasswordPage = () => {
               <label>The mail address of the account to be recovered</label>
             </div>
             <div className="col-8">
-              <input className="form-control" placeholder="Enter e-mail" type="email" name="email" onChange={onChange} ref={register({ required: true })} />
+              <input
+                className={errors.email ? 'form-control is-invalid' : 'form-control'}
+                placeholder="Enter e-mail"
+                type="email"
+                name="email"
+                onChange={onChange}
+                ref={register({ required: true })}
+              />
+              {_.get('email.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           {isErrorRequired ? (
@@ -75,7 +84,9 @@ export const ForgotPasswordPage = () => {
             </>
           ) : null}
 
-          <Button variant="outline-primary" type="submit" disable={isSuccessRequired}>New Password Submit</Button>
+          <Button variant="outline-primary" type="submit" disable={isSuccessRequired}>
+            New Password Submit
+          </Button>
         </Container>
       </form>
     </StyledApp>
