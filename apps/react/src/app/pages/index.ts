@@ -5,5 +5,5 @@ export * from './MainPage';
 export * from './OAuth2RedirectHandler';
 export * from './Profile';
 export * from './Register';
-export * from './MailSuccess';
+export * from './MailActivation';
 export * from './ForgotPassword';

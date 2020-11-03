@@ -1,4 +1,5 @@
-import { AxiosError } from 'axios';
+import axiosStatic, { AxiosError, AxiosInstance } from 'axios';
+import { getRefreshToken, setAccessToken } from '@internship/shared/utils';
 
 const err = {
   'auth/signin': {
@@ -16,36 +17,48 @@ const err = {
   },
   'user/edit': {
     '400': 'Email is already in use!',
-    '500': 'Phone Number Error'
+    '500':'Phone Number Error'
   },
-  'auth/forgot-password': {
-    '400': 'No such user'
+'auth/forgot-password':{
+    '400':'No such user',
+},
+  'user/create-new-password':{
+    '400':'Something is wrong with that token!',
   },
-  'user/create-new-password': {
-    '400': 'Something is wrong with that token!'
-  }
+  'api/auth/send-email':{
+    '400':'Bu mail ile uygun bir kullanıcı bulamadık. Lütfen kayıt olunuz.',
+  },
 };
 export const errorInterceptor = (error: AxiosError) => {
-  let errorMessage = err[error.config.url][error.response?.status];
+  let errorMessage = null;
   if (error.config.url === 'user/change-password' && error.response?.status === 400) {
     if (error.response?.data.error.toString() === 'Your old password is not correct') {
       errorMessage = err[error.config.url]['400-1'];
     } else {
       errorMessage = err[error.config.url]['400-2'];
     }
-  } else if (error.config.url === 'auth/sign-up' && error.response?.status === 400) {
+  }
+  else if (error.config.url === 'auth/sign-up' && error.response?.status === 400) {
     if (error.response?.data.error.toString() === 'Email is already in use!') {
       errorMessage = err[error.config.url]['400-1'];
     } else {
       errorMessage = err[error.config.url]['400-2'];
     }
-  } else if (error.config.url === 'auth/signin' && error.response?.status === 401) {
+  }
+  else if (error.config.url === 'auth/signin' && error.response?.status === 401) {
     if (error.response?.data.error.toString() === 'Account not activated. Please activate your account!') {
       errorMessage = err[error.config.url]['401-2'];
     } else {
       errorMessage = err[error.config.url]['401'];
     }
   }
+  else if (error.response?.data.path.toString() === 'api/auth/send-email' && error.response?.status === 400) {
+      errorMessage = err[error.response?.data.path.toString()]['400'];
+  }
+  else {
+     errorMessage = err[error.config.url][error.response?.status];
+  }
+
   window['UGLY_STORE'].dispatch({ type: '@temp/ERROR_REQUIRED', payload: errorMessage });
   throw error;
 };

@@ -24,7 +24,7 @@ function* doLogin({ payload }) {
 }
 function* doResetPassword({ payload }) {
   try {
-    yield call(api.auth.resetpassword, payload);
+    yield call(api.auth.resetPassword, payload);
     yield put(resetpasswordAsync.success({}));
   } catch (e) {
     console.error(e);
@@ -33,7 +33,7 @@ function* doResetPassword({ payload }) {
 }
 function* doForgotPassword({ payload }) {
   try {
-    yield call(api.auth.newpassword, payload);
+    yield call(api.auth.newPassword, payload);
     yield put(forgotpasswordAsync.success({}));
   } catch (e) {
     console.error(e);

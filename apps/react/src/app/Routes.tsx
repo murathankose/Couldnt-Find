@@ -4,7 +4,7 @@ import {
   About,
   Contact,
   ForgotPasswordPage,
-  Login,
+  Login, MailErrorPage,
   MailSuccessPage,
   MainPage,
   OAuth2RedirectHandler,
@@ -25,6 +25,7 @@ export const Routes = ({ children, ...props }) => {
       <Route path="/profile" component={Profile} />
       <Route path="/auth" component={OAuth2RedirectHandler} />
       <Route exact path="/mailsuccess" component={MailSuccessPage} />
+      <Route exact path="/mailerror" component={MailErrorPage} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
     </Router>

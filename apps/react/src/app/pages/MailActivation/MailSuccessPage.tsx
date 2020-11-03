@@ -3,6 +3,7 @@ import { faCheck, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 
 const StyledIcon = styled(FontAwesomeIcon)`
   color: green;
@@ -18,7 +19,7 @@ const StyledH2 = styled.h2`
 
 export const MailSuccessPage = () => {
   return (
-    <div className="container">
+    <Container>
       <StyledH2>
         <StyledIcon icon={faCheck} />
         Mailiniz Başarı ile Aktive edilmiştir.
@@ -31,6 +32,6 @@ export const MailSuccessPage = () => {
           <StyledIcon icon={faChevronCircleRight} />
         </Link>
       </StyledH2>
-    </div>
+    </Container>
   );
 };
