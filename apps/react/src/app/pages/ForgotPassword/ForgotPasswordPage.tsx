@@ -8,12 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useTemporary } from '@internship/shared/hooks';
 import { Button } from '@internship/ui';
 import _ from 'lodash/fp';
-const StyledAnchorTag = styled.a`
-  margin-bottom: 15px;
-  margin-top: 7px;
-  font-weight: 400;
-  font-size: 16px;
-`;
+
 const StyledP = styled.p`
   color: #bf1650;
 `;
@@ -74,14 +69,10 @@ export const ForgotPasswordPage = () => {
             </div>
           </StyledRow>
           {isErrorRequired ? (
-            <>
-              <div className="alert alert-danger">{isErrorRequired}</div>
-            </>
+            <div className="alert alert-danger">{isErrorRequired}</div>
           ) : null}
           {isSuccessRequired ? (
-            <>
-              <div className="alert alert-success">{isSuccessRequired}</div>
-            </>
+            <div className="alert alert-success">{isSuccessRequired}</div>
           ) : null}
 
           <Button variant="outline-primary" type="submit" disable={isSuccessRequired}>

@@ -23,7 +23,9 @@ export const EditSession = () => {
   const deleteSession = (token) => {
     if (token !== getRefreshToken()) {
       const accessToken = getAccessToken();
-      api.auth.deleteSession(`Bearer ${accessToken}`, token).then(()=>{setSessionInfo(!sessionInfo);}).catch((e) => console.error(e));
+      api.auth.deleteSession(`Bearer ${accessToken}`, token).then(() => {
+        setSessionInfo(!sessionInfo);
+      }).catch((e) => console.error(e));
 
     } else {
       setSameAccount(true);
@@ -51,7 +53,7 @@ export const EditSession = () => {
                   <br />
                   issueDate: {d.issueDate}
                 </Row>
-                <Button className="btn btn-danger my-2" onClick={()=>deleteSession(d.refreshToken)}>
+                <Button className="btn btn-danger my-2" onClick={() => deleteSession(d.refreshToken)}>
                   <FontAwesomeIcon icon={faTrash} />
                 </Button>
               </li>

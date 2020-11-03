@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 export const Profile = () => {
   const [inEditMode, setInEditMode] = useState(false);
   const [inChangePassword, setInChangePassword] = useState(false);
@@ -44,7 +45,7 @@ export const Profile = () => {
     setSessionInfo(true);
     setInChangePassword(false);
     setInEditMode(false);
-  }
+  };
 
   return (
     <Container>
@@ -54,7 +55,8 @@ export const Profile = () => {
           <div className="card text-center">
             <div className="card-header">
               <h3>Welcome</h3>
-              <ProfileImage width="200" height="200" alt={`${detail?.username} profile picture`} image={detail?.image} />
+              <ProfileImage width="200" height="200" alt={`${detail?.username} profile picture`}
+                            image={detail?.image} />
             </div>
             <h5>
               <div>
@@ -114,9 +116,9 @@ export const Profile = () => {
                   dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
                 }}
               >
-               <FontAwesomeIcon icon={faTimes} />
+                <FontAwesomeIcon icon={faTimes} />
               </Button>
-              <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} userInfo={detail}/>
+              <EditProfile setInEditMode={setInEditMode} setEditUserInfo={setEditUserInfo} userInfo={detail} />
             </>
           )}
           {inChangePassword && (
@@ -142,7 +144,7 @@ export const Profile = () => {
               </Button>
               <EditSession />
             </>
-          ):(null)}
+          ) : null}
         </Col>
       </Row>
     </Container>

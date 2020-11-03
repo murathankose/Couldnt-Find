@@ -3,18 +3,13 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { Col, Row } from 'react-bootstrap';
-import { forgotpasswordAsync, resetpasswordAsync } from '@internship/store/authentication';
+import { Row } from 'react-bootstrap';
+import { resetpasswordAsync } from '@internship/store/authentication';
 import { getUrlParameter } from '@internship/shared/utils';
 import { useTemporary } from '@internship/shared/hooks';
 import { Button } from '@internship/ui';
 import _ from 'lodash/fp';
-const StyledAnchorTag = styled.a`
-  margin-bottom: 15px;
-  margin-top: 7px;
-  font-weight: 400;
-  font-size: 16px;
-`;
+
 const StyledP = styled.p`
   color: #bf1650;
 `;
@@ -61,8 +56,7 @@ export const ResetPassword = (props) => {
       setPasswordError('Şifre Eşleşmedi');
       dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
       setEnable(true);
-    }
-    else {
+    } else {
       setPasswordError('');
       setEnable(false);
     }
@@ -87,10 +81,13 @@ export const ResetPassword = (props) => {
                   ref={register({ required: true, maxLength: 20, minLength: 6, pattern: /^[A-Za-z]+[0-9]/i })}
                 />
                 {_.get('newPassword.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-                {_.get('newPassword.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-                {_.get('newPassword.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
+                {_.get('newPassword.type', errors) === 'maxLength' &&
+                <StyledP>Password cannot exceed 20 characters</StyledP>}
+                {_.get('newPassword.type', errors) === 'minLength' &&
+                <StyledP>Password cannot be less than 6 characters</StyledP>}
                 {_.get('newPassword.type', errors) === 'pattern' && (
-                  <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a number.</StyledP>
+                  <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a
+                    number.</StyledP>
                 )}
                 <div className="invalid-feedback">{passworderror}</div>
               </div>
@@ -107,24 +104,24 @@ export const ResetPassword = (props) => {
                   onChange={onChange}
                   ref={register({ required: true, maxLength: 20, minLength: 6, pattern: /^[A-Za-z]+[0-9]/i })}
                 />
-                {_.get('newPasswordConfirmation.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-                {_.get('newPasswordConfirmation.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-                {_.get('newPasswordConfirmation.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
+                {_.get('newPasswordConfirmation.type', errors) === 'required' &&
+                <StyledP>This field is required</StyledP>}
+                {_.get('newPasswordConfirmation.type', errors) === 'maxLength' &&
+                <StyledP>Password cannot exceed 20 characters</StyledP>}
+                {_.get('newPasswordConfirmation.type', errors) === 'minLength' &&
+                <StyledP>Password cannot be less than 6 characters</StyledP>}
                 {_.get('newPasswordConfirmation.type', errors) === 'pattern' && (
-                  <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a number.</StyledP>
+                  <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a
+                    number.</StyledP>
                 )}
                 <div className="invalid-feedback">{passworderror}</div>
               </div>
             </StyledRow>
             {isErrorRequired ? (
-              <>
-                <div className="alert alert-danger">{isErrorRequired}</div>
-              </>
+              <div className="alert alert-danger">{isErrorRequired}</div>
             ) : null}
             {isSuccessRequired ? (
-              <>
-                <div className="alert alert-success">{isSuccessRequired}</div>
-              </>
+              <div className="alert alert-success">{isSuccessRequired}</div>
             ) : null}
             <Button variant="outline-primary" type="submit" disabled={enable}>
               Confirm Password
@@ -140,8 +137,8 @@ export const ResetPassword = (props) => {
           pathname: '/',
           state: {
             from: props.location,
-            error: error,
-          },
+            error: error
+          }
         }}
       />
     );

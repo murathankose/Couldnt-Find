@@ -10,7 +10,7 @@ import {
   OAuth2RedirectHandler,
   Profile,
   Register,
-  ResetPassword,
+  ResetPassword
 } from './pages';
 
 export const Routes = ({ children, ...props }) => {

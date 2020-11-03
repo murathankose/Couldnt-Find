@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, Form, Row } from 'react-bootstrap';
+import { Alert, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '@internship/store/authentication';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Button, Popup, PopupButton } from '@internship/ui';
 import _ from 'lodash/fp';
+
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
@@ -117,14 +118,17 @@ export const Register = () => {
                   required: true,
                   maxLength: 20,
                   minLength: 6,
-                  pattern: /^[A-Za-z]+[0-9]/i,
+                  pattern: /^[A-Za-z]+[0-9]/i
                 })}
               />
               {_.get('password.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-              {_.get('password.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-              {_.get('password.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
+              {_.get('password.type', errors) === 'maxLength' &&
+              <StyledP>Password cannot exceed 20 characters</StyledP>}
+              {_.get('password.type', errors) === 'minLength' &&
+              <StyledP>Password cannot be less than 6 characters</StyledP>}
               {_.get('password.type', errors) === 'pattern' && (
-                <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a number.</StyledP>
+                <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a
+                  number.</StyledP>
               )}
             </div>
           </StyledRow>

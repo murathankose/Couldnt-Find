@@ -14,7 +14,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({ setInEditMode, setEdit
       <Row>
         <h3>Edit Profile</h3>
       </Row>
-      <UserForm setEditUserInfo={setEditUserInfo} setInEditMode={setInEditMode} userInfo={userInfo}/>
+      <UserForm setEditUserInfo={setEditUserInfo} setInEditMode={setInEditMode} userInfo={userInfo} />
     </Container>
   );
 };

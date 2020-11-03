@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
 import _ from 'lodash/fp';
+
 const StyledAnchorTag = styled.a`
   margin-bottom: 15px;
   margin-top: 7px;
@@ -130,7 +131,8 @@ export const Login = () => {
           {isErrorRequired ? (
             <>
               <Alert variant="danger">{isErrorRequired}</Alert>
-              <Link type="button" to="/forgotpassword" onClick={() => dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
+              <Link type="button" to="/forgotpassword"
+                    onClick={() => dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
                 Forgot Password ?
               </Link>
             </>

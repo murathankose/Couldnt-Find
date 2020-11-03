@@ -1,5 +1,5 @@
 import { Alert, Col, Container, Form, Row } from 'react-bootstrap';
-import { Button, Popup, PopupButton } from '@internship/ui';
+import { Button } from '@internship/ui';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import { changePasswordAsync } from '@internship/store/authentication';
 import { useTemporary } from '@internship/shared/hooks';
 import _ from 'lodash/fp';
 import styled from 'styled-components';
+
 const StyledP = styled.p`
   color: #bf1650;
 `;
@@ -75,10 +76,13 @@ export const ChangePassword = () => {
               ref={register({ required: true, maxLength: 20, minLength: 6, pattern: /^[A-Za-z]+[0-9]/i })}
             />
             {_.get('newPassword.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-            {_.get('newPassword.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-            {_.get('newPassword.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
+            {_.get('newPassword.type', errors) === 'maxLength' &&
+            <StyledP>Password cannot exceed 20 characters</StyledP>}
+            {_.get('newPassword.type', errors) === 'minLength' &&
+            <StyledP>Password cannot be less than 6 characters</StyledP>}
             {_.get('newPassword.type', errors) === 'pattern' && (
-              <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a number.</StyledP>
+              <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a
+                number.</StyledP>
             )}
             <div className="invalid-feedback">{passworderror}</div>
           </Col>
@@ -97,10 +101,13 @@ export const ChangePassword = () => {
               ref={register({ required: true, maxLength: 20, minLength: 6, pattern: /^[A-Za-z]+[0-9]/i })}
             />
             {_.get('newPasswordConfirmation.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-            {_.get('newPasswordConfirmation.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-            {_.get('newPasswordConfirmation.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
+            {_.get('newPasswordConfirmation.type', errors) === 'maxLength' &&
+            <StyledP>Password cannot exceed 20 characters</StyledP>}
+            {_.get('newPasswordConfirmation.type', errors) === 'minLength' &&
+            <StyledP>Password cannot be less than 6 characters</StyledP>}
             {_.get('newPasswordConfirmation.type', errors) === 'pattern' && (
-              <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a number.</StyledP>
+              <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a
+                number.</StyledP>
             )}
             <div className="invalid-feedback">{passworderror}</div>
           </Col>
