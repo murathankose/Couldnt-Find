@@ -52,7 +52,7 @@ export const errorInterceptor = (error: AxiosError) => {
       errorMessage = err[error.config.url]['401'];
     }
   }
-  else if (error.response?.data.path.toString() === 'api/auth/send-email' && error.response?.status === 400) {
+  else if (error.response?.data.path?.toString() === 'api/auth/send-email' && error.response?.status === 400) {
       errorMessage = err[error.response?.data.path.toString()]['400'];
   }
   else {

@@ -36,6 +36,5 @@ export class AuthResource {
         },
       })
       .then((r) => r.data);
-  sendActivation = (data: string): Promise<string> =>
-    this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
+  sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
 }

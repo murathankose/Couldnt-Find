@@ -28,9 +28,8 @@ export const successInterceptor = (res: AxiosResponse) => {
     || res?.config.url.endsWith('/change-password')|| res?.config.url.endsWith('/create-new-password')
     || res?.config.url.endsWith('/forgot-password')|| res?.config.url.endsWith('/edit')) {
     successMessage = success[res.config.url][res?.status];
-    window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
   }
-  else if(res?.data.path.toString()==='api/auth/send-email' && res?.status === 200){
+  else if(res?.data.path?.toString()==='api/auth/send-email' && res?.status === 200){
     successMessage = success[res?.data.path.toString()]['200'];
   }
     window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
