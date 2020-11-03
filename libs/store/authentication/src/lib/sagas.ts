@@ -42,7 +42,6 @@ function* doForgotPassword({ payload }) {
 }
 
 function doUpdateLogout() {
-  console.log("deneme2");
   if (localStorage.getItem('access_token')) {
     localStorage.removeItem('cloud_users');
     removeAccessToken();
