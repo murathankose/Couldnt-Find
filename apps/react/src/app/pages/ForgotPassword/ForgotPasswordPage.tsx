@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { forgotpasswordAsync } from '@internship/store/authentication';
 import { useHistory } from 'react-router-dom';
-import { useTemporary } from '@internship/shared/hooks';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Button } from '@internship/ui';
 import _ from 'lodash/fp';
 
@@ -34,6 +34,7 @@ export const ForgotPasswordPage = () => {
   const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { isAuthenticated } = useAuthentication();
   const { isErrorRequired, isSuccessRequired } = useTemporary();
   const onChange = (event) => {
     const { name } = event.target;
@@ -47,6 +48,11 @@ export const ForgotPasswordPage = () => {
       history.push('/');
     }
   };
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/');
+    }
+  }, [isAuthenticated]);
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -118,23 +118,21 @@ export const Register = () => {
                   required: true,
                   maxLength: 20,
                   minLength: 6,
-                  pattern: /^[A-Za-z]+[0-9]/i
+                  pattern: /^[a-zA-Z0-9]+$/,
+                  validate: (input) => new RegExp(/[a-z]/).test(input) &&
+                    new RegExp(/[A-Z]/).test(input) && new RegExp(/[0-9]/).test(input)
                 })}
               />
               {_.get('password.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-              {_.get('password.type', errors) === 'maxLength' &&
-              <StyledP>Password cannot exceed 20 characters</StyledP>}
-              {_.get('password.type', errors) === 'minLength' &&
-              <StyledP>Password cannot be less than 6 characters</StyledP>}
+              {_.get('password.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
+              {_.get('password.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
               {_.get('password.type', errors) === 'pattern' && (
-                <StyledP>The password must contain at least one uppercase letter, a lowercase letter and a
-                  number.</StyledP>
+                <StyledP>Your password can contain the characters A-Z, a-z, and 0-9.</StyledP>
               )}
+                {_.get('password.type', errors) === 'validate' && <StyledP>Your password must contain numbers, uppercase and lowercase letters.</StyledP>}
             </div>
           </StyledRow>
-          <StyledRow>
-            <div className="mr-auto">{isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}</div>
-          </StyledRow>
+          <div className="mr-auto">{isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}</div>
           <StyledRow>
             <div className="col-5 ml-sm-1">
               <label>Already have an account.</label>
