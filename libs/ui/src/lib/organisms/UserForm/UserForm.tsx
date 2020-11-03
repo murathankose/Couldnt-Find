@@ -28,8 +28,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
   const onSubmit = (values) => {
     if (values.email !== '') {
       setChangeEmail(true);
-    }
-    else {
+    } else {
       setChangeEmail(false);
     }
     dispatch(updateAsync.request(values));
@@ -79,7 +78,8 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Email
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="email" type="email" placeholder={userInfo?.email} onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="email" type="email" placeholder={userInfo?.email} onChange={onChange}
+                        ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="name">
@@ -87,7 +87,8 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="name" placeholder={userInfo?.name} onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="name" placeholder={userInfo?.name} onChange={onChange}
+                        ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="lastname">
@@ -95,7 +96,8 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Last Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="lastname" placeholder={userInfo?.lastName} onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="lastname" placeholder={userInfo?.lastName} onChange={onChange}
+                        ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="age">
@@ -103,7 +105,8 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Age
         </Form.Label>
         <Col sm={4}>
-          <Form.Control name="age" placeholder={userInfo?.age} onChange={onChange} ref={register({ required: false })} />
+          <Form.Control name="age" placeholder={userInfo?.age} onChange={onChange}
+                        ref={register({ required: false })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="phoneNumber">
@@ -111,15 +114,8 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Phone Number
         </Form.Label>
         <Col sm={4}>
-          <Form.Control name="phoneNumber" placeholder={userInfo?.phoneNumber} onChange={onChange} ref={register({ required: false })} />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} controlId="bio">
-        <Form.Label column sm={2}>
-          Bio
-        </Form.Label>
-        <Col sm={8}>
-          <Form.Control name="bio" onChange={onChange} as="textarea" rows={5} ref={register({ required: false })} />
+          <Form.Control name="phoneNumber" placeholder={userInfo?.phoneNumber} onChange={onChange}
+                        ref={register({ required: false })} />
         </Col>
       </Form.Group>
       {isErrorRequired ? (
