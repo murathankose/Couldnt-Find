@@ -1,13 +1,12 @@
-import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Alert, Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { registerAsync } from '@internship/store/authentication';
-import { Link, useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
-import { Button, Popup, PopupButton } from '@internship/ui';
-import _ from 'lodash/fp';
+import { registerAsync } from '@internship/store/authentication';
+import { Button, Input, Popup, PopupButton } from '@internship/ui';
+import React, { useEffect, useState } from 'react';
+import { Alert, Row } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -28,7 +27,7 @@ const Container = styled.div`
   padding: 4.5rem;
 `;
 export const Register = () => {
-  const { handleSubmit, register, errors } = useForm<Inputs>();
+  const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const { isErrorRequired, isSuccessRequired } = useTemporary();
   const history = useHistory();
@@ -61,11 +60,6 @@ export const Register = () => {
     }
   };
 
-  type Inputs = {
-    username: string;
-    email: string;
-    password: string;
-  };
   return (
     <StyledApp>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -76,15 +70,15 @@ export const Register = () => {
               <label>User Name</label>
             </div>
             <div className="col-8">
-              <input
+              <Input
                 className={errors.username ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter username"
                 type="text"
                 name="username"
                 onChange={onChange}
                 ref={register({ required: true })}
+                errors={errors}
               />
-              {_.get('username.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -92,15 +86,15 @@ export const Register = () => {
               <label>E-mail</label>
             </div>
             <div className="col-8 ml-sm-3">
-              <input
+              <Input
                 className={errors.email ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter email"
                 type="email"
                 name="email"
                 onChange={onChange}
                 ref={register({ required: true })}
+                errors={errors}
               />
-              {_.get('email.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -108,7 +102,7 @@ export const Register = () => {
               <label>Password</label>
             </div>
             <div className="col-8 ml-sm-1">
-              <input
+              <Input
                 className={errors.password ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter password"
                 type="password"
@@ -116,20 +110,16 @@ export const Register = () => {
                 onChange={onChange}
                 ref={register({
                   required: true,
-                  maxLength: 20,
-                  minLength: 6,
-                  pattern: /^[a-zA-Z0-9]+$/,
-                  validate: (input) => new RegExp(/[a-z]/).test(input) &&
-                    new RegExp(/[A-Z]/).test(input) && new RegExp(/[0-9]/).test(input)
+                  maxLength: { value: 20, message: 'Password cannot exceed 20 characters' },
+                  minLength: { value: 6, message: 'Password cannot be less than 6 characters' },
+                  pattern: { value: /^[a-zA-Z0-9]+$/, message: 'Your password can contain the characters A-Z, a-z, and 0-9.' },
+                  validate: (input) =>
+                    /^(?=.{6,20}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/.test(input)
+                      ? null
+                      : 'Your password must contain numbers, uppercase and lowercase letters.',
                 })}
+                errors={errors}
               />
-              {_.get('password.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-              {_.get('password.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-              {_.get('password.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
-              {_.get('password.type', errors) === 'pattern' && (
-                <StyledP>Your password can contain the characters A-Z, a-z, and 0-9.</StyledP>
-              )}
-                {_.get('password.type', errors) === 'validate' && <StyledP>Your password must contain numbers, uppercase and lowercase letters.</StyledP>}
             </div>
           </StyledRow>
           <div className="mr-auto">{isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}</div>
