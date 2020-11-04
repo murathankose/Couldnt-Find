@@ -42,7 +42,6 @@ export const Login = () => {
   const { handleSubmit, register, errors } = useForm<Inputs>();
   const { isCaptchaRequired, isErrorRequired, isSuccessRequired } = useTemporary();
   const { isAuthenticated } = useAuthentication();
-  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -57,18 +56,13 @@ export const Login = () => {
     }
   };
 
-  const checkSubmit = () => {
-    setShow(false);
-    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
-    history.push('/');
-  };
   useEffect(() => {
-    setShow(true);
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
   }, [isSuccessRequired]);
 
   useEffect(() => {
     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
-    if (isAuthenticated && !show) {
+    if (isAuthenticated) {
       history.push('/');
     }
   }, [isAuthenticated]);
@@ -154,14 +148,6 @@ export const Login = () => {
           >
             <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
           </StyledAnchorTag>
-          {isSuccessRequired ? (
-            <Popup show={show} onHide={checkSubmit}>
-              {isSuccessRequired}
-              <PopupButton variant="primary" onClick={checkSubmit}>
-                Submit
-              </PopupButton>
-            </Popup>
-          ) : null}
         </Container>
       </form>
     </StyledApp>
