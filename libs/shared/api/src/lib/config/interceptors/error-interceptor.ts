@@ -1,6 +1,4 @@
 import { AxiosError } from 'axios';
-import { updateLogout } from '@internship/store/authentication';
-
 const err = {
   'auth/signin': {
     '401': 'Kullanıcı adı veya şifre yanlış',
@@ -52,7 +50,7 @@ export const errorInterceptor = (error: AxiosError) => {
   } else if (error.config.url.startsWith('auth/send-email') && error.response?.status === 400) {
     errorMessage = err['auth/send-email']['400'];
   } else if (error.response?.data.error.toString() === 'Invalid Login details' && error.response?.status === 401) {
-    window['UGLY_STORE'].dispatch({type:'@Authentication/UPDATE_LOGOUT'});
+    window['UGLY_STORE'].dispatch({ type: '@Authentication/UPDATE_LOGOUT' });
     errorMessage = null;
   } else {
     errorMessage = err[error.config.url][error.response?.status];

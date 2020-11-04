@@ -123,6 +123,11 @@ export const Register = () => {
             </div>
           </StyledRow>
           <div className="mr-auto">{isErrorRequired ? <Alert variant="danger">{isErrorRequired}</Alert> : null}</div>
+          <div className="mb-3 mt-3">
+            <Button variant="outline-primary" type="submit">
+              Register
+            </Button>
+          </div>
           <StyledRow>
             <div className="col-5 ml-sm-1">
               <label>Already have an account.</label>
@@ -131,9 +136,6 @@ export const Register = () => {
               <Link to="/login">Sign in</Link>
             </div>
           </StyledRow>
-          <Button variant="outline-primary" type="submit">
-            Submit
-          </Button>
           {isSuccessRequired ? (
             <Popup show={show} onHide={checkSubmit}>
               {isSuccessRequired}
