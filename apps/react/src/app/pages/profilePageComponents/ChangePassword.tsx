@@ -1,18 +1,13 @@
 import { Alert, Col, Container, Form, Row } from 'react-bootstrap';
-import { Button } from '@internship/ui';
+import { Button, Input } from '@internship/ui';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { changePasswordAsync } from '@internship/store/authentication';
 import { useTemporary } from '@internship/shared/hooks';
-import _ from 'lodash/fp';
-import styled from 'styled-components';
 
-const StyledP = styled.p`
-  color: #bf1650;
-`;
 export const ChangePassword = () => {
-  const { handleSubmit, register, errors, getValues } = useForm<Inputs>();
+  const { handleSubmit, register, errors, getValues } = useForm();
   const dispatch = useDispatch();
   const [passworderror, setPasswordError] = useState('');
   const { isErrorRequired, isSuccessRequired } = useTemporary();
@@ -35,12 +30,6 @@ export const ChangePassword = () => {
     }
   };
 
-  type Inputs = {
-    oldPassword: string;
-    newPassword: string;
-    newPasswordConfirmation: string;
-  };
-
   return (
     <Container>
       <Row>
@@ -52,14 +41,14 @@ export const ChangePassword = () => {
             Old Password
           </Form.Label>
           <Col sm={4}>
-            <Form.Control
+            <Input
               className={errors.oldPassword ? 'form-control is-invalid' : 'form-control'}
               type="password"
               name="oldPassword"
               placeholder="Old Password"
               ref={register({ required: true })}
+              errors={errors}
             />
-            {_.get('oldPassword.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
           </Col>
         </Form.Group>
         <Form.Group as={Row} controlId="newPassword">
@@ -67,25 +56,24 @@ export const ChangePassword = () => {
             New Password
           </Form.Label>
           <Col sm={4}>
-            <Form.Control
+            <Input
               className={passworderror || errors.newPassword ? 'form-control is-invalid' : 'form-control'}
               type="password"
               name="newPassword"
               placeholder="New Password"
               onChange={onChange}
-              ref={register({ required: true, maxLength: 20, minLength: 6, pattern: /^[A-Za-z0-9]+$/,
-                validate: (input) => new RegExp(/[a-z]/).test(input) && new RegExp(/[A-Z]/).test(input) && new RegExp(/[0-9]/).test(input),
+              ref={register({
+                required: true,
+                maxLength: { value: 20, message: 'Password cannot exceed 20 characters' },
+                minLength: { value: 6, message: 'Password cannot be less than 6 characters' },
+                pattern: { value: /^[a-zA-Z0-9]+$/, message: 'Your password can contain the characters A-Z, a-z, and 0-9.' },
+                validate: (input) =>
+                  /^(?=.{6,20}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/.test(input)
+                    ? null
+                    : 'Your password must contain numbers, uppercase and lowercase letters.',
               })}
+              errors={errors}
             />
-            {_.get('newPassword.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-            {_.get('newPassword.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-            {_.get('newPassword.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
-            {_.get('newPassword.type', errors) === 'pattern' && (
-              <StyledP>Your password can contain the characters A-Z, a-z, and 0-9.</StyledP>
-            )}
-            {_.get('newPassword.type', errors) === 'validate' && (
-              <StyledP>Your password must contain numbers, uppercase and lowercase letters.</StyledP>
-            )}
             <div className="invalid-feedback">{passworderror}</div>
           </Col>
         </Form.Group>
@@ -94,25 +82,24 @@ export const ChangePassword = () => {
             Confirm Password
           </Form.Label>
           <Col sm={4}>
-            <Form.Control
+            <Input
               className={passworderror || errors.newPasswordConfirmation ? 'form-control is-invalid' : 'form-control'}
               type="password"
               name="newPasswordConfirmation"
               placeholder="Confirm Password"
               onChange={onChange}
-              ref={register({ required: true, maxLength: 20, minLength: 6, pattern: /^[A-Za-z0-9]+$/,
-                validate: (input) => new RegExp(/[a-z]/).test(input) && new RegExp(/[A-Z]/).test(input) && new RegExp(/[0-9]/).test(input),
+              ref={register({
+                required: true,
+                maxLength: { value: 20, message: 'Password cannot exceed 20 characters' },
+                minLength: { value: 6, message: 'Password cannot be less than 6 characters' },
+                pattern: { value: /^[a-zA-Z0-9]+$/, message: 'Your password can contain the characters A-Z, a-z, and 0-9.' },
+                validate: (input) =>
+                  /^(?=.{6,20}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/.test(input)
+                    ? null
+                    : 'Your password must contain numbers, uppercase and lowercase letters.',
               })}
+              errors={errors}
             />
-            {_.get('newPasswordConfirmation.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-            {_.get('newPasswordConfirmation.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-            {_.get('newPasswordConfirmation.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
-            {_.get('newPasswordConfirmation.type', errors) === 'pattern' && (
-              <StyledP>Your password can contain the characters A-Z, a-z, and 0-9.</StyledP>
-            )}
-            {_.get('newPasswordConfirmation.type', errors) === 'validate' && (
-              <StyledP>Your password must contain numbers, uppercase and lowercase letters.</StyledP>
-            )}
             <div className="invalid-feedback">{passworderror}</div>
           </Col>
         </Form.Group>

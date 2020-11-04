@@ -1,19 +1,17 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '@internship/store/authentication';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
-import { Button, Captcha, Popup, PopupButton } from '@internship/ui';
+import { Button, Captcha,Input } from '@internship/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
 import _ from 'lodash/fp';
 
 const StyledAnchorTag = styled.a`
-  margin-bottom: 15px;
-  margin-top: 7px;
   font-weight: 400;
   font-size: 16px;
 `;
@@ -82,15 +80,15 @@ export const Login = () => {
               <label>User Name</label>
             </div>
             <div className="col-8 ">
-              <input
+              <Input
                 className={errors.username ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter username"
                 type="text"
                 name="username"
                 onChange={onChange}
                 ref={register({ required: true })}
+                errors={errors}
               />
-              {_.get('username.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>
@@ -98,21 +96,23 @@ export const Login = () => {
               <label>Password</label>
             </div>
             <div className="col-8 ml-sm-1">
-              <input
+              <Input
                 className={errors.password ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter password"
                 type="password"
                 name="password"
                 onChange={onChange}
                 ref={register({ required: true })}
+                errors={errors}
               />
-              {_.get('password.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
           <StyledRow>
-            <div className="col-8">
-              <input type="checkbox" name="rememberMe" onChange={onChange} ref={register({ required: false })} />
+            <div className="col-5   ml-n1">
               <label htmlFor="rememberMe"> Remember me</label>
+            </div>
+            <div className="col-3  ml-n5">
+              <input type="checkbox" name="rememberMe" onChange={onChange} ref={register({ required: false })} />
             </div>
           </StyledRow>
           {isCaptchaRequired ? (
@@ -131,6 +131,17 @@ export const Login = () => {
               </Link>
             </>
           ) : null}
+          <div className="mb-3 mt-3">
+            <StyledAnchorTag
+              className="btn btn-outline-dark"
+              href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth"
+            >
+              <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
+            </StyledAnchorTag>
+            <Button className="ml-5" variant="outline-primary" type="submit">
+              Login
+            </Button>
+          </div>
           <StyledRow>
             <div className="col-5 ml-n2">
               <label>No account ?</label>
@@ -139,15 +150,6 @@ export const Login = () => {
               <Link to="/register">Sign Up</Link>
             </div>
           </StyledRow>
-          <Button variant="outline-primary" type="submit">
-            Login
-          </Button>
-          <StyledAnchorTag
-            className="btn btn-block btn-info"
-            href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth"
-          >
-            <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
-          </StyledAnchorTag>
         </Container>
       </form>
     </StyledApp>

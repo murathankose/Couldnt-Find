@@ -7,12 +7,8 @@ import { Row } from 'react-bootstrap';
 import { resetpasswordAsync } from '@internship/store/authentication';
 import { getUrlParameter } from '@internship/shared/utils';
 import { useTemporary } from '@internship/shared/hooks';
-import { Button } from '@internship/ui';
-import _ from 'lodash/fp';
+import { Button, Input } from '@internship/ui';
 
-const StyledP = styled.p`
-  color: #bf1650;
-`;
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
@@ -73,26 +69,23 @@ export const ResetPassword = (props) => {
                 <label>New Password</label>
               </div>
               <div className="col-8">
-                <input
+                <Input
                   className={passworderror || errors.newPassword ? 'form-control is-invalid' : 'form-control'}
                   type="password"
                   name="newPassword"
                   onChange={onChange}
                   ref={register({
                     required: true,
-                    maxLength: 20,
-                    minLength: 6,
-                    pattern: /^[A-Za-z0-9]+$/,
-                    validate: (input) => new RegExp(/[a-z]/).test(input) && new RegExp(/[A-Z]/).test(input) && new RegExp(/[0-9]/).test(input),
+                    maxLength: { value: 20, message: 'Password cannot exceed 20 characters' },
+                    minLength: { value: 6, message: 'Password cannot be less than 6 characters' },
+                    pattern: { value: /^[a-zA-Z0-9]+$/, message: 'Your password can contain the characters A-Z, a-z, and 0-9.' },
+                    validate: (input) =>
+                      /^(?=.{6,20}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/.test(input)
+                        ? null
+                        : 'Your password must contain numbers, uppercase and lowercase letters.',
                   })}
+                  errors={errors}
                 />
-                {_.get('newPassword.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-                {_.get('newPassword.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-                {_.get('newPassword.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
-                {_.get('newPassword.type', errors) === 'pattern' && <StyledP>Your password can contain the characters A-Z, a-z, and 0-9.</StyledP>}
-                {_.get('newPassword.type', errors) === 'validate' && (
-                  <StyledP>Your password must contain numbers, uppercase and lowercase letters.</StyledP>
-                )}
                 <div className="invalid-feedback">{passworderror}</div>
               </div>
             </StyledRow>
@@ -101,37 +94,28 @@ export const ResetPassword = (props) => {
                 <label>Repeate Password</label>
               </div>
               <div className="col-8">
-                <input
+                <Input
                   className={passworderror || errors.newPasswordConfirmation ? 'form-control is-invalid' : 'form-control'}
                   type="password"
                   name="newPasswordConfirmation"
                   onChange={onChange}
                   ref={register({
                     required: true,
-                    maxLength: 20,
-                    minLength: 6,
-                    pattern: /^[A-Za-z0-9]+$/,
-                    validate: (input) => new RegExp(/[a-z]/).test(input) && new RegExp(/[A-Z]/).test(input) && new RegExp(/[0-9]/).test(input),
+                    maxLength: { value: 20, message: 'Password cannot exceed 20 characters' },
+                    minLength: { value: 6, message: 'Password cannot be less than 6 characters' },
+                    pattern: { value: /^[a-zA-Z0-9]+$/, message: 'Your password can contain the characters A-Z, a-z, and 0-9.' },
+                    validate: (input) =>
+                      /^(?=.{6,20}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/.test(input)
+                        ? null
+                        : 'Your password must contain numbers, uppercase and lowercase letters.',
                   })}
+                  errors={errors}
                 />
-                {_.get('newPasswordConfirmation.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
-                {_.get('newPasswordConfirmation.type', errors) === 'maxLength' && <StyledP>Password cannot exceed 20 characters</StyledP>}
-                {_.get('newPasswordConfirmation.type', errors) === 'minLength' && <StyledP>Password cannot be less than 6 characters</StyledP>}
-                {_.get('newPasswordConfirmation.type', errors) === 'pattern' && (
-                  <StyledP>Your password can contain the characters A-Z, a-z, and 0-9.</StyledP>
-                )}
-                {_.get('newPasswordConfirmation.type', errors) === 'validate' && (
-                  <StyledP>Your password must contain numbers, uppercase and lowercase letters.</StyledP>
-                )}
                 <div className="invalid-feedback">{passworderror}</div>
               </div>
             </StyledRow>
-            {isErrorRequired ? (
-              <div className="alert alert-danger">{isErrorRequired}</div>
-            ) : null}
-            {isSuccessRequired ? (
-              <div className="alert alert-success">{isSuccessRequired}</div>
-            ) : null}
+            {isErrorRequired ? <div className="alert alert-danger">{isErrorRequired}</div> : null}
+            {isSuccessRequired ? <div className="alert alert-success">{isSuccessRequired}</div> : null}
             <Button variant="outline-primary" type="submit" disabled={enable}>
               Confirm Password
             </Button>
@@ -146,8 +130,8 @@ export const ResetPassword = (props) => {
           pathname: '/',
           state: {
             from: props.location,
-            error: error
-          }
+            error: error,
+          },
         }}
       />
     );

@@ -6,12 +6,8 @@ import { useDispatch } from 'react-redux';
 import { forgotpasswordAsync } from '@internship/store/authentication';
 import { useHistory } from 'react-router-dom';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
-import { Button } from '@internship/ui';
-import _ from 'lodash/fp';
+import { Button, Input } from '@internship/ui';
 
-const StyledP = styled.p`
-  color: #bf1650;
-`;
 const StyledApp = styled.div`
   font-family: sans-serif;
   text-align: center;
@@ -63,23 +59,19 @@ export const ForgotPasswordPage = () => {
               <label>The mail address of the account to be recovered</label>
             </div>
             <div className="col-8">
-              <input
+              <Input
                 className={errors.email ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter e-mail"
                 type="email"
                 name="email"
                 onChange={onChange}
                 ref={register({ required: true })}
+                errors={errors}
               />
-              {_.get('email.type', errors) === 'required' && <StyledP>This field is required</StyledP>}
             </div>
           </StyledRow>
-          {isErrorRequired ? (
-            <div className="alert alert-danger">{isErrorRequired}</div>
-          ) : null}
-          {isSuccessRequired ? (
-            <div className="alert alert-success">{isSuccessRequired}</div>
-          ) : null}
+          {isErrorRequired ? <div className="alert alert-danger">{isErrorRequired}</div> : null}
+          {isSuccessRequired ? <div className="alert alert-success">{isSuccessRequired}</div> : null}
 
           <Button variant="outline-primary" type="submit" disable={isSuccessRequired}>
             New Password Submit
