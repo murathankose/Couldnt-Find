@@ -70,7 +70,6 @@ export const MailErrorPage = () => {
           <StyledRow>
             <div className="col-8 ">
               <Input
-                className={errors.email ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter your e-mail"
                 type="email"
                 name="email"

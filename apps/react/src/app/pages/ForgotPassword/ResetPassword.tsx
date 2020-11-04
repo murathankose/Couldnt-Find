@@ -70,7 +70,7 @@ export const ResetPassword = (props) => {
               </div>
               <div className="col-8">
                 <Input
-                  className={passworderror || errors.newPassword ? 'form-control is-invalid' : 'form-control'}
+                  className={passworderror && 'is-invalid'}
                   type="password"
                   name="newPassword"
                   onChange={onChange}
@@ -95,7 +95,7 @@ export const ResetPassword = (props) => {
               </div>
               <div className="col-8">
                 <Input
-                  className={passworderror || errors.newPasswordConfirmation ? 'form-control is-invalid' : 'form-control'}
+                  className={passworderror && 'is-invalid'}
                   type="password"
                   name="newPasswordConfirmation"
                   onChange={onChange}

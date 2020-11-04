@@ -72,7 +72,6 @@ export const Login = () => {
             </div>
             <div className="col-8 ">
               <Input
-                className={errors.username ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter username"
                 type="text"
                 name="username"
@@ -88,7 +87,6 @@ export const Login = () => {
             </div>
             <div className="col-8 ml-sm-2">
               <Input
-                className={errors.password ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter password"
                 type="password"
                 name="password"
