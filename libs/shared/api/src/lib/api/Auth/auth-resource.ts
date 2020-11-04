@@ -25,14 +25,15 @@ export class AuthResource {
   changePassword = (data: ChangePasswordRequest): Promise<any> =>
     this.axios.post('user/change-password', data, this.axiosRequestConfig).then((r) => r.data);
   sessionDetail = (): Promise<SessionDetailResponse[]> => this.axios.get('/user/active-sessions', this.axiosRequestConfig).then((r) => r.data);
-  deleteSession = (authorizationToken: string, token: string): Promise<any> =>
+  deleteSession = (authorizationToken: string, refreshToken: string, accessToken:string): Promise<any> =>
     this.axios
       .delete('/user/logout-from-session', {
         headers: {
           Authorization: authorizationToken,
         },
         params: {
-          token: token,
+          token: refreshToken,
+          accessToken:accessToken,
         },
       })
       .then((r) => r.data);

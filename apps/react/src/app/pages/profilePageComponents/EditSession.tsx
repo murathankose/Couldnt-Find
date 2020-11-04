@@ -20,10 +20,10 @@ export const EditSession = () => {
       .catch((e) => console.error(e));
   }, [sessionInfo]);
 
-  const deleteSession = (token) => {
-    if (token !== getRefreshToken()) {
+  const deleteSession = (refreshToken, oldaccessToken) => {
+    if (refreshToken !== getRefreshToken()) {
       const accessToken = getAccessToken();
-      api.auth.deleteSession(`Bearer ${accessToken}`, token).then(() => {
+      api.auth.deleteSession(`Bearer ${accessToken}`, refreshToken, oldaccessToken).then(() => {
         setSessionInfo(!sessionInfo);
       }).catch((e) => console.error(e));
 
@@ -53,7 +53,7 @@ export const EditSession = () => {
                   <br />
                   issueDate: {d.issueDate}
                 </Row>
-                <Button className="btn btn-danger my-2" onClick={() => deleteSession(d.refreshToken)}>
+                <Button className="btn btn-danger my-2" onClick={() => deleteSession(d.refreshToken,d.accessToken)}>
                   <FontAwesomeIcon icon={faTrash} />
                 </Button>
               </li>

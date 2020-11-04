@@ -10,6 +10,7 @@ export interface UserDetailResponse {
 
 export interface  SessionDetailResponse {
   refreshToken: string;
+  accessToken: string;
   userAgent: string;
   expireDate: string;
   issueDate: string;
