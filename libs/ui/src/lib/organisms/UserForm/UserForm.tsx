@@ -8,6 +8,7 @@ import { Button } from '../../atoms/Button';
 import { useTemporary } from '@internship/shared/hooks';
 import { Popup, PopupButton } from '../../molecules/Popup';
 import { useHistory } from 'react-router-dom';
+import { UserDetailResponse } from '@internship/shared/api';
 
 type UserFormProps = {
   setEditUserInfo;
@@ -26,7 +27,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
   const { isErrorRequired, isSuccessRequired } = useTemporary();
 
   const onSubmit = (values) => {
-    if (values.email !== '') {
+    if (values.email !== userInfo?.email) {
       setChangeEmail(true);
     } else {
       setChangeEmail(false);
@@ -78,8 +79,8 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Email
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="email" type="email" placeholder={userInfo?.email} onChange={onChange}
-                        ref={register({ required: false })} />
+          <Form.Control name="email" type="email" defaultValue={userInfo?.email} onChange={onChange}
+                        ref={register({ required: true })} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="name">
@@ -87,7 +88,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="name" placeholder={userInfo?.name} onChange={onChange}
+          <Form.Control name="name" defaultValue={userInfo?.name} onChange={onChange}
                         ref={register({ required: false })} />
         </Col>
       </Form.Group>
@@ -96,7 +97,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Last Name
         </Form.Label>
         <Col sm={8}>
-          <Form.Control name="lastname" placeholder={userInfo?.lastName} onChange={onChange}
+          <Form.Control name="lastname" defaultValue={userInfo?.lastName} onChange={onChange}
                         ref={register({ required: false })} />
         </Col>
       </Form.Group>
@@ -105,7 +106,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Age
         </Form.Label>
         <Col sm={4}>
-          <Form.Control name="age" placeholder={userInfo?.age} onChange={onChange}
+          <Form.Control name="age" defaultValue={userInfo?.age} onChange={onChange}
                         ref={register({ required: false })} />
         </Col>
       </Form.Group>
@@ -114,7 +115,7 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Phone Number
         </Form.Label>
         <Col sm={4}>
-          <Form.Control name="phoneNumber" placeholder={userInfo?.phoneNumber} onChange={onChange}
+          <Form.Control name="phoneNumber" defaultValue={userInfo?.phoneNumber} onChange={onChange}
                         ref={register({ required: false })} />
         </Col>
       </Form.Group>
