@@ -41,14 +41,7 @@ export const ChangePassword = () => {
             Old Password
           </Form.Label>
           <Col sm={4}>
-            <Input
-              className={errors.oldPassword ? 'form-control is-invalid' : 'form-control'}
-              type="password"
-              name="oldPassword"
-              placeholder="Old Password"
-              ref={register({ required: true })}
-              errors={errors}
-            />
+            <Input type="password" name="oldPassword" placeholder="Old Password" ref={register({ required: true })} errors={errors} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} controlId="newPassword">
@@ -57,7 +50,7 @@ export const ChangePassword = () => {
           </Form.Label>
           <Col sm={4}>
             <Input
-              className={passworderror || errors.newPassword ? 'form-control is-invalid' : 'form-control'}
+              className={passworderror && 'is-invalid'}
               type="password"
               name="newPassword"
               placeholder="New Password"
@@ -83,7 +76,7 @@ export const ChangePassword = () => {
           </Form.Label>
           <Col sm={4}>
             <Input
-              className={passworderror || errors.newPasswordConfirmation ? 'form-control is-invalid' : 'form-control'}
+              className={passworderror && 'is-invalid'}
               type="password"
               name="newPasswordConfirmation"
               placeholder="Confirm Password"

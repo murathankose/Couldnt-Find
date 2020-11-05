@@ -71,7 +71,6 @@ export const Register = () => {
             </div>
             <div className="col-8">
               <Input
-                className={errors.username ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter username"
                 type="text"
                 name="username"
@@ -86,15 +85,7 @@ export const Register = () => {
               <label>E-mail</label>
             </div>
             <div className="col-8 ml-sm-3">
-              <Input
-                className={errors.email ? 'form-control is-invalid' : 'form-control'}
-                placeholder="Enter email"
-                type="email"
-                name="email"
-                onChange={onChange}
-                ref={register({ required: true })}
-                errors={errors}
-              />
+              <Input placeholder="Enter email" type="email" name="email" onChange={onChange} ref={register({ required: true })} errors={errors} />
             </div>
           </StyledRow>
           <StyledRow>
@@ -103,7 +94,6 @@ export const Register = () => {
             </div>
             <div className="col-8 ml-sm-1">
               <Input
-                className={errors.password ? 'form-control is-invalid' : 'form-control'}
                 placeholder="Enter password"
                 type="password"
                 name="password"

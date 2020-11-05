@@ -6,11 +6,11 @@ type InputProps = {
 } & JSX.IntrinsicElements['input'];
 
 export const Input: React.FC<InputProps> = React.forwardRef((props, ref) => {
-  const { errors, name } = props;
+  const { errors, name, className, ...rest } = props;
 
   return (
     <>
-      <input ref={ref} {...props} />
+      <input ref={ref} name={name} {...rest} className={`form-control ${errors[name] && 'is-invalid'} ${className}`} />
       {errors && <ErrorMessage errors={errors} name={name} />}
     </>
   );

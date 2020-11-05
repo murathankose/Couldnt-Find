@@ -59,15 +59,7 @@ export const ForgotPasswordPage = () => {
               <label>The mail address of the account to be recovered</label>
             </div>
             <div className="col-8">
-              <Input
-                className={errors.email ? 'form-control is-invalid' : 'form-control'}
-                placeholder="Enter e-mail"
-                type="email"
-                name="email"
-                onChange={onChange}
-                ref={register({ required: true })}
-                errors={errors}
-              />
+              <Input placeholder="Enter e-mail" type="email" name="email" onChange={onChange} ref={register({ required: true })} errors={errors} />
             </div>
           </StyledRow>
           {isErrorRequired ? <div className="alert alert-danger">{isErrorRequired}</div> : null}
