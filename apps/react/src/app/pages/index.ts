@@ -7,3 +7,4 @@ export * from './Profile';
 export * from './Register';
 export * from './MailActivation';
 export * from './ForgotPassword';
+export * from './Contents';

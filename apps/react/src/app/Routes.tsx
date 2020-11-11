@@ -10,8 +10,10 @@ import {
   OAuth2RedirectHandler,
   Profile,
   Register,
-  ResetPassword
+  ResetPassword,
+  Contents
 } from './pages';
+import { UserInfo } from '@internship/ui';
 
 export const Routes = ({ children, ...props }) => {
   return (
@@ -28,6 +30,9 @@ export const Routes = ({ children, ...props }) => {
       <Route exact path="/mailerror" component={MailErrorPage} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/contents/:topicName" component={Contents} />
+      <Route path="/user/:userName" component={UserInfo} />
+
     </Router>
   );
 };

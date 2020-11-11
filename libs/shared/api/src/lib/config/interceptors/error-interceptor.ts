@@ -27,8 +27,6 @@ const err = {
   },
 };
 export const errorInterceptor = (error: AxiosError) => {
-  console.log(error.response.data.message);
-  console.log(error.config.url);
   let errorMessage = null;
   if (error.response?.data.message.toString() === '108') {
     errorMessage = err[error.config.url]['108'];

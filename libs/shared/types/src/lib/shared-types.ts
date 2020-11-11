@@ -24,6 +24,15 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface TopicRequest {
+  topicName: string;
+}
+
+export interface ContentRequest {
+  topicName: string;
+  content: string;
+}
+
 export interface ForgotPasswordRequest {
   email: string;
 }

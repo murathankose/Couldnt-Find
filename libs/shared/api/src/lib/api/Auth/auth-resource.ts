@@ -1,12 +1,12 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { SessionDetailResponse, UserDetailResponse } from './types';
+import { ContentResponse, SessionDetailResponse, TopicResponse, UserDetailResponse, UserInfoResponse } from './types';
 import {
-  ChangePasswordRequest,
+  ChangePasswordRequest, ContentRequest,
   ForgotPasswordRequest,
   LoginRequest,
   LogoutRequest,
   RegisterRequest,
-  ResetPasswordRequest,
+  ResetPasswordRequest, TopicRequest
 } from '@internship/shared/types';
 
 export class AuthResource {
@@ -38,4 +38,20 @@ export class AuthResource {
       })
       .then((r) => r.data);
   sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
+
+  addTopic = (data: TopicRequest): Promise<any> => this.axios.post('entry/addTopic', data, this.axiosRequestConfig).then((r) => r.data);
+  getTopic = (): Promise<TopicResponse[]> => this.axios.get('entry/getTopics', this.axiosRequestConfig).then((r) => r.data);
+  addContent = (data: ContentRequest): Promise<any> => this.axios.post('entry/addContent', data, this.axiosRequestConfig).then((r) => r.data);
+  getContent = (topicName: string): Promise<ContentResponse[]> => this.axios.get('entry/getContent', {
+    params: {
+      topic: topicName,
+    }
+  }).then((r) => r.data);
+
+  userInfo = (userName: string): Promise<UserInfoResponse> => this.axios.get('user/info', {
+    params: {
+      userName: userName,
+    }
+  }).then((r) => r.data);
+
 }

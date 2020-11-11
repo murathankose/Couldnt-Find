@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { api, ContentResponse } from '@internship/shared/api';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Button, ContentForm } from '@internship/ui';
+import { useAuthentication } from '@internship/shared/hooks';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAuthentication } from '@internship/shared/hooks';
-import { Button, TopicForm } from '@internship/ui';
-import { api, TopicResponse } from '@internship/shared/api';
 import { Link } from 'react-router-dom';
 
-const StyledIcon = styled(FontAwesomeIcon)``;
 const StyledRow = styled(Row)`
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -36,40 +36,41 @@ const StyledLink = styled(Link)`
   color: black;
 `;
 
-export const MainPage = () => {
-  const [newTopic, setNewTopic] = useState(false);
+export const Contents = () => {
+  const { topicName } = useParams();
+  const [allContent, setAllContent] = useState<ContentResponse[]>();
+  const [updateContent, setUpdateContent] = useState(false);
+  const [newContent, setNewContent] = useState(false);
   const { isAuthenticated } = useAuthentication();
-  const [allTopics, setAllTopics] = useState<TopicResponse[]>();
-  const [updateTopics, setUpdateTopics] = useState(false);
 
   useEffect(() => {
     api.auth
-      .getTopic()
-      .then((r) => setAllTopics(r))
+      .getContent(topicName)
+      .then((r) => {
+        setAllContent(r);
+      })
       .catch((e) => console.error(e));
-    setUpdateTopics(false);
-  }, [updateTopics]);
+  }, [updateContent]);
 
   return (
     <StyledContainer>
+      <h1>{topicName}</h1>
       {isAuthenticated ? (
         <StyledRow>
-          <StyledNewButton onClick={() => setNewTopic(true)}>
-            <StyledIcon icon={faPlus} />
+          <StyledNewButton onClick={() => setNewContent(true)}>
+            <FontAwesomeIcon icon={faPlus} />
           </StyledNewButton>
         </StyledRow>
       ) : null}
-      {newTopic ? <TopicForm setClose={setNewTopic} setUpdateTopics={setUpdateTopics} /> : null}
-      {allTopics?.map((d, key) => (
+      {newContent ? <ContentForm setClose={setNewContent} setUpdateContents = {setUpdateContent} topicName={topicName} /> : null}
+      {allContent?.map((d, key) => (
         <li key={key} className="ml-4">
           <StyledRowContent>
-            <StyledStrong>Konu Adı:</StyledStrong> <StyledLink to={'/contents/' + d.topicName}>{d.topicName}</StyledLink>
+            <StyledStrong>{d.content}</StyledStrong>
             <br />
-            <StyledStrong>İçerik sayısı:</StyledStrong> {d.contentNumber}
+            <StyledStrong>Kullanıcı: </StyledStrong> <StyledLink to={'/user/' + d.topic.user.username}>{d.topic.user.username}</StyledLink>
             <br />
-            <StyledStrong>Kullanıcı:</StyledStrong> <StyledLink to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
-            <br />
-            <StyledStrong>Tarih:</StyledStrong> {d.createDate}
+            <StyledStrong>Tarih: </StyledStrong> {d.createDate}
             <br />
           </StyledRowContent>
         </li>
