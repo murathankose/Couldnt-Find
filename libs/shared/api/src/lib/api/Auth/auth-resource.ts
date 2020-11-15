@@ -54,4 +54,11 @@ export class AuthResource {
     }
   }).then((r) => r.data);
 
+  myContents = (): Promise<ContentResponse[]> => this.axios.get('entry/getMyContents', this.axiosRequestConfig).then((r) => r.data);
+  userContents = (userName: string): Promise<ContentResponse[]> => this.axios.get('entry/getUserContents',{
+    params: {
+      userName: userName,
+    }
+  } ).then((r) => r.data);
+
 }

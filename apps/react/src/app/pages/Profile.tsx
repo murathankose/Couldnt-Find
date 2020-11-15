@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { EditProfile, ChangePassword, EditSession } from './profilePageComponents';
+import { EditProfile, ChangePassword, EditSession, MyContents } from './profilePageComponents';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import { api, UserDetailResponse } from '@internship/shared/api';
+import { api, ContentResponse, UserDetailResponse } from '@internship/shared/api';
 import { ProfileImage } from '@internship/ui';
 import { useAuthentication } from '@internship/shared/hooks';
 import { useHistory } from 'react-router-dom';
@@ -14,10 +14,13 @@ export const Profile = () => {
   const [inChangePassword, setInChangePassword] = useState(false);
   const [editUserInfo, setEditUserInfo] = useState(false);
   const [sessionInfo, setSessionInfo] = useState(false);
+  const [contentsInfo, setContentsInfo] = useState(false);
   const [detail, setDetail] = useState<UserDetailResponse>();
+  const [myContents, setMyContents] = useState<ContentResponse[]>();
   const { isAuthenticated } = useAuthentication();
   const history = useHistory();
   const dispatch = useDispatch();
+
   useEffect(() => {
     api.auth
       .userDetail()
@@ -25,6 +28,13 @@ export const Profile = () => {
       .catch((e) => console.error(e));
     setEditUserInfo(false);
   }, [editUserInfo]);
+
+  useEffect(() => {
+    api.auth
+      .myContents()
+      .then((r) => setMyContents(r))
+      .catch((e) => console.error(e));
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -36,6 +46,7 @@ export const Profile = () => {
     setInEditMode(true);
     setInChangePassword(false);
     setSessionInfo(false);
+    setContentsInfo(false);
     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
   };
@@ -43,6 +54,13 @@ export const Profile = () => {
 
   const editSessionInfo = () => {
     setSessionInfo(true);
+    setInChangePassword(false);
+    setInEditMode(false);
+    setContentsInfo(false);
+  };
+  const editContentsInfo = () => {
+    setContentsInfo(true);
+    setSessionInfo(false);
     setInChangePassword(false);
     setInEditMode(false);
   };
@@ -102,6 +120,9 @@ export const Profile = () => {
             <Button className="btn  btn-success mt-2" disabled={sessionInfo} onClick={editSessionInfo}>
               Session Info
             </Button>
+            <Button className="btn  btn-success mt-2" disabled={contentsInfo} onClick={editContentsInfo}>
+              My Contents
+            </Button>
           </div>
         </Col>
         <Col sm={6}>
@@ -143,6 +164,14 @@ export const Profile = () => {
                 <FontAwesomeIcon icon={faTimes} />
               </Button>
               <EditSession />
+            </>
+          ) : null}
+          {contentsInfo ? (
+            <>
+              <Button className="btn btn-danger mb-3" disabled={!contentsInfo} onClick={() => setContentsInfo(false)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </Button>
+              <MyContents myContents={myContents}/>
             </>
           ) : null}
         </Col>
