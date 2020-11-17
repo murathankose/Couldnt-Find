@@ -1,12 +1,15 @@
 import {
+  changePasswordAsync,
+  contentAsync,
   forgotpasswordAsync,
+  likeAsync,
   loginAsync,
   logoutAsync,
   registerAsync,
-  changePasswordAsync,
   resetpasswordAsync,
+  topicAsync,
   updateAsync,
-  updateLogout, topicAsync, contentAsync
+  updateLogout
 } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
@@ -74,10 +77,20 @@ function* doRegister({ payload }) {
   }
 }
 
+function* doLike({ payload }) {
+  try {
+    yield call(api.auth.addLike, payload);
+    yield put(likeAsync.success({}));
+  } catch (e) {
+    console.error(e);
+    yield put(likeAsync.failure(e));
+  }
+}
+
 function* doUpdate({ payload }) {
   try {
-   /* let requestData = {};
-    Object.entries(payload).forEach(([key, value]) => (value !== '' ? (requestData = { ...requestData, [key]: value }) : null));*/
+    /* let requestData = {};
+     Object.entries(payload).forEach(([key, value]) => (value !== '' ? (requestData = { ...requestData, [key]: value }) : null));*/
     yield call(api.auth.update, payload);
     yield put(updateAsync.success({}));
   } catch (e) {
@@ -119,15 +132,23 @@ function* doAddContent({ payload }) {
 function* watchLogin() {
   yield takeLatest(loginAsync.request, doLogin);
 }
+
+function* watchLike() {
+  yield takeLatest(likeAsync.request, doLike);
+}
+
 function* watchAddTopic() {
   yield takeLatest(topicAsync.request, doAddTopic);
 }
+
 function* watchAddContent() {
   yield takeLatest(contentAsync.request, doAddContent);
 }
+
 function* watchResetPassword() {
   yield takeLatest(resetpasswordAsync.request, doResetPassword);
 }
+
 function* watchForgotPassword() {
   yield takeLatest(forgotpasswordAsync.request, doForgotPassword);
 }
@@ -160,5 +181,6 @@ export function* authenticationSaga() {
     fork(watchUpdateLogout),
     fork(watchAddTopic),
     fork(watchAddContent),
+    fork(watchLike)
   ]);
 }

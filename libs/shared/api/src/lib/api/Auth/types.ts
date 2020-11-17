@@ -24,11 +24,13 @@ export interface TopicResponse {
 }
 
 export interface ContentResponse {
+  id: string;
   content: string;
   like: string;
   dislike: string;
   createDate: string;
   topic: any;
+  userLike: any;
 }
 
 export interface  SessionDetailResponse {

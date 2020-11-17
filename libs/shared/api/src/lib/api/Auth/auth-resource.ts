@@ -1,12 +1,15 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { ContentResponse, SessionDetailResponse, TopicResponse, UserDetailResponse, UserInfoResponse } from './types';
 import {
-  ChangePasswordRequest, ContentRequest,
+  ChangePasswordRequest,
+  ContentRequest,
   ForgotPasswordRequest,
+  LikeRequest,
   LoginRequest,
   LogoutRequest,
   RegisterRequest,
-  ResetPasswordRequest, TopicRequest
+  ResetPasswordRequest,
+  TopicRequest
 } from '@internship/shared/types';
 
 export class AuthResource {
@@ -25,16 +28,16 @@ export class AuthResource {
   changePassword = (data: ChangePasswordRequest): Promise<any> =>
     this.axios.post('user/change-password', data, this.axiosRequestConfig).then((r) => r.data);
   sessionDetail = (): Promise<SessionDetailResponse[]> => this.axios.get('/user/active-sessions', this.axiosRequestConfig).then((r) => r.data);
-  deleteSession = (authorizationToken: string, refreshToken: string, accessToken:string): Promise<any> =>
+  deleteSession = (authorizationToken: string, refreshToken: string, accessToken: string): Promise<any> =>
     this.axios
       .delete('/user/logout-from-session', {
         headers: {
-          Authorization: authorizationToken,
+          Authorization: authorizationToken
         },
         params: {
           token: refreshToken,
-          accessToken:accessToken,
-        },
+          accessToken: accessToken
+        }
       })
       .then((r) => r.data);
   sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
@@ -42,23 +45,36 @@ export class AuthResource {
   addTopic = (data: TopicRequest): Promise<any> => this.axios.post('entry/addTopic', data, this.axiosRequestConfig).then((r) => r.data);
   getTopic = (): Promise<TopicResponse[]> => this.axios.get('entry/getTopics', this.axiosRequestConfig).then((r) => r.data);
   addContent = (data: ContentRequest): Promise<any> => this.axios.post('entry/addContent', data, this.axiosRequestConfig).then((r) => r.data);
-  getContent = (topicName: string): Promise<ContentResponse[]> => this.axios.get('entry/getContent', {
-    params: {
-      topic: topicName,
-    }
-  }).then((r) => r.data);
+  getContent = (topicName: string): Promise<ContentResponse[]> =>
+    this.axios
+      .get('entry/getContent', {
+        params: {
+          topic: topicName
+        }
+      })
+      .then((r) => r.data);
 
-  userInfo = (userName: string): Promise<UserInfoResponse> => this.axios.get('user/info', {
-    params: {
-      userName: userName,
-    }
-  }).then((r) => r.data);
+  userInfo = (userName: string): Promise<UserInfoResponse> =>
+    this.axios
+      .get('user/info', {
+        params: {
+          userName: userName
+        }
+      })
+      .then((r) => r.data);
 
   myContents = (): Promise<ContentResponse[]> => this.axios.get('entry/getMyContents', this.axiosRequestConfig).then((r) => r.data);
-  userContents = (userName: string): Promise<ContentResponse[]> => this.axios.get('entry/getUserContents',{
-    params: {
-      userName: userName,
-    }
-  } ).then((r) => r.data);
+  userContents = (userName: string): Promise<ContentResponse[]> =>
+    this.axios
+      .get('entry/getUserContents', {
+        params: {
+          userName: userName
+        }
+      })
+      .then((r) => r.data);
 
+  addLike = (data: LikeRequest): Promise<any> =>
+    this.axios
+      .put('entry/like-dislike', data, this.axiosRequestConfig)
+      .then((r) => r.data);
 }

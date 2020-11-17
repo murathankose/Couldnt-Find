@@ -28,6 +28,11 @@ export interface TopicRequest {
   topicName: string;
 }
 
+export interface LikeRequest {
+  contentID: string;
+  like: string;
+}
+
 export interface ContentRequest {
   topicName: string;
   content: string;

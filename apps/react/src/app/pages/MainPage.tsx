@@ -63,13 +63,16 @@ export const MainPage = () => {
       {allTopics?.map((d, key) => (
         <li key={key} className="ml-4">
           <StyledRowContent>
-            <StyledStrong>Konu Adı:</StyledStrong> <StyledLink to={'/contents/' + d.topicName}>{d.topicName}</StyledLink>
+            <StyledStrong>Konu Adı:</StyledStrong> <StyledLink
+            to={'/contents/' + d.topicName}>{d.topicName}</StyledLink>
             <br />
             <StyledStrong>İçerik sayısı:</StyledStrong> {d.contentNumber}
             <br />
-            <StyledStrong>Kullanıcı:</StyledStrong> <StyledLink to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
+            <StyledStrong>Kullanıcı:</StyledStrong> <StyledLink
+            to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
             <br />
-            <StyledStrong>Tarih:</StyledStrong> {d.createDate}
+            <StyledStrong>Tarih : {' '}{d.createDate.substring(0, 10)}</StyledStrong>
+            <StyledStrong>Saat : {' '}{d.createDate.substring(11, 16)}</StyledStrong>
             <br />
           </StyledRowContent>
         </li>

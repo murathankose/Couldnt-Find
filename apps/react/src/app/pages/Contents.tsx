@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { api, ContentResponse } from '@internship/shared/api';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Button, ContentForm } from '@internship/ui';
 import { useAuthentication } from '@internship/shared/hooks';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { likeAsync } from '@internship/store/authentication';
 
 const StyledRow = styled(Row)`
   margin-top: 0.5rem;
@@ -42,6 +43,9 @@ export const Contents = () => {
   const [updateContent, setUpdateContent] = useState(false);
   const [newContent, setNewContent] = useState(false);
   const { isAuthenticated } = useAuthentication();
+  const [like, setLike] = useState(false);
+  const [dislike, setDislike] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     api.auth
@@ -50,7 +54,13 @@ export const Contents = () => {
         setAllContent(r);
       })
       .catch((e) => console.error(e));
+    setUpdateContent(false);
   }, [updateContent]);
+
+  const addLike = (contentID, likes) => {
+    const values = { contentID: contentID, like: likes };
+    dispatch(likeAsync.request(values));
+  };
 
   return (
     <StyledContainer>
@@ -62,15 +72,25 @@ export const Contents = () => {
           </StyledNewButton>
         </StyledRow>
       ) : null}
-      {newContent ? <ContentForm setClose={setNewContent} setUpdateContents = {setUpdateContent} topicName={topicName} /> : null}
+      {newContent ?
+        <ContentForm setClose={setNewContent} setUpdateContents={setUpdateContent} topicName={topicName} /> : null}
       {allContent?.map((d, key) => (
         <li key={key} className="ml-4">
           <StyledRowContent>
             <StyledStrong>{d.content}</StyledStrong>
             <br />
-            <StyledStrong>Kullanıcı: </StyledStrong> <StyledLink to={'/user/' + d.topic.user.username}>{d.topic.user.username}</StyledLink>
+            <StyledStrong>Kullanıcı:</StyledStrong> <StyledLink
+            to={'/user/' + d.topic.user.username}>{d.topic.user.username}</StyledLink>
             <br />
-            <StyledStrong>Tarih: </StyledStrong> {d.createDate}
+            <StyledNewButton onClick={() => addLike(d.id, 'like')} disabled={like}>
+              <FontAwesomeIcon icon={faThumbsUp} />
+            </StyledNewButton>
+            <StyledNewButton onClick={() => addLike(d.id, 'dislike')} disabled={dislike}>
+              <FontAwesomeIcon icon={faThumbsDown} />
+            </StyledNewButton>
+            <br />
+            <StyledStrong>Tarih : {d.createDate.substring(0, 10)}</StyledStrong>
+            <StyledStrong>Saat : {d.createDate.substring(11, 16)}</StyledStrong>
             <br />
           </StyledRowContent>
         </li>

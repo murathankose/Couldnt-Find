@@ -1,12 +1,15 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
 import { AxiosError } from 'axios';
 import {
-  ChangePasswordRequest, ContentRequest,
+  ChangePasswordRequest,
+  ContentRequest,
   ForgotPasswordRequest,
+  LikeRequest,
   LoginRequest,
   LogoutRequest,
   RegisterRequest,
-  ResetPasswordRequest, TopicRequest,
+  ResetPasswordRequest,
+  TopicRequest,
   UpdateRequest
 } from '@internship/shared/types';
 
@@ -44,12 +47,12 @@ export const topicAsync = createAsyncAction('@TOPIC_REQUEST', '@TOPIC_SUCCESS', 
   any,
   AxiosError
   >();
-export const contentAsync = createAsyncAction('@CONTENT_REQUEST', '@CONTENT_SUCCESS', '@CONTENT_FAILURE')<
-  ContentRequest,
+export const contentAsync = createAsyncAction('@CONTENT_REQUEST', '@CONTENT_SUCCESS', '@CONTENT_FAILURE')<ContentRequest,
   any,
-  AxiosError
-  >();
-
+  AxiosError>();
+export const likeAsync = createAsyncAction('@LIKE_REQUEST', '@LIKE_SUCCESS', '@LIKE_FAILURE')<LikeRequest,
+  any,
+  AxiosError>();
 export const resetpasswordAsync = createAsyncAction(
   '@Authentication/RESETPASSWORD_REQUEST',
   '@Authentication/RESETPASSWORD_SUCCESS',
