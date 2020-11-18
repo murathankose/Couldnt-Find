@@ -7,6 +7,13 @@ import { logoutAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Popup, PopupButton, Search } from '../../molecules';
 import { getAccessToken, getRefreshToken } from '@internship/shared/utils';
+import styled from 'styled-components';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const StyledNav = styled.nav`
+background-color: blueviolet !important;
+`;
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
@@ -39,7 +46,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm bg-primary  navbar-dark">
+    <StyledNav className="navbar navbar-expand-sm bg-primary  navbar-dark">
       <div className="container">
         <button
           className="custom-toggler navbar-toggler"
@@ -58,7 +65,7 @@ export const Navigation = () => {
             <li className="navbar-brand">
               <NavLink exact to="/" className="nav-link"
                        onClick={() => dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
-                Home
+                <FontAwesomeIcon icon={faHome} />
               </NavLink>
             </li>
             <li className="nav-link">
@@ -139,6 +146,6 @@ export const Navigation = () => {
           <Search />
         </div>
       </div>
-    </nav>
+    </StyledNav>
   );
 };

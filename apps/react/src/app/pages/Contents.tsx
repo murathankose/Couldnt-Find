@@ -47,9 +47,13 @@ const StyledContainer = styled(Container)`
 const StyledStrong = styled.strong`
   margin-right: 1rem;
 `;
+const StyledContent = styled(StyledStrong)`
+  color: blueviolet;
+  font-weight: 500;
+`;
 
 const StyledLink = styled(Link)`
-  color: black;
+  color: blueviolet;
 `;
 
 export const Contents = () => {
@@ -89,9 +93,9 @@ export const Contents = () => {
       {newContent ?
         <ContentForm setClose={setNewContent} setUpdateContents={setUpdateContent} topicName={topicName} /> : null}
       {allContent?.map((d, key) => (
-        <li key={key} className="ml-4">
+        <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
           <StyledRowContent>
-            <StyledStrong>{d.content}</StyledStrong>
+            <StyledContent>{d.content}</StyledContent>
             <br />
             <StyledStrong>Kullanıcı:</StyledStrong> <StyledLink
             to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
@@ -99,24 +103,32 @@ export const Contents = () => {
             {isAuthenticated ? (
               <>
                 {d.userLike.some((element) => element.username === getUserName()) ? (
-                  <StyledCancelLikeButton onClick={() => addLike(d.id, 'cancel-like')}
-                                          disabled={d.userDislike.some((element) => element.username === getUserName())}>
+                  <StyledCancelLikeButton
+                    onClick={() => addLike(d.id, 'cancel-like')}
+                    disabled={d.userDislike.some((element) => element.username === getUserName())}
+                  >
                     <FontAwesomeIcon icon={faThumbsUp} />
                   </StyledCancelLikeButton>
                 ) : (
-                  <StyledLikeButton onClick={() => addLike(d.id, 'like')}
-                                    disabled={d.userDislike.some((element) => element.username === getUserName())}>
+                  <StyledLikeButton
+                    onClick={() => addLike(d.id, 'like')}
+                    disabled={d.userDislike.some((element) => element.username === getUserName())}
+                  >
                     <FontAwesomeIcon icon={faThumbsUp} />
                   </StyledLikeButton>
                 )}
                 {d.userDislike.some((element) => element.username === getUserName()) ? (
-                  <StyledCancelLikeButton onClick={() => addLike(d.id, 'cancel-dislike')}
-                                          disabled={d.userLike.some((element) => element.username === getUserName())}>
+                  <StyledCancelLikeButton
+                    onClick={() => addLike(d.id, 'cancel-dislike')}
+                    disabled={d.userLike.some((element) => element.username === getUserName())}
+                  >
                     <FontAwesomeIcon icon={faThumbsDown} />
                   </StyledCancelLikeButton>
                 ) : (
-                  <StyledLikeButton onClick={() => addLike(d.id, 'dislike')}
-                                    disabled={d.userLike.some((element) => element.username === getUserName())}>
+                  <StyledLikeButton
+                    onClick={() => addLike(d.id, 'dislike')}
+                    disabled={d.userLike.some((element) => element.username === getUserName())}
+                  >
                     <FontAwesomeIcon icon={faThumbsDown} />
                   </StyledLikeButton>
                 )}
@@ -124,8 +136,12 @@ export const Contents = () => {
                 <br />
               </>
             ) : null}
-            <StyledStrong>Tarih : {d.createDate.substring(0, 10)}</StyledStrong>
-            <StyledStrong>Saat : {d.createDate.substring(11, 16)}</StyledStrong>
+            <StyledStrong>
+              Tarih :<StyledContent> {d.createDate.substring(0, 10)}</StyledContent>
+            </StyledStrong>
+            <StyledStrong>
+              Saat :<StyledContent> {d.createDate.substring(11, 16)}</StyledContent>
+            </StyledStrong>
             <br />
           </StyledRowContent>
         </li>

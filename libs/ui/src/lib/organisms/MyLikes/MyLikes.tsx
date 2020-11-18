@@ -18,7 +18,7 @@ const StyledRowContent = styled(StyledRow)`
 `;
 
 const StyledContainer = styled(Container)`
-  margin-top: 1.5rem;
+
   @media (min-width: 768px) {
     padding-right: 3.2rem;
   }
@@ -28,14 +28,20 @@ const StyledStrong = styled.strong`
 `;
 
 const StyledContent = styled(StyledStrong)`
-  color: red;
+  color: blueviolet;
+  font-weight: 500;
 `;
+
 const StyledCancelLikeButton = styled(Button)`
   background-color: red;
   font-size: 0.7rem;
   margin-right: 3.2rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+`;
+
+const StyledLink = styled(Link)`
+  color: blueviolet;
 `;
 
 type MyContentsProps = {
@@ -79,16 +85,16 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
     <StyledContainer>
       <StyledRow>
         {(likeOrDislike ? myLike : myDislike)?.map((d, key) => (
-          <li key={key} className="ml-4">
+          <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
             <StyledRowContent>
               <StyledStrong>
-                Konu Adı : <Link to={'/contents/' + d.topic.topicName}>{d.topic.topicName}</Link>
+                Konu Adı : <StyledLink to={'/contents/' + d.topic.topicName}>{d.topic.topicName}</StyledLink>
               </StyledStrong>
               <br />
               <StyledContent>{d.content} </StyledContent>
-              <br />
               {!isGuest ? (
                 <>
+                  <br />
                   {likeOrDislike ? (
                     <StyledCancelLikeButton onClick={() => addLike(d.id, 'cancel-like')}>
                       <FontAwesomeIcon icon={faThumbsDown} />
@@ -99,15 +105,18 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
                     </StyledCancelLikeButton>
                   )}
                 </>
-              ) : null
-              }
+              ) : null}
               <br />
               <StyledStrong>
-                Kullanıcı : <Link to={'/user/' + d.user.username}>{d.user.username}</Link>
+                Kullanıcı : <StyledLink to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
               </StyledStrong>
               <br />
-              <StyledStrong>Tarih : {d.createDate.substring(0, 10)}</StyledStrong>
-              <StyledStrong>Saat : {d.createDate.substring(11, 16)}</StyledStrong>
+              <StyledStrong>
+                Tarih : <StyledContent>{d.createDate.substring(0, 10)}</StyledContent>
+              </StyledStrong>
+              <StyledStrong>
+                Saat :<StyledContent> {d.createDate.substring(11, 16)}</StyledContent>
+              </StyledStrong>
             </StyledRowContent>
           </li>
         ))}

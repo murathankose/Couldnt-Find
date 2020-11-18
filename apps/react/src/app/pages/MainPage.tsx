@@ -15,6 +15,7 @@ const StyledRow = styled(Row)`
 `;
 const StyledRowContent = styled(StyledRow)`
   display: block;
+  margin-bottom: 1rem;
 `;
 
 const StyledNewButton = styled(Button)`
@@ -33,7 +34,12 @@ const StyledStrong = styled.strong`
 `;
 
 const StyledLink = styled(Link)`
-  color: black;
+  color: blueviolet;
+`;
+
+const StyledContent = styled(StyledStrong)`
+  color: blueviolet;
+  font-weight: 500;
 `;
 
 export const MainPage = () => {
@@ -61,18 +67,22 @@ export const MainPage = () => {
       ) : null}
       {newTopic ? <TopicForm setClose={setNewTopic} setUpdateTopics={setUpdateTopics} /> : null}
       {allTopics?.map((d, key) => (
-        <li key={key} className="ml-4">
+        <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
           <StyledRowContent>
             <StyledStrong>Konu Adı:</StyledStrong> <StyledLink
             to={'/contents/' + d.topicName}>{d.topicName}</StyledLink>
             <br />
-            <StyledStrong>İçerik sayısı:</StyledStrong> {d.contentNumber}
+            <StyledStrong>İçerik sayısı:</StyledStrong> <StyledContent>{d.contentNumber}</StyledContent>
             <br />
             <StyledStrong>Kullanıcı:</StyledStrong> <StyledLink
             to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
             <br />
-            <StyledStrong>Tarih : {' '}{d.createDate.substring(0, 10)}</StyledStrong>
-            <StyledStrong>Saat : {' '}{d.createDate.substring(11, 16)}</StyledStrong>
+            <StyledStrong>
+              Tarih : <StyledContent>{d.createDate.substring(0, 10)}</StyledContent>
+            </StyledStrong>
+            <StyledStrong>
+              Saat : <StyledContent>{d.createDate.substring(11, 16)}</StyledContent>
+            </StyledStrong>
             <br />
           </StyledRowContent>
         </li>

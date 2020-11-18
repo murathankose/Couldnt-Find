@@ -12,17 +12,22 @@ const StyledRowContent = styled(StyledRow)`
 `;
 
 const StyledContainer = styled(Container)`
-  margin-top: 1.5rem;
   @media (min-width: 768px) {
     padding-right: 3.2rem;
   }
 `;
 const StyledStrong = styled.strong`
   margin-right: 1rem;
+  margin-bottom: 0.5rem;
+`;
+
+const StyledContent = styled(StyledStrong)`
+  color: blueviolet;
+  font-weight: 500;
 `;
 
 const StyledLink = styled(Link)`
-  color: black;
+  color: blueviolet;
 `;
 
 type MyContentsProps = {
@@ -34,20 +39,23 @@ export const MyContents: React.FC<MyContentsProps> = ({ myContents }) => {
     <StyledContainer>
       <StyledRow>
         {myContents?.map((d, key) => (
-          <li key={key} className="ml-4">
+          <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
             <StyledRowContent>
               <StyledStrong>
-                Konu Adı :{' '}
-                <StyledLink to={'/contents/' + d.topic.topicName}>{d.topic.topicName}</StyledLink>
+                Konu Adı : <StyledLink to={'/contents/' + d.topic.topicName}>{d.topic.topicName}</StyledLink>
               </StyledStrong>
               <br />
-              <StyledStrong> {d.content} </StyledStrong>
+              <StyledContent> {d.content} </StyledContent>
               <br />
-              <p>
-                Like: {d.like} Dislike: {d.dislike}
-              </p>
-              <StyledStrong>Tarih : {' '}{d.createDate.substring(0,10)}</StyledStrong>
-              <StyledStrong>Saat : {' '}{d.createDate.substring(11,16)}</StyledStrong>
+              <StyledStrong>
+                Like: <StyledContent>{d.like} </StyledContent>Dislike: <StyledContent>{d.dislike}</StyledContent>
+              </StyledStrong>
+              <StyledStrong>
+                Tarih :<StyledContent> {d.createDate.substring(0, 10)}</StyledContent>
+              </StyledStrong>
+              <StyledStrong>
+                Saat :<StyledContent> {d.createDate.substring(11, 16)}</StyledContent>
+              </StyledStrong>
             </StyledRowContent>
           </li>
         ))}
