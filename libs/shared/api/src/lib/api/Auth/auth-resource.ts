@@ -1,5 +1,12 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { ContentResponse, SessionDetailResponse, TopicResponse, UserDetailResponse, UserInfoResponse } from './types';
+import {
+  ContentResponse,
+  LikeContentResponse,
+  SessionDetailResponse,
+  TopicResponse,
+  UserDetailResponse,
+  UserInfoResponse
+} from './types';
 import {
   ChangePasswordRequest,
   ContentRequest,
@@ -76,5 +83,15 @@ export class AuthResource {
   addLike = (data: LikeRequest): Promise<any> =>
     this.axios
       .put('entry/like-dislike', data, this.axiosRequestConfig)
+      .then((r) => r.data);
+
+  getLikes = (like: string, username: string): Promise<LikeContentResponse[]> =>
+    this.axios
+      .get('entry/getLikes', {
+        params: {
+          like: like,
+          userName: username
+        }
+      })
       .then((r) => r.data);
 }

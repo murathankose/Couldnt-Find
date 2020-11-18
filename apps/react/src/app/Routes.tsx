@@ -3,17 +3,18 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import {
   About,
   Contact,
+  Contents,
   ForgotPasswordPage,
-  Login, MailErrorPage,
+  Login,
+  MailErrorPage,
   MailSuccessPage,
   MainPage,
   OAuth2RedirectHandler,
   Profile,
   Register,
   ResetPassword,
-  Contents
+  UserInfo
 } from './pages';
-import { UserInfo } from '@internship/ui';
 
 export const Routes = ({ children, ...props }) => {
   return (
@@ -32,7 +33,6 @@ export const Routes = ({ children, ...props }) => {
       <Route path="/register" component={Register} />
       <Route path="/contents/:topicName" component={Contents} />
       <Route path="/user/:userName" component={UserInfo} />
-
     </Router>
   );
 };

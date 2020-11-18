@@ -31,9 +31,19 @@ export interface ContentResponse {
   createDate: string;
   topic: any;
   userLike: any;
+  userDislike: any;
+  user: any;
 }
 
-export interface  SessionDetailResponse {
+export interface LikeContentResponse {
+  id: string;
+  content: string;
+  createDate: string;
+  topic: any;
+  user: any;
+}
+
+export interface SessionDetailResponse {
   refreshToken: string;
   accessToken: string;
   userAgent: string;

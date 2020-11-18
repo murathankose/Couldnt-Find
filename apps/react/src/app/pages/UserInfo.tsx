@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { api, ContentResponse, UserInfoResponse } from '@internship/shared/api';
-import { ProfileImage } from '../../atoms/Image';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { MyLikes, ProfileImage } from '@internship/ui';
 
 const StyledRow = styled(Row)`
   margin-top: 0.5rem;
@@ -33,9 +32,10 @@ const StyledLink = styled(Link)`
 
 export const UserInfo = () => {
   const [detail, setDetail] = useState<UserInfoResponse>();
-  const [editUserInfo, setEditUserInfo] = useState(false);
   const { userName } = useParams();
   const [contentsInfo, setContentsInfo] = useState(false);
+  const [likeInfo, setLikeInfo] = useState(false);
+  const [dislikeInfo, setDislikeInfo] = useState(false);
   const [userContents, setUserContents] = useState<ContentResponse[]>();
 
   useEffect(() => {
@@ -43,15 +43,34 @@ export const UserInfo = () => {
       .userInfo(userName)
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
-  }, [editUserInfo]);
+    setLikeInfo(false);
+    setDislikeInfo(false);
+  }, [userName]);
 
   useEffect(() => {
     api.auth
       .userContents(userName)
       .then((r) => setUserContents(r))
       .catch((e) => console.error(e));
-  }, [editUserInfo]);
+    setLikeInfo(false);
+    setDislikeInfo(false);
+  }, [userName]);
 
+  const LookUserContents = () => {
+    setContentsInfo(true);
+    setDislikeInfo(false);
+    setLikeInfo(false);
+  };
+  const LookUserLike = () => {
+    setLikeInfo(true);
+    setContentsInfo(false);
+    setDislikeInfo(false);
+  };
+  const LookUserDislike = () => {
+    setDislikeInfo(true);
+    setContentsInfo(false);
+    setLikeInfo(false);
+  };
   return (
     <StyledContainer>
       <Row>
@@ -59,7 +78,8 @@ export const UserInfo = () => {
           <div className="card text-center">
             <div className="card-header">
               <h3>Welcome</h3>
-              <ProfileImage width="200" height="200" alt={`${detail?.username} profile picture`} image={detail?.image} />
+              <ProfileImage width="200" height="200" alt={`${detail?.username} profile picture`}
+                            image={detail?.image} />
             </div>
             <h5>
               <div>
@@ -80,8 +100,14 @@ export const UserInfo = () => {
                 </Row>
               </div>
             </h5>
-            <Button className="btn  btn-success mt-2" disabled={contentsInfo} onClick={() => setContentsInfo(true)}>
-              Contents
+            <Button className="btn  btn-success mt-2" disabled={contentsInfo} onClick={LookUserContents}>
+              User Contents
+            </Button>
+            <Button className="btn  btn-success mt-2" disabled={likeInfo} onClick={LookUserLike}>
+              User Likes
+            </Button>
+            <Button className="btn  btn-success mt-2" disabled={dislikeInfo} onClick={LookUserDislike}>
+              User Dislikes
             </Button>
           </div>
         </Col>
@@ -110,6 +136,22 @@ export const UserInfo = () => {
                   </li>
                 ))}
               </StyledRow>
+            </>
+          ) : null}
+          {likeInfo ? (
+            <>
+              <Button className="btn btn-danger mb-3" disabled={!likeInfo} onClick={() => setLikeInfo(false)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </Button>
+              <MyLikes username={userName} likeOrDislike={true} isGuest={true} />
+            </>
+          ) : null}
+          {dislikeInfo ? (
+            <>
+              <Button className="btn btn-danger mb-3" disabled={!dislikeInfo} onClick={() => setDislikeInfo(false)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </Button>
+              <MyLikes username={userName} likeOrDislike={false} isGuest={true} />
             </>
           ) : null}
         </Col>

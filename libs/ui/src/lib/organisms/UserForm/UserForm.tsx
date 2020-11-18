@@ -8,7 +8,6 @@ import { Button } from '../../atoms/Button';
 import { useTemporary } from '@internship/shared/hooks';
 import { Popup, PopupButton } from '../../molecules/Popup';
 import { useHistory } from 'react-router-dom';
-import { UserDetailResponse } from '@internship/shared/api';
 
 type UserFormProps = {
   setEditUserInfo;

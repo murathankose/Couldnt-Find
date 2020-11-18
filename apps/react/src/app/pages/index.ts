@@ -8,3 +8,4 @@ export * from './Register';
 export * from './MailActivation';
 export * from './ForgotPassword';
 export * from './Contents';
+export * from './UserInfo';

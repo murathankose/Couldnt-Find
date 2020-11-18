@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { likeAsync } from '@internship/store/authentication';
+import { getUserName } from '@internship/shared/utils';
 
 const StyledRow = styled(Row)`
   margin-top: 0.5rem;
@@ -21,6 +22,20 @@ const StyledRowContent = styled(StyledRow)`
 const StyledNewButton = styled(Button)`
   margin-left: auto;
   background-color: blueviolet;
+`;
+const StyledLikeButton = styled(Button)`
+  background-color: blue;
+  font-size: 0.7rem;
+  margin-right: 3.2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+`;
+const StyledCancelLikeButton = styled(Button)`
+  background-color: red;
+  font-size: 0.7rem;
+  margin-right: 3.2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 `;
 
 const StyledContainer = styled(Container)`
@@ -43,8 +58,6 @@ export const Contents = () => {
   const [updateContent, setUpdateContent] = useState(false);
   const [newContent, setNewContent] = useState(false);
   const { isAuthenticated } = useAuthentication();
-  const [like, setLike] = useState(false);
-  const [dislike, setDislike] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -60,6 +73,7 @@ export const Contents = () => {
   const addLike = (contentID, likes) => {
     const values = { contentID: contentID, like: likes };
     dispatch(likeAsync.request(values));
+    setUpdateContent(true);
   };
 
   return (
@@ -80,15 +94,36 @@ export const Contents = () => {
             <StyledStrong>{d.content}</StyledStrong>
             <br />
             <StyledStrong>Kullanıcı:</StyledStrong> <StyledLink
-            to={'/user/' + d.topic.user.username}>{d.topic.user.username}</StyledLink>
+            to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
             <br />
-            <StyledNewButton onClick={() => addLike(d.id, 'like')} disabled={like}>
-              <FontAwesomeIcon icon={faThumbsUp} />
-            </StyledNewButton>
-            <StyledNewButton onClick={() => addLike(d.id, 'dislike')} disabled={dislike}>
-              <FontAwesomeIcon icon={faThumbsDown} />
-            </StyledNewButton>
-            <br />
+            {isAuthenticated ? (
+              <>
+                {d.userLike.some((element) => element.username === getUserName()) ? (
+                  <StyledCancelLikeButton onClick={() => addLike(d.id, 'cancel-like')}
+                                          disabled={d.userDislike.some((element) => element.username === getUserName())}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                  </StyledCancelLikeButton>
+                ) : (
+                  <StyledLikeButton onClick={() => addLike(d.id, 'like')}
+                                    disabled={d.userDislike.some((element) => element.username === getUserName())}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                  </StyledLikeButton>
+                )}
+                {d.userDislike.some((element) => element.username === getUserName()) ? (
+                  <StyledCancelLikeButton onClick={() => addLike(d.id, 'cancel-dislike')}
+                                          disabled={d.userLike.some((element) => element.username === getUserName())}>
+                    <FontAwesomeIcon icon={faThumbsDown} />
+                  </StyledCancelLikeButton>
+                ) : (
+                  <StyledLikeButton onClick={() => addLike(d.id, 'dislike')}
+                                    disabled={d.userLike.some((element) => element.username === getUserName())}>
+                    <FontAwesomeIcon icon={faThumbsDown} />
+                  </StyledLikeButton>
+                )}
+
+                <br />
+              </>
+            ) : null}
             <StyledStrong>Tarih : {d.createDate.substring(0, 10)}</StyledStrong>
             <StyledStrong>Saat : {d.createDate.substring(11, 16)}</StyledStrong>
             <br />

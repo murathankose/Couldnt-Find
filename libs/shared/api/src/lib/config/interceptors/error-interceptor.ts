@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+
 const err = {
   'auth/signin': {
     '401': 'Kullanıcı adı veya şifre yanlış',
@@ -36,10 +37,20 @@ export const errorInterceptor = (error: AxiosError) => {
     errorMessage = err[error.config.url]['101'];
   } else if (error.response?.data.message.toString() === '102') {
     errorMessage = err[error.config.url]['102'];
+  } else if (error.response?.data.message.toString() === '110') {
+    errorMessage = err[error.config.url]['110'];
+  } else if (error.response?.data.message.toString() === '111') {
+    errorMessage = err[error.config.url]['111'];
+  } else if (error.response?.data.message.toString() === '112') {
+    errorMessage = err[error.config.url]['112'];
+  } else if (error.response?.data.message.toString() === '113') {
+    errorMessage = err[error.config.url]['113'];
+  } else if (error.response?.data.message.toString() === '114') {
+    errorMessage = err[error.config.url]['114'];
   } else if (error.response?.data.message.toString() === '105') {
     errorMessage = err[error.config.url]['105'];
-  } else if (error.response?.data.message.toString() === '108') {
-    errorMessage = err[error.config.url]['108'];
+  } else if (error.response?.data.message.toString() === '300') {
+    errorMessage = err[error.config.url]['300'];
   } else if (error.response?.data.message.toString() === 'User with given email could not found') {
     errorMessage = err['auth/send-email']['400'];
   } else if (error.config.url === 'auth/signin' && error.response?.status === 401) {
