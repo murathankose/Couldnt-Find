@@ -54,8 +54,7 @@ export const MainPage = () => {
       .getTopic(page.number)
       .then((r) => setAllTopics(r))
       .catch((e) => console.error(e));
-    console.log(isSuccessRequired);
-  }, [page]);
+  }, [page, isSuccessRequired]);
   return (
     <StyledContainer>
       {isAuthenticated ? (
