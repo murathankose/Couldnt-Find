@@ -15,10 +15,9 @@ const StyledRow = styled(Row)`
 
 type ContentFormProps = {
   setClose;
-  setUpdateContents;
   topicName;
 };
-export const ContentForm: React.FC<ContentFormProps> = ({ setClose,setUpdateContents,topicName }) => {
+export const ContentForm: React.FC<ContentFormProps> = ({ setClose, topicName }) => {
   const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
@@ -33,7 +32,6 @@ export const ContentForm: React.FC<ContentFormProps> = ({ setClose,setUpdateCont
     dispatch(contentAsync.request(values));
     setClose(false);
     setShow(false);
-    setUpdateContents(true);
   };
 
   const handleClose = () => {

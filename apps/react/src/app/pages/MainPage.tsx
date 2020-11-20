@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAuthentication } from '@internship/shared/hooks';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import { Button, TopicForm } from '@internship/ui';
-import { api, TopicResponse } from '@internship/shared/api';
+import { api, Pageable } from '@internship/shared/api';
 import { Link } from 'react-router-dom';
 
 const StyledIcon = styled(FontAwesomeIcon)``;
@@ -45,17 +45,17 @@ const StyledContent = styled(StyledStrong)`
 export const MainPage = () => {
   const [newTopic, setNewTopic] = useState(false);
   const { isAuthenticated } = useAuthentication();
-  const [allTopics, setAllTopics] = useState<TopicResponse[]>();
-  const [updateTopics, setUpdateTopics] = useState(false);
+  const [allTopics, setAllTopics] = useState<Pageable>();
+  const [page, setPage] = useState({ number: 0 });
+  const { isSuccessRequired } = useTemporary();
 
   useEffect(() => {
     api.auth
-      .getTopic()
+      .getTopic(page.number)
       .then((r) => setAllTopics(r))
       .catch((e) => console.error(e));
-    setUpdateTopics(false);
-  }, [updateTopics]);
-
+    console.log(isSuccessRequired);
+  }, [page]);
   return (
     <StyledContainer>
       {isAuthenticated ? (
@@ -65,8 +65,8 @@ export const MainPage = () => {
           </StyledNewButton>
         </StyledRow>
       ) : null}
-      {newTopic ? <TopicForm setClose={setNewTopic} setUpdateTopics={setUpdateTopics} /> : null}
-      {allTopics?.map((d, key) => (
+      {newTopic ? <TopicForm setClose={setNewTopic} setPage={setPage} /> : null}
+      {allTopics?.content?.map((d, key) => (
         <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
           <StyledRowContent>
             <StyledStrong>Konu Adı:</StyledStrong> <StyledLink
@@ -87,6 +87,24 @@ export const MainPage = () => {
           </StyledRowContent>
         </li>
       ))}
+      <Row className="justify-content-md-center">
+        <Col xs lg="1">
+          {!allTopics?.first ? (
+            <Button className="btn btn-sm mt-2" variant="outline-primary"
+                    onClick={() => setPage({ number: page.number - 1 })}>
+              {'<'}
+            </Button>
+          ) : null}
+        </Col>
+        <Col xs lg="1">
+          {!allTopics?.last ? (
+            <Button className="btn btn-sm mt-2 " variant="outline-primary"
+                    onClick={() => setPage({ number: page.number + 1 })}>
+              {'>'}
+            </Button>
+          ) : null}
+        </Col>
+      </Row>
     </StyledContainer>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import { api, ContentResponse, UserInfoResponse } from '@internship/shared/api';
+import { api, Pageable, UserInfoResponse } from '@internship/shared/api';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,7 @@ const StyledRowContent = styled(StyledRow)`
 `;
 
 const StyledContainer = styled(Container)`
-margin-top: 1.5rem;
+  margin-top: 1.5rem;
   @media (min-width: 768px) {
     padding-right: 3.2rem;
   }
@@ -41,25 +41,22 @@ export const UserInfo = () => {
   const [contentsInfo, setContentsInfo] = useState(false);
   const [likeInfo, setLikeInfo] = useState(false);
   const [dislikeInfo, setDislikeInfo] = useState(false);
-  const [userContents, setUserContents] = useState<ContentResponse[]>();
+  const [userContents, setUserContents] = useState<Pageable>();
+  const [page, setPage] = useState({ number: 0 });
 
   useEffect(() => {
     api.auth
       .userInfo(userName)
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
-    setLikeInfo(false);
-    setDislikeInfo(false);
   }, [userName]);
 
   useEffect(() => {
     api.auth
-      .userContents(userName)
+      .userContents(userName, page.number)
       .then((r) => setUserContents(r))
       .catch((e) => console.error(e));
-    setLikeInfo(false);
-    setDislikeInfo(false);
-  }, [userName]);
+  }, [page]);
 
   const LookUserContents = () => {
     setContentsInfo(true);
@@ -123,7 +120,7 @@ export const UserInfo = () => {
                 <FontAwesomeIcon icon={faTimes} />
               </Button>
               <StyledRow>
-                {userContents?.map((d, key) => (
+                {userContents?.content?.map((d, key) => (
                   <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
                     <StyledRowContent>
                       <StyledStrong>
@@ -144,6 +141,24 @@ export const UserInfo = () => {
                     </StyledRowContent>
                   </li>
                 ))}
+                <Row className="justify-content-md-center">
+                  <Col xs lg="1">
+                    {!userContents?.first ? (
+                      <Button className="btn btn-sm mt-2" variant="outline-primary"
+                              onClick={() => setPage({ number: page.number - 1 })}>
+                        {'<'}
+                      </Button>
+                    ) : null}
+                  </Col>
+                  <Col xs lg="1">
+                    {!userContents?.last ? (
+                      <Button className="btn btn-sm mt-2 " variant="outline-primary"
+                              onClick={() => setPage({ number: page.number + 1 })}>
+                        {'>'}
+                      </Button>
+                    ) : null}
+                  </Col>
+                </Row>
               </StyledRow>
             </>
           ) : null}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ChangePassword, EditProfile, EditSession, MyContents } from './profilePageComponents';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import { api, ContentResponse, UserDetailResponse } from '@internship/shared/api';
+import { api, UserDetailResponse } from '@internship/shared/api';
 import { MyLikes, ProfileImage } from '@internship/ui';
 import { useAuthentication } from '@internship/shared/hooks';
 import { useHistory } from 'react-router-dom';
@@ -18,7 +18,6 @@ export const Profile = () => {
   const [likeInfo, setLikeInfo] = useState(false);
   const [dislikeInfo, setDislikeInfo] = useState(false);
   const [detail, setDetail] = useState<UserDetailResponse>();
-  const [myContents, setMyContents] = useState<ContentResponse[]>();
 
   const { isAuthenticated } = useAuthentication();
   const history = useHistory();
@@ -31,14 +30,6 @@ export const Profile = () => {
       .catch((e) => console.error(e));
     setEditUserInfo(false);
   }, [editUserInfo]);
-
-  useEffect(() => {
-    api.auth
-      .myContents()
-      .then((r) => setMyContents(r))
-      .catch((e) => console.error(e));
-  }, []);
-
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -54,7 +45,6 @@ export const Profile = () => {
     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
     dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
   };
-
 
   const editSessionInfo = () => {
     setSessionInfo(true);
@@ -204,7 +194,7 @@ export const Profile = () => {
               <Button className="btn btn-danger mb-3" disabled={!contentsInfo} onClick={() => setContentsInfo(false)}>
                 <FontAwesomeIcon icon={faTimes} />
               </Button>
-              <MyContents myContents={myContents} />
+              <MyContents />
             </>
           ) : null}
           {likeInfo ? (

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-import { api, ContentResponse } from '@internship/shared/api';
+import { api, Pageable } from '@internship/shared/api';
 import { faPlus, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Button, ContentForm } from '@internship/ui';
-import { useAuthentication } from '@internship/shared/hooks';
+import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
@@ -58,26 +58,26 @@ const StyledLink = styled(Link)`
 
 export const Contents = () => {
   const { topicName } = useParams();
-  const [allContent, setAllContent] = useState<ContentResponse[]>();
-  const [updateContent, setUpdateContent] = useState(false);
+  const [allContent, setAllContent] = useState<Pageable>();
   const [newContent, setNewContent] = useState(false);
   const { isAuthenticated } = useAuthentication();
   const dispatch = useDispatch();
+  const { isSuccessRequired } = useTemporary();
+  const [page, setPage] = useState({ number: 0 });
 
   useEffect(() => {
     api.auth
-      .getContent(topicName)
+      .getContent(topicName, page.number)
       .then((r) => {
         setAllContent(r);
       })
       .catch((e) => console.error(e));
-    setUpdateContent(false);
-  }, [updateContent]);
+  }, [page, isSuccessRequired]);
+
 
   const addLike = (contentID, likes) => {
     const values = { contentID: contentID, like: likes };
     dispatch(likeAsync.request(values));
-    setUpdateContent(true);
   };
 
   return (
@@ -91,8 +91,8 @@ export const Contents = () => {
         </StyledRow>
       ) : null}
       {newContent ?
-        <ContentForm setClose={setNewContent} setUpdateContents={setUpdateContent} topicName={topicName} /> : null}
-      {allContent?.map((d, key) => (
+        <ContentForm setClose={setNewContent} topicName={topicName} /> : null}
+      {allContent?.content?.map((d, key) => (
         <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
           <StyledRowContent>
             <StyledContent>{d.content}</StyledContent>
@@ -102,37 +102,36 @@ export const Contents = () => {
             <br />
             {isAuthenticated ? (
               <>
-                {d.userLike.some((element) => element.username === getUserName()) ? (
+                {d.userLike.some((element) => element.user.username === getUserName()) ? (
                   <StyledCancelLikeButton
                     onClick={() => addLike(d.id, 'cancel-like')}
-                    disabled={d.userDislike.some((element) => element.username === getUserName())}
+                    disabled={d.userDislike.some((element) => element.user.username === getUserName())}
                   >
                     <FontAwesomeIcon icon={faThumbsUp} />
                   </StyledCancelLikeButton>
                 ) : (
                   <StyledLikeButton
                     onClick={() => addLike(d.id, 'like')}
-                    disabled={d.userDislike.some((element) => element.username === getUserName())}
+                    disabled={d.userDislike.some((element) => element.user.username === getUserName())}
                   >
                     <FontAwesomeIcon icon={faThumbsUp} />
                   </StyledLikeButton>
                 )}
-                {d.userDislike.some((element) => element.username === getUserName()) ? (
+                {d.userDislike.some((element) => element.user.username === getUserName()) ? (
                   <StyledCancelLikeButton
                     onClick={() => addLike(d.id, 'cancel-dislike')}
-                    disabled={d.userLike.some((element) => element.username === getUserName())}
+                    disabled={d.userLike.some((element) => element.user.username === getUserName())}
                   >
                     <FontAwesomeIcon icon={faThumbsDown} />
                   </StyledCancelLikeButton>
                 ) : (
                   <StyledLikeButton
                     onClick={() => addLike(d.id, 'dislike')}
-                    disabled={d.userLike.some((element) => element.username === getUserName())}
+                    disabled={d.userLike.some((element) => element.user.username === getUserName())}
                   >
                     <FontAwesomeIcon icon={faThumbsDown} />
                   </StyledLikeButton>
                 )}
-
                 <br />
               </>
             ) : null}
@@ -146,6 +145,24 @@ export const Contents = () => {
           </StyledRowContent>
         </li>
       ))}
+      <Row className="justify-content-md-center">
+        <Col xs lg="1">
+          {!allContent?.first ? (
+            <Button className="btn btn-sm mt-2" variant="outline-primary"
+                    onClick={() => setPage({ number: page.number - 1 })}>
+              {'<'}
+            </Button>
+          ) : null}
+        </Col>
+        <Col xs lg="1">
+          {!allContent?.last ? (
+            <Button className="btn btn-sm mt-2 " variant="outline-primary"
+                    onClick={() => setPage({ number: page.number + 1 })}>
+              {'>'}
+            </Button>
+          ) : null}
+        </Col>
+      </Row>
     </StyledContainer>
   );
 };

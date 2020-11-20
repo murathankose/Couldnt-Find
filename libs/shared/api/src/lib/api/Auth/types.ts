@@ -15,32 +15,10 @@ export interface UserInfoResponse {
   image: string;
 }
 
-export interface TopicResponse {
-  topicName: string;
-  contentNumber: string;
-  createDate: string;
-  user: any;
-  cloud_content: any;
-}
-
-export interface ContentResponse {
-  id: string;
-  content: string;
-  like: string;
-  dislike: string;
-  createDate: string;
-  topic: any;
-  userLike: any;
-  userDislike: any;
-  user: any;
-}
-
-export interface LikeContentResponse {
-  id: string;
-  content: string;
-  createDate: string;
-  topic: any;
-  user: any;
+export interface Pageable {
+  first: boolean;
+  last: boolean;
+  content: any;
 }
 
 export interface SessionDetailResponse {

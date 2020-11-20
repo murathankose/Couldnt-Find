@@ -15,9 +15,9 @@ const StyledRow = styled(Row)`
 
 type TopicFormProps = {
   setClose;
-  setUpdateTopics;
+  setPage;
 };
-export const TopicForm: React.FC<TopicFormProps> = ({ setClose,setUpdateTopics }) => {
+export const TopicForm: React.FC<TopicFormProps> = ({ setClose, setPage }) => {
   const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
@@ -31,7 +31,7 @@ export const TopicForm: React.FC<TopicFormProps> = ({ setClose,setUpdateTopics }
     dispatch(topicAsync.request(values));
     setClose(false);
     setShow(false);
-    setUpdateTopics(true);
+    setPage({ number: 0 });
   };
 
   const handleClose = () => {

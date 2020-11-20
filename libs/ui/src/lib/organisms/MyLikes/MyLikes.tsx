@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { api, LikeContentResponse } from '@internship/shared/api';
+import { api, Pageable } from '@internship/shared/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { likeAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../atoms/Button';
+import { useTemporary } from '@internship/shared/hooks';
 
 const StyledRow = styled(Row)`
   margin-top: 0.5rem;
@@ -18,7 +19,6 @@ const StyledRowContent = styled(StyledRow)`
 `;
 
 const StyledContainer = styled(Container)`
-
   @media (min-width: 768px) {
     padding-right: 3.2rem;
   }
@@ -38,6 +38,10 @@ const StyledCancelLikeButton = styled(Button)`
   margin-right: 3.2rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+  &:focus {
+  background-color: red;
+  box-shadow: none;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -51,58 +55,73 @@ type MyContentsProps = {
 };
 
 export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, isGuest }) => {
-  const [myLike, setMyLike] = useState<LikeContentResponse[]>();
-  const [myDislike, setMyDislike] = useState<LikeContentResponse[]>();
+  const [myLike, setMyLike] = useState<Pageable>();
+  const [myDislike, setMyDislike] = useState<Pageable>();
   const dispatch = useDispatch();
-  const [updateContent, setUpdateContent] = useState(false);
+  const [pageLike, setPageLike] = useState({ number: 0 });
+  const [pageDislike, setPageDislike] = useState({ number: 0 });
+  const { isSuccessRequired } = useTemporary();
 
   const addLike = (contentID, likes) => {
     const values = { contentID: contentID, like: likes };
     dispatch(likeAsync.request(values));
-    setUpdateContent(true);
   };
 
   useEffect(() => {
+    setPageLike({ number: 0 });
+    setPageDislike({ number: 0 });
+  }, [isSuccessRequired]);
+
+  useEffect(() => {
     api.auth
-      .getLikes('like', username)
+      .getLikes('like', username, pageLike.number)
       .then((r) => {
         setMyLike(r);
       })
       .catch((e) => console.error(e));
-    setUpdateContent(false);
-  }, [updateContent]);
+  }, [pageLike]);
 
   useEffect(() => {
     api.auth
-      .getLikes('dislike', username)
+      .getLikes('dislike', username, pageDislike.number)
       .then((r) => {
         setMyDislike(r);
       })
       .catch((e) => console.error(e));
-    setUpdateContent(false);
-  }, [updateContent]);
+  }, [pageDislike]);
   return (
     <StyledContainer>
       <StyledRow>
-        {(likeOrDislike ? myLike : myDislike)?.map((d, key) => (
+        {(likeOrDislike ? myLike?.content : myDislike?.content)?.map((d, key) => (
           <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
             <StyledRowContent>
               <StyledStrong>
-                Konu Adı : <StyledLink to={'/contents/' + d.topic.topicName}>{d.topic.topicName}</StyledLink>
+                Konu Adı : <StyledLink
+                to={'/contents/' + d.content.topic.topicName}>{d.content.topic.topicName}</StyledLink>
               </StyledStrong>
               <br />
-              <StyledContent>{d.content} </StyledContent>
+              <StyledContent>{d.content.content} </StyledContent>
               {!isGuest ? (
                 <>
                   <br />
                   {likeOrDislike ? (
-                    <StyledCancelLikeButton onClick={() => addLike(d.id, 'cancel-like')}>
-                      <FontAwesomeIcon icon={faThumbsDown} />
-                    </StyledCancelLikeButton>
+                    <>
+                      <StyledCancelLikeButton onClick={() => addLike(d.id.contentId, 'cancel-like')}>
+                        <FontAwesomeIcon icon={faThumbsDown} />
+                      </StyledCancelLikeButton>
+                      <br />
+                      <StyledStrong>Beğenme
+                        Tarihi: <StyledContent>{d.likeDate.substring(0, 10)} - {d.likeDate.substring(11, 16)}</StyledContent></StyledStrong>
+                    </>
                   ) : (
-                    <StyledCancelLikeButton onClick={() => addLike(d.id, 'cancel-dislike')}>
-                      <FontAwesomeIcon icon={faThumbsUp} />
-                    </StyledCancelLikeButton>
+                    <>
+                      <StyledCancelLikeButton onClick={() => addLike(d.id.contentId, 'cancel-dislike')}>
+                        <FontAwesomeIcon icon={faThumbsUp} />
+                      </StyledCancelLikeButton>
+                      <br />
+                      <StyledStrong>Beğenmeme
+                        Tarihi: <StyledContent>{d.dislikeDate.substring(0, 10)} - {d.dislikeDate.substring(11, 16)}</StyledContent></StyledStrong>
+                    </>
                   )}
                 </>
               ) : null}
@@ -112,14 +131,53 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
               </StyledStrong>
               <br />
               <StyledStrong>
-                Tarih : <StyledContent>{d.createDate.substring(0, 10)}</StyledContent>
+                Oluşturulma Tarihi : <StyledContent>{d.content.createDate.substring(0, 10)}</StyledContent>
               </StyledStrong>
               <StyledStrong>
-                Saat :<StyledContent> {d.createDate.substring(11, 16)}</StyledContent>
+                Saat :<StyledContent> {d.content.createDate.substring(11, 16)}</StyledContent>
               </StyledStrong>
             </StyledRowContent>
           </li>
         ))}
+        {likeOrDislike ? (
+          <Row className="justify-content-md-center">
+            <Col xs lg="1">
+              {!myLike?.first ? (
+                <Button className="btn btn-sm mt-2" variant="outline-primary"
+                        onClick={() => setPageLike({ number: pageLike.number - 1 })}>
+                  {'<'}
+                </Button>
+              ) : null}
+            </Col>
+            <Col xs lg="1">
+              {!myLike?.last ? (
+                <Button className="btn btn-sm mt-2 " variant="outline-primary"
+                        onClick={() => setPageLike({ number: pageLike.number + 1 })}>
+                  {'>'}
+                </Button>
+              ) : null}
+            </Col>
+          </Row>
+        ) : (
+          <Row className="justify-content-md-center">
+            <Col xs lg="1">
+              {!myDislike?.first ? (
+                <Button className="btn btn-sm mt-2" variant="outline-primary"
+                        onClick={() => setPageDislike({ number: pageDislike.number - 1 })}>
+                  {'<'}
+                </Button>
+              ) : null}
+            </Col>
+            <Col xs lg="1">
+              {!myDislike?.last ? (
+                <Button className="btn btn-sm mt-2 " variant="outline-primary"
+                        onClick={() => setPageDislike({ number: pageDislike.number + 1 })}>
+                  {'>'}
+                </Button>
+              ) : null}
+            </Col>
+          </Row>
+        )}
       </StyledRow>
     </StyledContainer>
   );

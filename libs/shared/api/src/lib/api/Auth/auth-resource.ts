@@ -1,12 +1,5 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import {
-  ContentResponse,
-  LikeContentResponse,
-  SessionDetailResponse,
-  TopicResponse,
-  UserDetailResponse,
-  UserInfoResponse
-} from './types';
+import { Pageable, SessionDetailResponse, UserDetailResponse, UserInfoResponse } from './types';
 import {
   ChangePasswordRequest,
   ContentRequest,
@@ -50,11 +43,11 @@ export class AuthResource {
   sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
 
   addTopic = (data: TopicRequest): Promise<any> => this.axios.post('entry/addTopic', data, this.axiosRequestConfig).then((r) => r.data);
-  getTopic = (): Promise<TopicResponse[]> => this.axios.get('entry/getTopics', this.axiosRequestConfig).then((r) => r.data);
+  getTopic = (page): Promise<Pageable> => this.axios.get('entry/getTopics?currentPage=' + page, this.axiosRequestConfig).then((r) => r.data);
   addContent = (data: ContentRequest): Promise<any> => this.axios.post('entry/addContent', data, this.axiosRequestConfig).then((r) => r.data);
-  getContent = (topicName: string): Promise<ContentResponse[]> =>
+  getContent = (topicName: string, page): Promise<Pageable> =>
     this.axios
-      .get('entry/getContent', {
+      .get('entry/getContent?currentPage=' + page, {
         params: {
           topic: topicName
         }
@@ -70,10 +63,10 @@ export class AuthResource {
       })
       .then((r) => r.data);
 
-  myContents = (): Promise<ContentResponse[]> => this.axios.get('entry/getMyContents', this.axiosRequestConfig).then((r) => r.data);
-  userContents = (userName: string): Promise<ContentResponse[]> =>
+  myContents = (page): Promise<Pageable> => this.axios.get('entry/getMyContents?currentPage=' + page, this.axiosRequestConfig).then((r) => r.data);
+  userContents = (userName: string, page): Promise<Pageable> =>
     this.axios
-      .get('entry/getUserContents', {
+      .get('entry/getUserContents?currentPage=' + page, {
         params: {
           userName: userName
         }
@@ -85,9 +78,9 @@ export class AuthResource {
       .put('entry/like-dislike', data, this.axiosRequestConfig)
       .then((r) => r.data);
 
-  getLikes = (like: string, username: string): Promise<LikeContentResponse[]> =>
+  getLikes = (like: string, username: string, page): Promise<Pageable> =>
     this.axios
-      .get('entry/getLikes', {
+      .get('entry/getLikes?currentPage=' + page, {
         params: {
           like: like,
           userName: username

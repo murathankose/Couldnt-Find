@@ -1,7 +1,9 @@
-import React from 'react';
-import { Container, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { api, Pageable } from '@internship/shared/api';
+import { Button } from '@internship/ui';
 
 const StyledRow = styled(Row)`
   margin-top: 0.5rem;
@@ -31,14 +33,24 @@ const StyledLink = styled(Link)`
 `;
 
 type MyContentsProps = {
-  myContents;
+
 };
 
-export const MyContents: React.FC<MyContentsProps> = ({ myContents }) => {
+export const MyContents: React.FC<MyContentsProps> = ({}) => {
+  const [page, setPage] = useState({ number: 0 });
+  const [myContents, setMyContents] = useState<Pageable>();
+  useEffect(() => {
+    api.auth
+      .myContents(page.number)
+      .then((r) => setMyContents(r))
+      .catch((e) => console.error(e));
+  }, [page]);
+
+
   return (
     <StyledContainer>
       <StyledRow>
-        {myContents?.map((d, key) => (
+        {myContents?.content?.map((d, key) => (
           <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
             <StyledRowContent>
               <StyledStrong>
@@ -60,6 +72,24 @@ export const MyContents: React.FC<MyContentsProps> = ({ myContents }) => {
           </li>
         ))}
       </StyledRow>
+      <Row className="justify-content-md-center">
+        <Col xs lg="1">
+          {!myContents?.first ? (
+            <Button className="btn btn-sm mt-2" variant="outline-primary"
+                    onClick={() => setPage({ number: page.number - 1 })}>
+              {'<'}
+            </Button>
+          ) : null}
+        </Col>
+        <Col xs lg="1">
+          {!myContents?.last ? (
+            <Button className="btn btn-sm mt-2 " variant="outline-primary"
+                    onClick={() => setPage({ number: page.number + 1 })}>
+              {'>'}
+            </Button>
+          ) : null}
+        </Col>
+      </Row>
     </StyledContainer>
   );
 };
