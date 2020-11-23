@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Modal, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Alert, Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Button, Input } from '../../atoms';
 import { useForm } from 'react-hook-form';
 import { topicAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
+import { useTemporary } from '@internship/shared/hooks';
+
 
 const StyledRow = styled(Row)`
   margin-bottom: 1rem;
@@ -21,18 +23,21 @@ export const TopicForm: React.FC<TopicFormProps> = ({ setClose, setPage }) => {
   const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
+  const { isErrorRequired, isSuccessRequired } = useTemporary();
 
-
-  //TODO konu ismi daha önce varsa uyarı ver ekle.
   const onBlur = () => {
-    console.log('konu ismini araştır');
+    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
   };
   const onSubmit = (values) => {
     dispatch(topicAsync.request(values));
-    setClose(false);
-    setShow(false);
     setPage({ number: 0 });
   };
+
+  useEffect(() => {
+    if (isSuccessRequired) {
+      setClose(false);
+    }
+  }, [isSuccessRequired]);
 
   const handleClose = () => {
     setShow(false);
@@ -51,8 +56,14 @@ export const TopicForm: React.FC<TopicFormProps> = ({ setClose, setPage }) => {
               <label>Konu ismi</label>
             </div>
             <div className="col-8 ml-sm-2">
-              <Input placeholder="Konu ismi" name="topicName" onBlur={onBlur} ref={register({ required: true })} errors={errors} />
+              <Input placeholder="Konu ismi" name="topicName" onBlur={onBlur} ref={register({ required: true })}
+                     errors={errors} />
             </div>
+          </StyledRow>
+          <StyledRow>
+            {isErrorRequired ? (
+              <Alert variant="danger">{isErrorRequired}</Alert>
+            ) : null}
           </StyledRow>
         </Modal.Body>
         <Modal.Footer>

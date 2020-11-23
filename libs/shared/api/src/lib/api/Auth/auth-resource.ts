@@ -87,4 +87,17 @@ export class AuthResource {
         }
       })
       .then((r) => r.data);
+
+  deleteContent = (authorizationToken: string, contentId: string, topicName: string): Promise<any> =>
+    this.axios
+      .delete('/entry/deleteContent', {
+        headers: {
+          Authorization: authorizationToken
+        },
+        params: {
+          contentId: contentId,
+          topicName: topicName
+        }
+      })
+      .then((r) => r.data);
 }

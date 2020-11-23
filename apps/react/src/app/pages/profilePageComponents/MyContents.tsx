@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { api, Pageable } from '@internship/shared/api';
 import { Button } from '@internship/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { getAccessToken } from '@internship/shared/utils';
+import { useTemporary } from '@internship/shared/hooks';
 
 const StyledRow = styled(Row)`
   margin-top: 0.5rem;
@@ -39,14 +43,19 @@ type MyContentsProps = {
 export const MyContents: React.FC<MyContentsProps> = ({}) => {
   const [page, setPage] = useState({ number: 0 });
   const [myContents, setMyContents] = useState<Pageable>();
+  const { isSuccessRequired } = useTemporary();
+
   useEffect(() => {
     api.auth
       .myContents(page.number)
       .then((r) => setMyContents(r))
       .catch((e) => console.error(e));
-  }, [page]);
+  }, [page, isSuccessRequired]);
 
-
+  const deleteContent = (contentId, topicName) => {
+    const accessToken = getAccessToken();
+    api.auth.deleteContent(`Bearer ${accessToken}`, contentId, topicName).catch((e) => console.error(e));
+  };
   return (
     <StyledContainer>
       <StyledRow>
@@ -68,6 +77,9 @@ export const MyContents: React.FC<MyContentsProps> = ({}) => {
               <StyledStrong>
                 Saat :<StyledContent> {d.createDate.substring(11, 16)}</StyledContent>
               </StyledStrong>
+              <Button className="btn btn-danger my-2" onClick={() => deleteContent(d.id, d.topic.topicName)}>
+                <FontAwesomeIcon icon={faTrash} />
+              </Button>
             </StyledRowContent>
           </li>
         ))}

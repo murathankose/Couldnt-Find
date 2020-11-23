@@ -97,21 +97,21 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
             <StyledRowContent>
               <StyledStrong>
                 Konu Adı : <StyledLink
-                to={'/contents/' + d.content.topic.topicName}>{d.content.topic.topicName}</StyledLink>
+                to={'/contents/' + d?.content?.topic?.topicName}>{d.content.topic.topicName}</StyledLink>
               </StyledStrong>
               <br />
-              <StyledContent>{d.content.content} </StyledContent>
+              <StyledContent>{d.content?.content} </StyledContent>
               {!isGuest ? (
                 <>
                   <br />
                   {likeOrDislike ? (
                     <>
-                      <StyledCancelLikeButton onClick={() => addLike(d.id.contentId, 'cancel-like')}>
+                      <StyledCancelLikeButton onClick={() => addLike(d?.id?.contentId, 'cancel-like')}>
                         <FontAwesomeIcon icon={faThumbsDown} />
                       </StyledCancelLikeButton>
                       <br />
                       <StyledStrong>Beğenme
-                        Tarihi: <StyledContent>{d.likeDate.substring(0, 10)} - {d.likeDate.substring(11, 16)}</StyledContent></StyledStrong>
+                        Tarihi: <StyledContent>{d.likeDate.substring(0, 10)} - {d?.likeDate?.substring(11, 16)}</StyledContent></StyledStrong>
                     </>
                   ) : (
                     <>
@@ -120,21 +120,21 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
                       </StyledCancelLikeButton>
                       <br />
                       <StyledStrong>Beğenmeme
-                        Tarihi: <StyledContent>{d.dislikeDate.substring(0, 10)} - {d.dislikeDate.substring(11, 16)}</StyledContent></StyledStrong>
+                        Tarihi: <StyledContent>{d?.dislikeDate?.substring(0, 10)} - {d?.dislikeDate?.substring(11, 16)}</StyledContent></StyledStrong>
                     </>
                   )}
                 </>
               ) : null}
               <br />
               <StyledStrong>
-                Kullanıcı : <StyledLink to={'/user/' + d.user.username}>{d.user.username}</StyledLink>
+                Kullanıcı : <StyledLink to={'/user/' + d?.user?.username}>{d?.user?.username}</StyledLink>
               </StyledStrong>
               <br />
               <StyledStrong>
-                Oluşturulma Tarihi : <StyledContent>{d.content.createDate.substring(0, 10)}</StyledContent>
+                Oluşturulma Tarihi : <StyledContent>{d?.content?.createDate?.substring(0, 10)}</StyledContent>
               </StyledStrong>
               <StyledStrong>
-                Saat :<StyledContent> {d.content.createDate.substring(11, 16)}</StyledContent>
+                Saat :<StyledContent> {d?.content?.createDate?.substring(11, 16)}</StyledContent>
               </StyledStrong>
             </StyledRowContent>
           </li>

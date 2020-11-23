@@ -30,6 +30,9 @@ const success = {
   },
   'entry/addContent': {
     '200': 'İşleminiz Başarılı.'
+  },
+  'entry/deleteContent': {
+    '200': 'Entry başarı ile silindi.'
   }
 };
 export const successInterceptor = (res: AxiosResponse) => {
@@ -48,6 +51,8 @@ export const successInterceptor = (res: AxiosResponse) => {
     successMessage = success[res.config.url][res?.status];
   } else if (res?.config.url.startsWith('auth/send-email') && res?.status === 200) {
     successMessage = success['auth/send-email']['200'];
+  } else if (res?.config.url.endsWith('deleteContent') && res?.status === 200) {
+    successMessage = success['entry/deleteContent']['200'];
   }
   window['UGLY_STORE'].dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: successMessage });
   return res;

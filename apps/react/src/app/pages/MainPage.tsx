@@ -55,11 +55,15 @@ export const MainPage = () => {
       .then((r) => setAllTopics(r))
       .catch((e) => console.error(e));
   }, [page, isSuccessRequired]);
+
+  const newTopicFunction = () => {
+    setNewTopic(true);
+  };
   return (
     <StyledContainer>
       {isAuthenticated ? (
         <StyledRow>
-          <StyledNewButton onClick={() => setNewTopic(true)}>
+          <StyledNewButton onClick={newTopicFunction}>
             <StyledIcon icon={faPlus} />
           </StyledNewButton>
         </StyledRow>

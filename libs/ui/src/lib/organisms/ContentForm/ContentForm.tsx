@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import { Button, Input } from '../../atoms';
+import { Button } from '../../atoms';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { contentAsync } from '@internship/store/authentication';
@@ -13,6 +13,10 @@ const StyledRow = styled(Row)`
   margin-left: auto;
 `;
 
+const StyledTextarea = styled.textarea`
+  height: 100%;
+  width: 100%;
+`;
 type ContentFormProps = {
   setClose;
   topicName;
@@ -22,13 +26,12 @@ export const ContentForm: React.FC<ContentFormProps> = ({ setClose, topicName })
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
 
-
   //TODO konu ismi daha önce varsa uyarı ver ekle.
   const onBlur = () => {
     console.log('konu ismini araştır');
   };
   const onSubmit = (values) => {
-    values={...values,topicName};
+    values = { ...values, topicName };
     dispatch(contentAsync.request(values));
     setClose(false);
     setShow(false);
@@ -51,7 +54,8 @@ export const ContentForm: React.FC<ContentFormProps> = ({ setClose, topicName })
               <label>içerik: </label>
             </div>
             <div className="col-8 ml-sm-2">
-              <Input placeholder="İçeriği giriniz" name="content" onBlur={onBlur} ref={register({ required: true })} errors={errors} />
+              <StyledTextarea placeholder="İçeriği giriniz" name="content" onBlur={onBlur}
+                              ref={register({ required: true })} />
             </div>
           </StyledRow>
         </Modal.Body>
