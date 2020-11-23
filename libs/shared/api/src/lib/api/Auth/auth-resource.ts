@@ -100,4 +100,22 @@ export class AuthResource {
         }
       })
       .then((r) => r.data);
+
+  getSearchUsername = (username: string): Promise<any> =>
+    this.axios
+      .get('search/user', {
+        params: {
+          username: username
+        }
+      })
+      .then((r) => r.data);
+
+  getSearchTopicName = (topicName: string): Promise<any> =>
+    this.axios
+      .get('search/topic', {
+        params: {
+          topicName: topicName
+        }
+      })
+      .then((r) => r.data);
 }
