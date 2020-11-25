@@ -20,18 +20,15 @@ const StyledTextarea = styled.textarea`
 type ContentFormProps = {
   setClose;
   topicName;
+  topicId;
 };
-export const ContentForm: React.FC<ContentFormProps> = ({ setClose, topicName }) => {
+export const ContentForm: React.FC<ContentFormProps> = ({ setClose, topicName, topicId }) => {
   const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
 
-  //TODO konu ismi daha önce varsa uyarı ver ekle.
-  const onBlur = () => {
-    console.log('konu ismini araştır');
-  };
   const onSubmit = (values) => {
-    values = { ...values, topicName };
+    values = { ...values, topicId };
     dispatch(contentAsync.request(values));
     setClose(false);
     setShow(false);
@@ -54,7 +51,7 @@ export const ContentForm: React.FC<ContentFormProps> = ({ setClose, topicName })
               <label>içerik: </label>
             </div>
             <div className="col-8 ml-sm-2">
-              <StyledTextarea placeholder="İçeriği giriniz" name="content" onBlur={onBlur}
+              <StyledTextarea placeholder="İçeriği giriniz" name="content"
                               ref={register({ required: true })} />
             </div>
           </StyledRow>

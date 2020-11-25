@@ -10,41 +10,51 @@ import { useDispatch } from 'react-redux';
 import { Button } from '../../atoms/Button';
 import { useTemporary } from '@internship/shared/hooks';
 
-const StyledRow = styled(Row)`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+const StyledContainer = styled(Container)`
+  margin-top:1.5rem;
+
 `;
-const StyledRowContent = styled(StyledRow)`
-  display: block;
+const StyledRow = styled(Row)`
+  flex-flow: row;
 `;
 
-const StyledContainer = styled(Container)`
-  @media (min-width: 768px) {
-    padding-right: 3.2rem;
-  }
+const StyledDown = styled.p`
+  color: blueviolet;
+  margin-left: auto;
+  margin-right: 1rem;
+  align-self: center;
+  font-weight: 200;
+  margin-bottom: unset;
+`;
+
+const StyledContent = styled.strong`
+  color: blueviolet;
+  margin-left: 1rem;
+  align-self: center;
+`;
+
+const StyledCancelLikeButton = styled(Button)`
+  background-color: white;
+  color: red;
+  border-color: white;
+  font-size: 0.7rem;
+  margin-left: 0.3rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+
 `;
 const StyledStrong = styled.strong`
   margin-right: 1rem;
 `;
 
-const StyledContent = styled(StyledStrong)`
-  color: blueviolet;
-  font-weight: 500;
-`;
-
-const StyledCancelLikeButton = styled(Button)`
-  background-color: red;
-  font-size: 0.7rem;
-  margin-right: 3.2rem;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
-  &:focus {
-  background-color: red;
-  box-shadow: none;
-  }
-`;
-
 const StyledLink = styled(Link)`
+  font-weight: 700;
+  font-size: large;
+  color: initial;
+`;
+
+const StyledUserName = styled(Link)`
+  font-weight: 400;
   color: blueviolet;
 `;
 
@@ -91,53 +101,48 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
   }, [pageDislike]);
   return (
     <StyledContainer>
-      <StyledRow>
+      <div className="card">
+        <div className="card-header">
+          <h4>
+            <b className="text-black-50">Beğendiğim İçerikler</b>
+          </h4>
+        </div>
         {(likeOrDislike ? myLike?.content : myDislike?.content)?.map((d, key) => (
-          <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
-            <StyledRowContent>
-              <StyledStrong>
-                Konu Adı : <StyledLink
-                to={'/contents/' + d?.content?.topic?.topicName}>{d.content.topic.topicName}</StyledLink>
-              </StyledStrong>
-              <br />
-              <StyledContent>{d.content?.content} </StyledContent>
-              {!isGuest ? (
-                <>
-                  <br />
-                  {likeOrDislike ? (
+          <div key={key}>
+            <ul className="list-group list-group-flush">
+              <li key={key} className="list-group-item ">
+                <StyledRow>
+                  <StyledLink className="nav-link" to={'/contents/' + d?.content?.topic.id}>
+                    {d.content?.topic.topicName}
+                  </StyledLink>
+                </StyledRow>
+                <StyledRow>
+                  <StyledContent>{d.content?.content}</StyledContent>
+                </StyledRow>
+                <StyledRow>
+                  {!isGuest ? (
                     <>
-                      <StyledCancelLikeButton onClick={() => addLike(d?.id?.contentId, 'cancel-like')}>
-                        <FontAwesomeIcon icon={faThumbsDown} />
-                      </StyledCancelLikeButton>
                       <br />
-                      <StyledStrong>Beğenme
-                        Tarihi: <StyledContent>{d.likeDate.substring(0, 10)} - {d?.likeDate?.substring(11, 16)}</StyledContent></StyledStrong>
+                      {likeOrDislike ? (
+                        <StyledCancelLikeButton onClick={() => addLike(d?.id?.contentId, 'cancel-like')}>
+                          <FontAwesomeIcon icon={faThumbsDown} />
+                        </StyledCancelLikeButton>
+                      ) : (
+                        <StyledCancelLikeButton onClick={() => addLike(d.id.contentId, 'cancel-dislike')}>
+                          <FontAwesomeIcon icon={faThumbsUp} />
+                        </StyledCancelLikeButton>
+                      )}
                     </>
-                  ) : (
-                    <>
-                      <StyledCancelLikeButton onClick={() => addLike(d.id.contentId, 'cancel-dislike')}>
-                        <FontAwesomeIcon icon={faThumbsUp} />
-                      </StyledCancelLikeButton>
-                      <br />
-                      <StyledStrong>Beğenmeme
-                        Tarihi: <StyledContent>{d?.dislikeDate?.substring(0, 10)} - {d?.dislikeDate?.substring(11, 16)}</StyledContent></StyledStrong>
-                    </>
-                  )}
-                </>
-              ) : null}
-              <br />
-              <StyledStrong>
-                Kullanıcı : <StyledLink to={'/user/' + d?.user?.username}>{d?.user?.username}</StyledLink>
-              </StyledStrong>
-              <br />
-              <StyledStrong>
-                Oluşturulma Tarihi : <StyledContent>{d?.content?.createDate?.substring(0, 10)}</StyledContent>
-              </StyledStrong>
-              <StyledStrong>
-                Saat :<StyledContent> {d?.content?.createDate?.substring(11, 16)}</StyledContent>
-              </StyledStrong>
-            </StyledRowContent>
-          </li>
+                  ) : null}
+                  <StyledDown>
+                    <StyledStrong>{d.content?.createDate.substring(0, 10)}</StyledStrong>
+                    <StyledStrong>{d.content?.createDate.substring(11, 16)}</StyledStrong>
+                    <StyledUserName to={'/user/' + d.content?.user.username}>{d.content?.user.username}</StyledUserName>
+                  </StyledDown>
+                </StyledRow>
+              </li>
+            </ul>
+          </div>
         ))}
         {likeOrDislike ? (
           <Row className="justify-content-md-center">
@@ -178,7 +183,7 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
             </Col>
           </Row>
         )}
-      </StyledRow>
+      </div>
     </StyledContainer>
   );
 };

@@ -45,15 +45,24 @@ export class AuthResource {
   addTopic = (data: TopicRequest): Promise<any> => this.axios.post('entry/addTopic', data, this.axiosRequestConfig).then((r) => r.data);
   getTopic = (page): Promise<Pageable> => this.axios.get('entry/getTopics?currentPage=' + page, this.axiosRequestConfig).then((r) => r.data);
   addContent = (data: ContentRequest): Promise<any> => this.axios.post('entry/addContent', data, this.axiosRequestConfig).then((r) => r.data);
-  getContent = (topicName: string, page): Promise<Pageable> =>
+  getContent = (topicId: string, page, pageSize): Promise<Pageable> =>
     this.axios
-      .get('entry/getContent?currentPage=' + page, {
+      .get('entry/getContent?currentPage=' + page + '&pageSize=' + pageSize, {
         params: {
-          topic: topicName
+          id: topicId
         }
       })
       .then((r) => r.data);
-
+  getContentOrderByLike = (page, pageSize): Promise<Pageable> => this.axios.get('entry/getContent/random?currentPage=' + page + '&pageSize=' + pageSize, this.axiosRequestConfig).then((r) => r.data);
+  getTopicOrderByContentNumber = (page): Promise<Pageable> => this.axios.get('entry/getTopics/contentNumber?currentPage=' + page, this.axiosRequestConfig).then((r) => r.data);
+  getTopicName = (topicId: string): Promise<string> =>
+    this.axios
+      .get('entry/getTopicName', {
+        params: {
+          id: topicId
+        }
+      })
+      .then((r) => r.data);
   userInfo = (userName: string): Promise<UserInfoResponse> =>
     this.axios
       .get('user/info', {
@@ -63,7 +72,7 @@ export class AuthResource {
       })
       .then((r) => r.data);
 
-  myContents = (page): Promise<Pageable> => this.axios.get('entry/getMyContents?currentPage=' + page, this.axiosRequestConfig).then((r) => r.data);
+  myContents = (page, pageSize): Promise<Pageable> => this.axios.get('entry/getMyContents?currentPage=' + page + '&pageSize=' + pageSize, this.axiosRequestConfig).then((r) => r.data);
   userContents = (userName: string, page): Promise<Pageable> =>
     this.axios
       .get('entry/getUserContents?currentPage=' + page, {

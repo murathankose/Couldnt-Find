@@ -8,33 +8,42 @@ import styled from 'styled-components';
 import { MyLikes, ProfileImage } from '@internship/ui';
 
 const StyledRow = styled(Row)`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-`;
-const StyledRowContent = styled(StyledRow)`
-  display: block;
+  flex-flow: row;
 `;
 
-const StyledContainer = styled(Container)`
-  margin-top: 1.5rem;
-  @media (min-width: 768px) {
-    padding-right: 3.2rem;
-  }
+const StyledDown = styled.p`
+  color: blueviolet;
+  margin-left: auto;
+  margin-right: 1rem;
+  align-self: center;
+  font-weight: 200;
+  margin-bottom: unset;
+`;
+
+const StyledContent = styled.strong`
+  color: blueviolet;
+  margin-left: 1rem;
+  align-self: center;
 `;
 
 const StyledStrong = styled.strong`
   margin-right: 1rem;
-  margin-bottom: 0.5rem;
 `;
 
 const StyledLink = styled(Link)`
-  color: blueviolet;
-`;
-const StyledContent = styled(StyledStrong)`
-  color: blueviolet;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: large;
+  color: initial;
 `;
 
+const StyledUserName = styled(Link)`
+  font-weight: 400;
+  color: blueviolet;
+`;
+const StyledContainer = styled(Container)`
+  margin-top:1.5rem;
+
+`;
 export const UserInfo = () => {
   const [detail, setDetail] = useState<UserInfoResponse>();
   const { userName } = useParams();
@@ -119,27 +128,34 @@ export const UserInfo = () => {
               <Button className="btn btn-danger mb-3" disabled={!contentsInfo} onClick={() => setContentsInfo(false)}>
                 <FontAwesomeIcon icon={faTimes} />
               </Button>
-              <StyledRow>
+              <div className="card">
+                <div className="card-header">
+                  <h4>
+                    <b className="text-black-50">{detail?.username} kullanıcısının içerikleri</b>
+                  </h4>
+                </div>
                 {userContents?.content?.map((d, key) => (
-                  <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
-                    <StyledRowContent>
-                      <StyledStrong>
-                        Konu Adı : <StyledLink to={'/contents/' + d.topic.topicName}>{d.topic.topicName}</StyledLink>
-                      </StyledStrong>
-                      <br />
-                      <StyledContent> {d.content} </StyledContent>
-                      <br />
-                      <p>
-                        Like: <StyledContent> {d.like} </StyledContent>Dislike: <StyledContent>{d.dislike} </StyledContent>
-                      </p>
-                      <StyledStrong>
-                        Tarih :<StyledContent> {d.createDate.substring(0, 10)}</StyledContent>
-                      </StyledStrong>
-                      <StyledStrong>
-                        Saat :<StyledContent> {d.createDate.substring(11, 16)}</StyledContent>
-                      </StyledStrong>
-                    </StyledRowContent>
-                  </li>
+                  <div key={key}>
+                    <ul className="list-group list-group-flush">
+                      <li key={key} className="list-group-item ">
+                        <StyledRow>
+                          <StyledLink className="nav-link" to={'/contents/' + d.topic.id}>
+                            {d.topic.topicName}
+                          </StyledLink>
+                        </StyledRow>
+                        <StyledRow>
+                          <StyledContent>{d.content}</StyledContent>
+                        </StyledRow>
+                        <StyledRow>
+                          <StyledDown>
+                            <StyledStrong>{d.createDate.substring(0, 10)}</StyledStrong>
+                            <StyledStrong>{d.createDate.substring(11, 16)}</StyledStrong>
+                            <StyledUserName to={'/user/' + d.user.username}>{d.user.username}</StyledUserName>
+                          </StyledDown>
+                        </StyledRow>
+                      </li>
+                    </ul>
+                  </div>
                 ))}
                 <Row className="justify-content-md-center">
                   <Col xs lg="1">
@@ -159,7 +175,7 @@ export const UserInfo = () => {
                     ) : null}
                   </Col>
                 </Row>
-              </StyledRow>
+              </div>
             </>
           ) : null}
           {likeInfo ? (

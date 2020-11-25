@@ -35,7 +35,7 @@ export interface LikeRequest {
 }
 
 export interface ContentRequest {
-  topicName: string;
+  topicId: string;
   content: string;
 }
 

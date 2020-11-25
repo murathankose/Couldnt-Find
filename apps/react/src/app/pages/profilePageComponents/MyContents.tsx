@@ -10,35 +10,51 @@ import { getAccessToken } from '@internship/shared/utils';
 import { useTemporary } from '@internship/shared/hooks';
 
 const StyledRow = styled(Row)`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-`;
-const StyledRowContent = styled(StyledRow)`
-  display: block;
+  flex-flow: row;
 `;
 
-const StyledContainer = styled(Container)`
-  @media (min-width: 768px) {
-    padding-right: 3.2rem;
-  }
+const StyledDown = styled.p`
+  color: blueviolet;
+  margin-left: auto;
+  margin-right: 1rem;
+  align-self: center;
+  font-weight: 200;
+  margin-bottom: unset;
 `;
+
+const StyledContent = styled.strong`
+  color: blueviolet;
+  margin-left: 1rem;
+  align-self: center;
+`;
+
+const StyledLikeButton = styled(Button)`
+  background-color: red;
+  color: white;
+  border-color: red;
+  font-size: 0.7rem;
+  margin-left: 1rem;
+`;
+
 const StyledStrong = styled.strong`
   margin-right: 1rem;
-  margin-bottom: 0.5rem;
-`;
-
-const StyledContent = styled(StyledStrong)`
-  color: blueviolet;
-  font-weight: 500;
 `;
 
 const StyledLink = styled(Link)`
-  color: blueviolet;
+  font-weight: 700;
+  font-size: large;
+  color: initial;
 `;
 
-type MyContentsProps = {
+const StyledUserName = styled(Link)`
+  font-weight: 400;
+  color: blueviolet;
+`;
+const StyledContainer = styled(Container)`
+  margin-top:1.5rem;
+`;
 
-};
+type MyContentsProps = {};
 
 export const MyContents: React.FC<MyContentsProps> = ({}) => {
   const [page, setPage] = useState({ number: 0 });
@@ -47,7 +63,7 @@ export const MyContents: React.FC<MyContentsProps> = ({}) => {
 
   useEffect(() => {
     api.auth
-      .myContents(page.number)
+      .myContents(page.number, 4)
       .then((r) => setMyContents(r))
       .catch((e) => console.error(e));
   }, [page, isSuccessRequired]);
@@ -58,50 +74,58 @@ export const MyContents: React.FC<MyContentsProps> = ({}) => {
   };
   return (
     <StyledContainer>
-      <StyledRow>
+      <div className="card">
+        <div className="card-header">
+          <h4>
+            <b className="text-black-50">İçeriklerim</b>
+          </h4>
+        </div>
         {myContents?.content?.map((d, key) => (
-          <li style={{ listStyleType: 'none' }} key={key} className="ml-4">
-            <StyledRowContent>
-              <StyledStrong>
-                Konu Adı : <StyledLink to={'/contents/' + d.topic.topicName}>{d.topic.topicName}</StyledLink>
-              </StyledStrong>
-              <br />
-              <StyledContent> {d.content} </StyledContent>
-              <br />
-              <StyledStrong>
-                Like: <StyledContent>{d.like} </StyledContent>Dislike: <StyledContent>{d.dislike}</StyledContent>
-              </StyledStrong>
-              <StyledStrong>
-                Tarih :<StyledContent> {d.createDate.substring(0, 10)}</StyledContent>
-              </StyledStrong>
-              <StyledStrong>
-                Saat :<StyledContent> {d.createDate.substring(11, 16)}</StyledContent>
-              </StyledStrong>
-              <Button className="btn btn-danger my-2" onClick={() => deleteContent(d.id, d.topic.topicName)}>
-                <FontAwesomeIcon icon={faTrash} />
-              </Button>
-            </StyledRowContent>
-          </li>
+          <div key={key}>
+            <ul className="list-group list-group-flush">
+              <li key={key} className="list-group-item ">
+                <StyledRow>
+                  <StyledLink className="nav-link" to={'/contents/' + d.topic.id}>
+                    {d.topic.topicName}
+                  </StyledLink>
+                </StyledRow>
+                <StyledRow>
+                  <StyledContent>{d.content}</StyledContent>
+                </StyledRow>
+                <StyledRow>
+                  <StyledDown>
+                    <StyledStrong>{d.createDate.substring(0, 10)}</StyledStrong>
+                    <StyledStrong>{d.createDate.substring(11, 16)}</StyledStrong>
+                    <StyledUserName to={'/user/' + d.user.username}>{d.user.username}</StyledUserName>
+                    <StyledLikeButton className="btn btn-danger my-2"
+                                      onClick={() => deleteContent(d.id, d.topic.topicName)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </StyledLikeButton>
+                  </StyledDown>
+                </StyledRow>
+              </li>
+            </ul>
+          </div>
         ))}
-      </StyledRow>
-      <Row className="justify-content-md-center">
-        <Col xs lg="1">
-          {!myContents?.first ? (
-            <Button className="btn btn-sm mt-2" variant="outline-primary"
-                    onClick={() => setPage({ number: page.number - 1 })}>
-              {'<'}
-            </Button>
-          ) : null}
-        </Col>
-        <Col xs lg="1">
-          {!myContents?.last ? (
-            <Button className="btn btn-sm mt-2 " variant="outline-primary"
-                    onClick={() => setPage({ number: page.number + 1 })}>
-              {'>'}
-            </Button>
-          ) : null}
-        </Col>
-      </Row>
+        <Row className="justify-content-md-center">
+          <Col xs lg="1">
+            {!myContents?.first ? (
+              <Button className="btn btn-sm mt-2" variant="outline-primary"
+                      onClick={() => setPage({ number: page.number - 1 })}>
+                {'<'}
+              </Button>
+            ) : null}
+          </Col>
+          <Col xs lg="1">
+            {!myContents?.last ? (
+              <Button className="btn btn-sm mt-2 " variant="outline-primary"
+                      onClick={() => setPage({ number: page.number + 1 })}>
+                {'>'}
+              </Button>
+            ) : null}
+          </Col>
+        </Row>
+      </div>
     </StyledContainer>
   );
 };

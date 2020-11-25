@@ -1,95 +1,71 @@
 import React, { useState } from 'react';
-import { Button } from '../../atoms/Button';
-import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useForm } from 'react-hook-form';
-import { Input } from '../../atoms/Input';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { api } from '@internship/shared/api';
-import { Dropdown } from 'react-bootstrap';
+import AsyncSelect from 'react-select/async';
+import { useHistory } from 'react-router-dom';
 
 const StyledRow = styled.div`
-  display: inline-flex;
+  width: 20%;
+  margin-right: 1.5rem;
 `;
-const StyledInput = styled(Input)`
-  margin-right: 1rem;
-`;
-const StyledLink = styled(Link)`
-  color: blueviolet;
-`;
-const StyledDropdown = styled(Dropdown)`
-  margin-right: 1rem;
-`;
-let dropDownLinkStyle = {
-  backgroundColor: 'blueviolet',
-  borderColor: 'blueviolet'
-};
-export const Search = () => {
-  const { handleSubmit, register, errors } = useForm();
-  const [isUsername, setIsUsername] = useState(false);
-  const [isTopicName, setIsTopicName] = useState(false);
-  const [value, setValue] = useState('');
 
-  const setSearch = () => {
-    setIsTopicName(false);
-    setIsUsername(false);
+export const Search = () => {
+  const [optionsAll, setOptionsAll] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('');
+  const options = [];
+  const history = useHistory();
+
+  const filter = (inputValue: string) => {
+    return optionsAll.filter((i) => i.label.toLowerCase().includes(inputValue.toLowerCase()));
   };
-  const onSubmit = (values) => {
-    if (values.search !== '') {
+
+  const loadOptions = (inputValue, callback) => {
+    setSelectedValue(inputValue);
+    setTimeout(() => {
+      callback(filter(inputValue));
+    }, 1000);
+  };
+
+  const onChange = (e) => {
+    if (e !== '') {
       api.auth
-        .getSearchUsername(values.search)
+        .getSearchUsername(e)
         .then((r) => {
-          setIsUsername(true), setValue(values.search);
+          {
+            r?.map((item, key) => options.push({ value: key, label: item + ' :Kullanıcı', key: item }));
+          }
         })
         .catch((e) => console.error(e));
       api.auth
-        .getSearchTopicName(values.search)
+        .getSearchTopicName(e)
         .then((r) => {
-          setIsTopicName(true), setValue(values.search);
+          {
+            r?.map((item, key) => options.push({ value: key, label: item + ' :Konu', key: item }));
+          }
         })
         .catch((e) => console.error(e));
+      setOptionsAll(options);
     }
   };
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <StyledRow>
-        {!isUsername && !isTopicName ? (
-          <>
-            <StyledInput placeholder="Search" name="search" ref={register({ required: false })} errors={errors} />
-            <Button type="submit" variant="light">
-              <FontAwesomeIcon icon={faSearchengin} />
-            </Button>
-          </>
-        ) : (
-          <StyledDropdown>
-            <Dropdown.Toggle style={dropDownLinkStyle} id="dropdown-basic">
-              Arama Sonuçları
-            </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              {isUsername ? (
-                <Dropdown.Item>
-                  <StyledLink onClick={setSearch} to={'/user/' + value}>
-                    {value}: Kullanıcı
-                  </StyledLink>
-                </Dropdown.Item>
-              ) : null}
-              {isTopicName ? (
-                <Dropdown.Item>
-                  <StyledLink onClick={setSearch} to={'/contents/' + value}>
-                    {value}: Konu
-                  </StyledLink>
-                </Dropdown.Item>
-              ) : null}
-              <Dropdown.Item onClick={setSearch}>
-                <FontAwesomeIcon icon={faTimes} />
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </StyledDropdown>
-        )}
+  const onChangeGo = (e) => {
+    setSelectedValue('');
+    setOptionsAll([]);
+    if (e.label.length - e.label.lastIndexOf(':Konu') == 5) history.push('/contents/' + e.key);
+    else if (e.label.length - e.label.lastIndexOf(':Kullanıcı') == 10) history.push('/user/' + e.key);
+  };
+
+  return (
+    <>
+      <StyledRow>
+        <AsyncSelect
+          value={selectedValue}
+          cacheOptions
+          loadOptions={loadOptions}
+          onChange={(e) => onChangeGo(e)}
+          onInputChange={(e) => onChange(e)}
+        />
       </StyledRow>
-    </form>
+    </>
   );
 };

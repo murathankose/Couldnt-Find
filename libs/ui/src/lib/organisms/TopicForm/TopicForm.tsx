@@ -17,9 +17,8 @@ const StyledRow = styled(Row)`
 
 type TopicFormProps = {
   setClose;
-  setPage;
 };
-export const TopicForm: React.FC<TopicFormProps> = ({ setClose, setPage }) => {
+export const TopicForm: React.FC<TopicFormProps> = ({ setClose }) => {
   const { handleSubmit, register, errors } = useForm();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
@@ -30,7 +29,6 @@ export const TopicForm: React.FC<TopicFormProps> = ({ setClose, setPage }) => {
   };
   const onSubmit = (values) => {
     dispatch(topicAsync.request(values));
-    setPage({ number: 0 });
   };
 
   useEffect(() => {

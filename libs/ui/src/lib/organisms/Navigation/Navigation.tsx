@@ -68,30 +68,7 @@ export const Navigation = () => {
                 <FontAwesomeIcon icon={faHome} />
               </NavLink>
             </li>
-            <li className="nav-link">
-              <NavLink
-                to="/about"
-                className="nav-link"
-                onClick={() => {
-                  dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
-                  dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
-                }}
-              >
-                About
-              </NavLink>
-            </li>
-            <li className="nav-link">
-              <NavLink
-                to="/contact"
-                className="nav-link"
-                onClick={() => {
-                  dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
-                  dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
-                }}
-              >
-                Contact Us
-              </NavLink>
-            </li>
+
             {isAuthenticated ? (
               <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
                 <NavLink
