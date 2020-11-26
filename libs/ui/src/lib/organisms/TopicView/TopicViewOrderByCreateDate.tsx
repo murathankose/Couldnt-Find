@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api, Pageable } from '@internship/shared/api';
 import { Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '../../atoms/Button';
 import { useTemporary } from '@internship/shared/hooks';
@@ -20,6 +20,7 @@ const StyledContent = styled.p`
 `;
 
 export const TopicViewOrderByCreateDate = () => {
+  const { topicId } = useParams();
   const [allTopicsOrderByCreateDate, setAllTopicsOrderByCreateDate] = useState<Pageable>();
   const [page, setPage] = useState({ number: 0 });
   const { isSuccessRequired } = useTemporary();
@@ -28,7 +29,7 @@ export const TopicViewOrderByCreateDate = () => {
       .getTopic(page.number)
       .then((r) => setAllTopicsOrderByCreateDate(r))
       .catch((e) => console.error(e));
-  }, [page, isSuccessRequired]);
+  }, [page, isSuccessRequired, topicId]);
 
   return (
     <Col sm={4}>

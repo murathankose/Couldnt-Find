@@ -86,7 +86,7 @@ export const Contents = () => {
         setAllContent(r);
       })
       .catch((e) => console.error(e));
-  }, [page, isSuccessRequired]);
+  }, [page, isSuccessRequired, topicId]);
 
   useEffect(() => {
     api.auth
@@ -95,7 +95,7 @@ export const Contents = () => {
         setTopicName(r);
       })
       .catch((e) => console.error(e));
-  }, [page]);
+  }, [page, topicId]);
 
 
   const addLike = (contentID, likes) => {
