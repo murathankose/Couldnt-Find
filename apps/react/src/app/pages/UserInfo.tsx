@@ -58,14 +58,14 @@ export const UserInfo = () => {
       .userInfo(userName)
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
-  }, [userName]);
+  }, [userName, userName]);
 
   useEffect(() => {
     api.auth
       .userContents(userName, page.number)
       .then((r) => setUserContents(r))
       .catch((e) => console.error(e));
-  }, [page]);
+  }, [page, userName]);
 
   const LookUserContents = () => {
     setContentsInfo(true);

@@ -80,7 +80,7 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
   useEffect(() => {
     setPageLike({ number: 0 });
     setPageDislike({ number: 0 });
-  }, [isSuccessRequired]);
+  }, [isSuccessRequired, username]);
 
   useEffect(() => {
     api.auth
@@ -89,7 +89,7 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
         setMyLike(r);
       })
       .catch((e) => console.error(e));
-  }, [pageLike]);
+  }, [pageLike, username]);
 
   useEffect(() => {
     api.auth
@@ -98,7 +98,7 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
         setMyDislike(r);
       })
       .catch((e) => console.error(e));
-  }, [pageDislike]);
+  }, [pageDislike, username]);
   return (
     <StyledContainer>
       <div className="card">
