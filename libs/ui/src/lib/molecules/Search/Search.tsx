@@ -51,7 +51,7 @@ export const Search = () => {
   const onChangeGo = (e) => {
     setSelectedValue('');
     setOptionsAll([]);
-    if (e.label.length - e.label.lastIndexOf(':Konu') == 5) history.push('/contents/' + e.key);
+    if (e.label.length - e.label.lastIndexOf(':Konu') == 5) history.push('/topics/' + e.key);
     else if (e.label.length - e.label.lastIndexOf(':Kullanıcı') == 10) history.push('/user/' + e.key);
   };
 

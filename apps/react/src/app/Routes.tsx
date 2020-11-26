@@ -27,7 +27,7 @@ export const Routes = ({ children, ...props }) => {
       <Route exact path="/mailerror" component={MailErrorPage} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/contents/:topicId" component={Contents} />
+      <Route path="/topics/:topicId" component={Contents} />
       <Route path="/user/:userName" component={UserInfo} />
     </Router>
   );

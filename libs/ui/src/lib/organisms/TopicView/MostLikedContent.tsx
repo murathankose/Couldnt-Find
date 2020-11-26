@@ -96,7 +96,7 @@ export const MostLikedContent = () => {
             <ul className="list-group list-group-flush">
               <li key={key} className="list-group-item ">
                 <StyledRow>
-                  <StyledLink className="nav-link" to={'/contents/' + d.topic.id}>
+                  <StyledLink className="nav-link" to={'/topics/' + d.topic.id}>
                     {d.topic.topicName}
                   </StyledLink>
                 </StyledRow>

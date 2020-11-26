@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Accordion, Card, Col, Container, Row } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { api, Pageable } from '@internship/shared/api';
-import { faPlus, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { Button, ContentForm, TopicViewOrderByCreateDate } from '@internship/ui';
+import { faHeart, faHeartBroken, faPlus, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { Button, ContentForm, ContentLikeInfoView, TopicViewOrderByCreateDate } from '@internship/ui';
 import { useAuthentication, useTemporary } from '@internship/shared/hooks';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,17 @@ import { getUserName } from '@internship/shared/utils';
 
 const StyledRow = styled(Row)`
   flex-flow: row;
+`;
+
+const StyledContentButton = styled.button`
+  border: none;
+  background: none;
+  margin-left: -1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const StyledDown = styled.p`
@@ -47,12 +58,36 @@ const StyledCancelLikeButton = styled(Button)`
   margin-left: 0.3rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+`;
 
+const StyledHeartButton = styled(Button)`
+  background-color: white;
+  color: red;
+  border-color: white;
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  &:hover {
+    background-color: white !important;
+    color: red !important;
+    border-color: white !important;
+  }
+  &:active {
+    background: none !important;
+    color: red !important;
+    border: none !important;
+  }
+  &:focus {
+    background: none !important;
+    color: red !important;
+    border: none !important;
+    box-shadow: none;
+  }
 `;
 const StyledStrong = styled.strong`
   margin-right: 1rem;
 `;
-
 
 const StyledUserName = styled(Link)`
   font-weight: 400;
@@ -61,7 +96,6 @@ const StyledUserName = styled(Link)`
 
 const StyledContainer = styled(Container)`
   margin-top: 1.5rem;
-
 `;
 const StyledNewButton = styled(Button)`
   margin-left: auto;
@@ -74,6 +108,9 @@ export const Contents = () => {
   const [allContent, setAllContent] = useState<Pageable>();
   const [newContent, setNewContent] = useState(false);
   const [topicName, setTopicName] = useState('');
+  const [contentId, setContentId] = useState('');
+  const [openContentLike, setOpenContentLike] = useState(false);
+  const [openContentDislike, setOpenContentDislike] = useState(false);
   const { isAuthenticated } = useAuthentication();
   const dispatch = useDispatch();
   const { isSuccessRequired } = useTemporary();
@@ -97,10 +134,20 @@ export const Contents = () => {
       .catch((e) => console.error(e));
   }, [page, topicId]);
 
-
   const addLike = (contentID, likes) => {
     const values = { contentID: contentID, like: likes };
     dispatch(likeAsync.request(values));
+  };
+
+  const likesUser = (id, like) => {
+    setContentId(id);
+    if (like) {
+      setOpenContentDislike(false);
+      setOpenContentLike(true);
+    } else {
+      setOpenContentLike(false);
+      setOpenContentDislike(true);
+    }
   };
 
   return (
@@ -113,11 +160,10 @@ export const Contents = () => {
           </StyledNewButton>
         </StyledRow>
       ) : null}
-      {newContent ?
-        <ContentForm setClose={setNewContent} topicName={topicName} topicId={topicId} /> : null}
+      {newContent ? <ContentForm setClose={setNewContent} topicName={topicName} topicId={topicId} /> : null}
       <Row>
         <TopicViewOrderByCreateDate />
-        <Col sm={6}>
+        <Col sm={5}>
           <div className="card">
             <div className="card-header">
               <h4>
@@ -128,9 +174,29 @@ export const Contents = () => {
               <div key={key}>
                 <ul className="list-group list-group-flush">
                   <li key={key} className="list-group-item ">
-                    <StyledRow>
-                      <StyledContent>{d.content}</StyledContent>
-                    </StyledRow>
+                    <Accordion>
+                      <StyledRow>
+                        <Accordion.Toggle as={StyledContentButton} variant="link" eventKey="0">
+                          <StyledContent>{d.content}</StyledContent>
+                        </Accordion.Toggle>
+                      </StyledRow>
+                      <StyledRow>
+                        <Accordion.Collapse style={{ marginTop: '-1.5rem', marginBottom: '-1.5rem' }} eventKey="0">
+                          <Card.Body>
+                            <StyledRow style={{ marginLeft: '-2rem' }}>
+                              <StyledHeartButton onClick={() => likesUser(d.id, true)}>
+                                <FontAwesomeIcon icon={faHeart} />
+                              </StyledHeartButton>
+                              <StyledContent style={{ marginLeft: '0rem' }}>{d.like}</StyledContent>
+                              <StyledHeartButton onClick={() => likesUser(d.id, false)}>
+                                <FontAwesomeIcon icon={faHeartBroken} />
+                              </StyledHeartButton>
+                              <StyledContent style={{ marginLeft: '0rem' }}>{d.dislike}</StyledContent>
+                            </StyledRow>
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </StyledRow>
+                    </Accordion>
                     <StyledRow>
                       {isAuthenticated ? (
                         <>
@@ -196,6 +262,11 @@ export const Contents = () => {
               </Col>
             </Row>
           </div>
+        </Col>
+        <Col sm={3}>
+          {(openContentLike || openContentDislike) ?
+            (openContentLike ? (<ContentLikeInfoView id={contentId} likeOrDislike={true} />) :
+              (<ContentLikeInfoView id={contentId} likeOrDislike={false} />)) : null}
         </Col>
       </Row>
     </StyledContainer>

@@ -97,6 +97,24 @@ export class AuthResource {
       })
       .then((r) => r.data);
 
+  getLikesUser = (id: string, page): Promise<Pageable> =>
+    this.axios
+      .get('entry/getLikes/user?currentPage=' + page, {
+        params: {
+          id: id
+        }
+      })
+      .then((r) => r.data);
+
+  getDislikesUser = (id: string, page): Promise<Pageable> =>
+    this.axios
+      .get('entry/getDislikes/user?currentPage=' + page, {
+        params: {
+          id: id
+        }
+      })
+      .then((r) => r.data);
+
   deleteContent = (authorizationToken: string, contentId: string, topicName: string): Promise<any> =>
     this.axios
       .delete('/entry/deleteContent', {

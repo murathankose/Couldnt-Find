@@ -41,7 +41,7 @@ export const TopicViewOrderByContentNumber = () => {
             <ul className="list-group list-group-flush">
               <li key={key} className="list-group-item ">
                 <StyledRow>
-                  <Link className="nav-link" to={'/contents/' + d.id}>
+                  <Link className="nav-link" to={'/topics/' + d.id}>
                     {d.topicName.length >= 14 ? (d.topicName.substring(0, 14) + '...') : (d.topicName)}
                   </Link>
                   <StyledContent>{d.contentNumber}</StyledContent>

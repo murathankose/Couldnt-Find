@@ -11,8 +11,7 @@ import { Button } from '../../atoms/Button';
 import { useTemporary } from '@internship/shared/hooks';
 
 const StyledContainer = styled(Container)`
-  margin-top:1.5rem;
-
+  margin-top: 1.5rem;
 `;
 const StyledRow = styled(Row)`
   flex-flow: row;
@@ -41,7 +40,6 @@ const StyledCancelLikeButton = styled(Button)`
   margin-left: 0.3rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
-
 `;
 const StyledStrong = styled.strong`
   margin-right: 1rem;
@@ -112,7 +110,7 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
             <ul className="list-group list-group-flush">
               <li key={key} className="list-group-item ">
                 <StyledRow>
-                  <StyledLink className="nav-link" to={'/contents/' + d?.content?.topic.id}>
+                  <StyledLink className="nav-link" to={'/topics/' + d?.content?.topic.id}>
                     {d.content?.topic.topicName}
                   </StyledLink>
                 </StyledRow>
