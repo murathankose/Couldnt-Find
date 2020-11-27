@@ -51,8 +51,14 @@ export const Search = () => {
   const onChangeGo = (e) => {
     setSelectedValue('');
     setOptionsAll([]);
-    if (e.label.length - e.label.lastIndexOf(':Konu') == 5) history.push('/topics/' + e.key);
-    else if (e.label.length - e.label.lastIndexOf(':Kullanıcı') == 10) history.push('/user/' + e.key);
+    if (e.label.length - e.label.lastIndexOf(':Konu') == 5) {
+      api.auth
+        .getTopicId(e.key)
+        .then((r) => {
+          history.push('/topics/' + r);
+        })
+        .catch((e) => console.error(e));
+    } else if (e.label.length - e.label.lastIndexOf(':Kullanıcı') == 10) history.push('/user/' + e.key);
   };
 
   return (

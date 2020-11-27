@@ -82,7 +82,7 @@ const StyledHeartButton = styled(Button)`
     background: none !important;
     color: red !important;
     border: none !important;
-    box-shadow: none;
+    box-shadow: none !important;
   }
 `;
 const StyledStrong = styled.strong`

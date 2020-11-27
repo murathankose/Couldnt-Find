@@ -40,6 +40,22 @@ const StyledCancelLikeButton = styled(Button)`
   margin-left: 0.3rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+  &:hover {
+    background-color: white !important;
+    color: red !important;
+    border-color: white !important;
+  }
+  &:active {
+    background: none !important;
+    color: red !important;
+    border: none !important;
+  }
+  &:focus {
+    background: none !important;
+    color: red !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
 `;
 const StyledStrong = styled.strong`
   margin-right: 1rem;
@@ -81,22 +97,26 @@ export const MyLikes: React.FC<MyContentsProps> = ({ username, likeOrDislike, is
   }, [isSuccessRequired, username]);
 
   useEffect(() => {
-    api.auth
-      .getLikes('like', username, pageLike.number)
-      .then((r) => {
-        setMyLike(r);
-      })
-      .catch((e) => console.error(e));
-  }, [pageLike, username]);
+    if (likeOrDislike) {
+      api.auth
+        .getLikes('like', username, pageLike.number)
+        .then((r) => {
+          setMyLike(r);
+        })
+        .catch((e) => console.error(e));
+    }
+  }, [pageLike]);
 
   useEffect(() => {
-    api.auth
-      .getLikes('dislike', username, pageDislike.number)
-      .then((r) => {
-        setMyDislike(r);
-      })
-      .catch((e) => console.error(e));
-  }, [pageDislike, username]);
+    if (!likeOrDislike) {
+      api.auth
+        .getLikes('dislike', username, pageDislike.number)
+        .then((r) => {
+          setMyDislike(r);
+        })
+        .catch((e) => console.error(e));
+    }
+  }, [pageDislike]);
   return (
     <StyledContainer>
       <div className="card">

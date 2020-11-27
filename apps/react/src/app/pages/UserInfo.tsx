@@ -58,7 +58,7 @@ export const UserInfo = () => {
       .userInfo(userName)
       .then((r) => setDetail(r))
       .catch((e) => console.error(e));
-  }, [userName, userName]);
+  }, [userName]);
 
   useEffect(() => {
     api.auth
