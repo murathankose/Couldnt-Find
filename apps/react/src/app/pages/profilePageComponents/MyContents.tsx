@@ -68,9 +68,9 @@ export const MyContents: React.FC<MyContentsProps> = ({}) => {
       .catch((e) => console.error(e));
   }, [page, isSuccessRequired]);
 
-  const deleteContent = (contentId, topicName) => {
+  const deleteContent = (contentId, topicId) => {
     const accessToken = getAccessToken();
-    api.auth.deleteContent(`Bearer ${accessToken}`, contentId, topicName).catch((e) => console.error(e));
+    api.auth.deleteContent(`Bearer ${accessToken}`, contentId, topicId).catch((e) => console.error(e));
   };
   return (
     <StyledContainer>
@@ -98,7 +98,7 @@ export const MyContents: React.FC<MyContentsProps> = ({}) => {
                     <StyledStrong>{d.createDate.substring(11, 16)}</StyledStrong>
                     <StyledUserName to={'/user/' + d.user.username}>{d.user.username}</StyledUserName>
                     <StyledLikeButton className="btn btn-danger my-2"
-                                      onClick={() => deleteContent(d.id, d.topic.topicName)}>
+                                      onClick={() => deleteContent(d.id, d.topic.id)}>
                       <FontAwesomeIcon icon={faTrash} />
                     </StyledLikeButton>
                   </StyledDown>
